@@ -1104,13 +1104,35 @@
           "installedHash": "853525b6905bb9c6c76475f2202f2f9b4f6248df166f394aad257f025c387aac"
         }
       ]
+    },
+    "confirm-dialog": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "29631f8ee1301719d4c0dd4d6f99e2bc18093604c8b0c974bc982823e260bf47",
+      "files": [
+        {
+          "target": "Components/UI/ConfirmDialog/ConfirmDialog.razor",
+          "sourceHash": "f880e1fddf6c60ba84448d839fec9ff89411a4bef06d1dc61f85161a415c3070",
+          "installedHash": "f880e1fddf6c60ba84448d839fec9ff89411a4bef06d1dc61f85161a415c3070"
+        },
+        {
+          "target": "Components/UI/ConfirmDialog/ConfirmDialog.razor.js",
+          "sourceHash": "46329eff7f31f462f89fe72835b76bfc06142af1eb6f3538f816d8385de98273",
+          "installedHash": "46329eff7f31f462f89fe72835b76bfc06142af1eb6f3538f816d8385de98273"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/confirm-dialog.css",
+          "sourceHash": "2671d5549f6c1f149750b134792eb48285bcd00d3ddb1b832d7cf0d85c122714",
+          "installedHash": "2671d5549f6c1f149750b134792eb48285bcd00d3ddb1b832d7cf0d85c122714"
+        }
+      ]
     }
   },
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
       "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "ae9c30a87b195df107266ca928d6306b25063135b479d39ee946d7b9538d019a"
+      "installedHash": "6c712f57ff20d630ab4858a6e9fc8db1c67b9411852baca26f5ca1341f223dd1"
     }
   }
 }

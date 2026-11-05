@@ -33,6 +33,7 @@
 @import url("components/tabs.css");
 @import url("components/date-picker.css");
 @import url("components/spinner.css");
+@import url("components/confirm-dialog.css");
 /* raxui:imports:end */
 /* Generated from theme/scss by theme/build-css.mjs. Do not edit; change the SCSS and rebuild. */
 :root,

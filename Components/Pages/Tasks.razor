@@ -13,7 +13,8 @@
     <Button Size="sm" OnClick="Add"><Lucide Path="@Lucide.Plus" /> @L["New task"]</Button>
 </header>
 
-<Dialog @bind-Open="adding" Title="@L["New task"]" Description="@L["Add a card to the board. You can drag it later."]" CloseLabel="@L["Close"]">
+<Dialog @bind-Open="adding" Title="@L[editingId is null ? "New task" : "Edit task"]" CloseLabel="@L["Close"]"
+        Description="@L[editingId is null ? "Add a card to the board. You can drag it later." : "Changes apply to the card on the board."]">
     <ChildContent>
         <EditForm id="add-task" Context="form" Model="draft" OnValidSubmit="SaveTask" class="dash-dialog-form">
             <DataAnnotationsValidator />
@@ -26,7 +27,7 @@
                 <Field Id="task-column" For="@(() => draft.Column)">
                     <FieldLabel>@L["Column"]</FieldLabel>
                     <Select TValue="string" @bind-Value="draft.Column">
-                        @foreach (var (id, meta) in Meta.Where(m => m.Key != "done")) { <option value="@id">@L[meta.Title]</option> }
+                        @foreach (var (id, meta) in Meta.Where(m => editingId is not null || m.Key != "done")) { <option value="@id">@L[meta.Title]</option> }
                     </Select>
                 </Field>
                 <Field Id="task-priority" For="@(() => draft.Priority)">
@@ -46,22 +47,64 @@
                 <Field Id="task-assignee" For="@(() => draft.Assignee)">
                     <FieldLabel>@L["Assignee"]</FieldLabel>
                     <Select TValue="string" @bind-Value="draft.Assignee">
-                        @foreach (var name in Team) { <option value="@name">@name</option> }
+                        @foreach (var name in TeamOptions) { <option value="@name">@name</option> }
                     </Select>
                 </Field>
             </div>
             <Field Id="task-due" For="@(() => draft.Due)" Optional>
                 <FieldLabel OptionalText="@L["(Optional)"]">@L["Due date"]</FieldLabel>
-                <DatePicker @bind-Value="draft.Due" Culture="L.Culture" Today="Today" Min="Today" Clearable Placeholder="@L["Pick a date"]" />
+                @* Past dates are only blocked for new tasks; an existing task may already be past due. *@
+                <DatePicker @bind-Value="draft.Due" Culture="L.Culture" Today="Today" Min="@(editingId is null ? Today : null)" Clearable Placeholder="@L["Pick a date"]" />
                 <FieldError />
             </Field>
         </EditForm>
     </ChildContent>
     <Footer>
         <Button Variant="outline" OnClick="() => adding = false">@L["Cancel"]</Button>
-        <SubmitButton form="add-task" Loading="saving" LoadingText="@L["Adding…"]">@L["Add task"]</SubmitButton>
+        <SubmitButton form="add-task" Loading="saving" LoadingText="@L[editingId is null ? "Adding…" : "Saving…"]">
+            @L[editingId is null ? "Add task" : "Save changes"]
+        </SubmitButton>
     </Footer>
 </Dialog>
+
+<Sheet @bind-Open="viewing" Title="@(viewed?.Title ?? "")" CloseLabel="@L["Close"]">
+    <ChildContent>
+        @if (viewed is not null)
+        {
+            <dl class="dash-details">
+                <dt>@L["Status"]</dt>
+                <dd><span class="dash-dot" data-column="@ColumnOf(viewed.Id)"></span> @L[Meta[ColumnOf(viewed.Id)].Title]</dd>
+                <dt>@L["Priority"]</dt>
+                <dd><Badge Variant="outline" Color="@PriorityColor(viewed.Priority)">@L[viewed.Priority]</Badge></dd>
+                <dt>@L["Tag"]</dt>
+                <dd><Badge Color="@TagColor(viewed.Tag)">@L[viewed.Tag]</Badge></dd>
+                <dt>@L["Assignee"]</dt>
+                <dd class="dash-customer"><Avatar Size="sm" Name="@viewed.Assignee" /> @viewed.Assignee</dd>
+                <dt>@L["Due date"]</dt>
+                <dd>
+                    @if (viewed.Due is { } due)
+                    {
+                        <span>@due.ToString(L.Arabic ? "dddd، d MMMM yyyy" : "dddd, d MMMM yyyy", L.Culture)</span>
+                        @if (due < Today && ColumnOf(viewed.Id) != "done") { <Badge Size="sm" Color="danger">@L["Overdue"]</Badge> }
+                    }
+                    else { <span class="dash-muted">@L["No due date"]</span> }
+                </dd>
+                <dt>@L["Comments"]</dt>
+                <dd>@viewed.Comments</dd>
+                <dt>ID</dt>
+                <dd><span class="dash-mono" dir="ltr">@viewed.Id</span></dd>
+            </dl>
+        }
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" Class="text-danger" OnClick="() => AskDelete(viewed!)"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</Button>
+        <Button OnClick="() => Edit(viewed!)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</Button>
+    </Footer>
+</Sheet>
+
+<ConfirmDialog @bind-Open="confirmingDelete" Tone="destructive" Title="@L["Delete this task?"]"
+               Description="@($"“{deleting?.Title}” {L["will be removed from the board. This can't be undone."]}")"
+               ConfirmText="@L["Delete"]" CancelText="@L["Cancel"]" OnConfirm="DeleteAsync" />
 
 <Kanban TItem="TaskCard" Columns="Board" ColumnsChanged="cols => columns = cols" GetId="c => c.Id" GetLabel="c => c.Title"
         Committed="Log" Class="dash-board" Direction="@(L.Arabic ? "rtl" : "ltr")"
@@ -80,7 +123,18 @@
     </ColumnHeader>
     <ItemTemplate Context="card">
         <div class="dash-task">
-            <span class="dash-task-title">@card.Title</span>
+            <div class="dash-task-head">
+                <span class="dash-task-title">@card.Title</span>
+                <DropdownMenu TriggerVariant="ghost" TriggerClass="dash-task-menu" TriggerLabel="@($"{L["Task actions"]}: {card.Title}")">
+                    <Trigger><Lucide Path="@Lucide.Dots" /></Trigger>
+                    <ChildContent>
+                        <DropdownMenuItem OnSelect="() => View(card)"><Lucide Path="@Lucide.Eye" /> @L["View"]</DropdownMenuItem>
+                        <DropdownMenuItem OnSelect="() => Edit(card)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Class="text-danger" OnSelect="() => AskDelete(card)"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</DropdownMenuItem>
+                    </ChildContent>
+                </DropdownMenu>
+            </div>
             <div class="dash-task-meta">
                 <Badge Size="sm" Color="@TagColor(card.Tag)">@L[card.Tag]</Badge>
                 <Badge Size="sm" Variant="outline" Color="@PriorityColor(card.Priority)">@L[card.Priority]</Badge>
@@ -123,6 +177,9 @@
     // Column titles follow the UI language; the board state keeps the English title.
     private IReadOnlyList<KanbanTypes.Column<TaskCard>> Board => columns.Select(c => c with { Title = L[Meta[c.Id].Title] }).ToArray();
 
+    // Everyone on the board plus the core team, so an edited card always finds its assignee.
+    private IEnumerable<string> TeamOptions => Team.Union(columns.SelectMany(c => c.Items).Select(i => i.Assignee)).Order();
+
     private bool IsDone(TaskCard card) => columns.First(c => c.Id == "done").Items.Contains(card);
 
     private static readonly string[] Tags = ["Design", "Engineering", "Marketing", "Finance", "Operations", "Content", "Support", "Analytics"];
@@ -150,10 +207,53 @@
         }
     }
 
+    private string? editingId;            // null while adding
+    private bool viewing, confirmingDelete;
+    private TaskCard? viewed, deleting;
+
+    private string ColumnOf(string id) => columns.FirstOrDefault(c => c.Items.Any(i => i.Id == id))?.Id ?? "backlog";
+
     private void Add()
     {
+        editingId = null;
         draft = new(L);
         adding = true;
+    }
+
+    private void View(TaskCard card)
+    {
+        viewed = card;
+        viewing = true;
+    }
+
+    private void Edit(TaskCard card)
+    {
+        viewing = false;
+        editingId = card.Id;
+        draft = new(L)
+        {
+            Title = card.Title, Column = ColumnOf(card.Id), Tag = card.Tag, Priority = card.Priority,
+            Assignee = card.Assignee, Due = card.Due,
+        };
+        adding = true;
+    }
+
+    private void AskDelete(TaskCard card)
+    {
+        viewing = false;
+        deleting = card;
+        confirmingDelete = true;
+    }
+
+    // ConfirmDialog shows its own spinner while this runs and closes when it finishes.
+    private async Task DeleteAsync()
+    {
+        if (deleting is null) return;
+        await Data.SaveAsync();
+        var id = deleting.Id;
+        columns = columns.Select(c => c with { Items = c.Items.Where(i => i.Id != id).ToArray() }).ToArray();
+        log = $"{L["Deleted"]}: {deleting.Title}";
+        deleting = null;
     }
 
     private async Task SaveTask()
@@ -163,8 +263,16 @@
         try
         {
             await Data.SaveAsync();
-            var card = new TaskCard($"t{next++}", draft.Title.Trim(), draft.Tag, draft.Priority, draft.Assignee, draft.Due, 0);
-            columns = columns.Select(c => c.Id == draft.Column ? c with { Items = [card, .. c.Items] } : c).ToArray();
+            var id = editingId ?? $"t{next++}";
+            var old = columns.SelectMany(c => c.Items).FirstOrDefault(i => i.Id == id);
+            var card = new TaskCard(id, draft.Title.Trim(), draft.Tag, draft.Priority, draft.Assignee, draft.Due, old?.Comments ?? 0);
+            var from = old is null ? null : ColumnOf(id);
+            columns = columns.Select(c =>
+                // Same column: replace in place. Otherwise remove from the old column and put it on top of the new one.
+                c.Id == from && from == draft.Column ? c with { Items = c.Items.Select(i => i.Id == id ? card : i).ToArray() }
+                : c.Id == from ? c with { Items = c.Items.Where(i => i.Id != id).ToArray() }
+                : c.Id == draft.Column ? c with { Items = [card, .. c.Items] }
+                : c).ToArray();
             adding = false;
             log = $"{card.Title} → {L[Meta[draft.Column].Title]}";
         }
