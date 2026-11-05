@@ -1,0 +1,18 @@
+@using System.Globalization
+@* Part-to-whole as one bar split into segments (palette slots 1–4 in order) with a legend; named for screen readers. *@
+<div class="dash-split" role="img" aria-label="@string.Join(", ", Parts.Select(p => $"{p.Label} {p.Share}%"))">
+    @foreach (var (p, i) in Parts.Select((p, i) => (p, i)))
+    {
+        <span style="flex:@p.Share.ToString(CultureInfo.InvariantCulture);background:var(--rax-chart-@(i + 1))"></span>
+    }
+</div>
+<ul class="dash-legend-row">
+    @foreach (var (p, i) in Parts.Select((p, i) => (p, i)))
+    {
+        <li><span class="dash-swatch-sq" style="background:var(--rax-chart-@(i + 1))"></span>@p.Label <bdi>@p.Share%</bdi></li>
+    }
+</ul>
+@code {
+    /// <summary>Up to four parts; shares are percentages.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<(string Label, double Share)> Parts { get; set; } = [];
+}

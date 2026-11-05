@@ -86,18 +86,7 @@ else
                 <CardTitle><span class="dash-headline"><bdi>@Percent(view.TopProducts.Sum(p => p.Revenue), view.Kpis[0].Value)</bdi> <small>@L["of sales"]</small></span></CardTitle>
             </CardHeader>
             <CardContent>
-                <div class="dash-split" role="img" aria-label="@string.Join(", ", view.Categories.Select(c => $"{L[c.Category]} {c.Share}%"))">
-                    @foreach (var (c, i) in view.Categories.Select((c, i) => (c, i)))
-                    {
-                        <span style="flex:@c.Share.ToString(System.Globalization.CultureInfo.InvariantCulture);background:var(--rax-chart-@(i + 1))"></span>
-                    }
-                </div>
-                <ul class="dash-legend-row">
-                    @foreach (var (c, i) in view.Categories.Select((c, i) => (c, i)))
-                    {
-                        <li><span class="dash-swatch-sq" style="background:var(--rax-chart-@(i + 1))"></span>@L[c.Category] <bdi>@c.Share%</bdi></li>
-                    }
-                </ul>
+                <SplitBar Parts="@view.Categories.Select(c => (L[c.Category], c.Share)).ToArray()" />
                 <ul class="dash-list">
                     @foreach (var p in view.TopProducts.Take(5))
                     {

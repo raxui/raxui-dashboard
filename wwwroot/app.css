@@ -763,6 +763,37 @@ html[lang=ar] body {
     flex-shrink: 0;
 }
 
+/* Analytics dashboard */
+
+.dash-tabs > [role=tabpanel] {
+    margin-top: 1rem;
+}
+
+@media (min-width: 992px) {
+    .dash-kpi-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .dash-kpi-grid-5 > .dash-kpi-stat { border-bottom: 0; border-inline-end: 1px solid var(--bs-border-color-translucent); }
+    .dash-kpi-grid-5 > .dash-kpi-stat:last-child { border-inline-end: 0; }
+    .dash-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; }
+}
+
+.dash-country {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dash-code {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.75rem;
+    padding: 0.0625rem 0.25rem;
+    border-radius: 4px;
+    background: rgba(var(--bs-emphasis-color-rgb), 0.06);
+    color: var(--bs-secondary-color);
+    font-family: var(--bs-font-monospace);
+    font-size: 0.6875rem;
+}
+
 /* Customers */
 
 .dash-stats {
