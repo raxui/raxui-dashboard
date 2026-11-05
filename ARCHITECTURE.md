@@ -76,4 +76,4 @@ No database, authentication system, generic repository, or additional production
 
 ## Container deployment
 
-The root docker-compose.yml builds src/raxui-dashboard/Dockerfile. Dokploy terminates TLS and routes to port 8080. The container runs as the non-root app user, and Data Protection keys persist in a named volume. The /health endpoint reports application health. Forwarded headers are enabled only in Compose; the container has no published host ports. See [DEPLOYMENT.md](DEPLOYMENT.md) for domain configuration and rollback.
+The root docker-compose.yml builds src/raxui-dashboard/Dockerfile. Dokploy terminates TLS and routes to port 8080. The container runs as the non-root app user, and Data Protection keys persist in a named volume. The /health endpoint reports application health. Forwarded headers are enabled only in Compose; the container has no published host ports. See the Deployment section in [README.md](README.md) for domain configuration.

@@ -69,4 +69,4 @@ Data, saves, assistant responses, and exports are simulated. There is no databas
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Docker Compose and Dokploy setup at https://blazor.raxui.com.
+Use the root `docker-compose.yml` with Dokploy. Set Compose Path to `./docker-compose.yml`, then add `blazor.raxui.com` in Domains with service `dashboard`, container port `8080`, and HTTPS using Let's Encrypt. Point the domain's DNS A record to your Dokploy server before deploying.
