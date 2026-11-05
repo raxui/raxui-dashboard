@@ -26,10 +26,14 @@ public sealed class ThemeService(IJSRuntime js)
         await js.InvokeVoidAsync("dashTheme.apply", next, true);
     }
 
+    // Browser theme controls already applied and saved their change locally.
+    // Read the latest state rather than replaying an older click over a newer one.
+    public async Task RefreshFromBrowserAsync() => Update(await js.InvokeAsync<ThemeState>("dashTheme.load"));
+
     private void Update(ThemeState next)
     {
         State = next;
-        Language = new(next.Rtl);
+        if (Language.Arabic != next.Rtl) Language = new(next.Rtl);
         Changed?.Invoke();
     }
 }

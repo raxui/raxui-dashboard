@@ -75,18 +75,18 @@
         new("engagement", L["Engagement"]), new("conversions", L["Conversions"]),
     ];
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         var now = Time.GetUtcNow().UtcDateTime;
         live.AddRange(Report.InitialReadings(now));
         active = (int)live[^1];
+        await Load();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (revealTab) await RevealTab();
         if (!firstRender) return;
-        await Load();
         _ = Tick(lifetime.Token);
     }
 
@@ -135,7 +135,6 @@
     private async Task Load()
     {
         view = await Report.LoadAsync(range);
-        StateHasChanged();
     }
 
     private Task SetRange(string value) { range = value; return Load(); }

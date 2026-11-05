@@ -51,7 +51,11 @@ Feature services are transient. Their mutable state belongs to the feature insta
 
 ## Theme, translation, and time
 
-`ThemeService` is scoped to the Blazor circuit. `MainLayout` initializes it after the interactive render, subscribes to changes, and cascades the current `Ui`. Settings injects the service directly and has no dependency on a layout instance. The existing browser storage key and pre-paint theme script are unchanged.
+`ThemeService` is scoped to the Blazor circuit. `MainLayout` initializes it after the interactive render, subscribes to changes, and cascades the current `Ui`. Settings injects the service directly and has no dependency on a layout instance. The existing browser storage key and theme application before first paint are preserved.
+
+Theme buttons and settings controls carry `data-dash-theme-*` attributes. The head-loaded theme script applies and saves their changes synchronously in the browser; their Blazor callbacks read the latest browser state without reapplying an older selection. Command palette actions still use `ThemeService.SetAsync`. Cosmetic changes retain the current `Ui` instance; changing the interface language replaces it and updates translated content through the server circuit.
+
+Store, CRM, and Analytics load their in-memory reports during `OnInitializedAsync`, so the initial HTML includes report data before interactivity connects. Chart drawing and Analytics' live timer still start only after interactive rendering.
 
 Translations preserve `L["English key"]`, Arabic culture formatting, and English fallback. Catalogs are merged in their original order; later values retain the original dictionary's override behavior for repeated keys.
 

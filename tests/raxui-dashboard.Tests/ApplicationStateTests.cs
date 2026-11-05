@@ -39,6 +39,23 @@ public class ApplicationStateTests
     }
 
     [Fact]
+    public async Task Browser_theme_sync_keeps_the_latest_choice_without_reapplying_it()
+    {
+        var js = new ThemeJsRuntime();
+        var service = new ThemeService(js);
+        await service.InitializeAsync();
+        var language = service.Language;
+        js.BrowserTheme = new ThemeState("flat", "amber", true, false);
+        await service.RefreshFromBrowserAsync();
+        Assert.Equal(js.BrowserTheme, service.State);
+        Assert.Same(language, service.Language);
+        Assert.Null(js.LastApplied);
+        js.BrowserTheme = js.BrowserTheme with { Rtl = true };
+        await service.RefreshFromBrowserAsync();
+        Assert.True(service.Language.Arabic);
+    }
+
+    [Fact]
     public void User_preferences_and_page_working_sets_are_not_shared_between_users()
     {
         var services = new ServiceCollection();
@@ -69,6 +86,7 @@ public class ApplicationStateTests
 
 internal sealed class ThemeJsRuntime : IJSRuntime
 {
+    public ThemeState BrowserTheme { get; set; } = new("glass", "indigo", false, false);
     public int LoadCount { get; private set; }
     public ThemeState? LastApplied { get; private set; }
     public bool Save { get; private set; }
@@ -79,7 +97,7 @@ internal sealed class ThemeJsRuntime : IJSRuntime
         if (identifier == "dashTheme.load")
         {
             LoadCount++;
-            return ValueTask.FromResult((TValue)(object)new ThemeState("glass", "indigo", false, false));
+            return ValueTask.FromResult((TValue)(object)BrowserTheme);
         }
         if (identifier == "dashTheme.apply")
         {

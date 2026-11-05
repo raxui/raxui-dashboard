@@ -8,22 +8,22 @@
         <FormSection Title="@L["Theme"]">
             <ChildContent>
                 <FormRow Id="appearance" Label="@L["Appearance"]" Description="@L["Default, flat or frosted glass surfaces."]" Context="field">
-                    <Select TValue="string" Value="@Value.Appearance" ValueExpression="() => Value.Appearance"
+                    <Select TValue="string" Value="@Value.Appearance" ValueExpression="() => Value.Appearance" data-dash-theme-field="appearance"
                             ValueChanged="v => Set(Value with { Appearance = v })">
                         @foreach (var a in ThemeOptions.Appearances) { <option value="@a">@L[ThemeOptions.Title(a)]</option> }
                     </Select>
                 </FormRow>
                 <FormRow Id="accent" Label="@L["Accent"]" Context="field">
-                    <Select TValue="string" Value="@Value.Accent" ValueExpression="() => Value.Accent"
+                    <Select TValue="string" Value="@Value.Accent" ValueExpression="() => Value.Accent" data-dash-theme-field="accent"
                             ValueChanged="v => Set(Value with { Accent = v })">
                         @foreach (var a in ThemeOptions.Accents) { <option value="@a">@L[ThemeOptions.Title(a)]</option> }
                     </Select>
                 </FormRow>
                 <FormRow Id="dark" Label="@L["Dark mode"]" Context="field">
-                    <Switch Value="@Value.Dark" ValueExpression="() => Value.Dark" ValueChanged="v => Set(Value with { Dark = v })" />
+                    <Switch Value="@Value.Dark" ValueExpression="() => Value.Dark" ValueChanged="v => Set(Value with { Dark = v })" data-dash-theme-field="dark" />
                 </FormRow>
                 <FormRow Id="rtl" Label="@L["Arabic interface"]" Description="@L["Right-to-left layout with Arabic text."]" Context="field">
-                    <Switch Value="@Value.Rtl" ValueExpression="() => Value.Rtl" ValueChanged="v => Set(Value with { Rtl = v })" />
+                    <Switch Value="@Value.Rtl" ValueExpression="() => Value.Rtl" ValueChanged="v => Set(Value with { Rtl = v })" data-dash-theme-field="rtl" />
                 </FormRow>
             </ChildContent>
             <Footer>@L["Saved in this browser and applied before the page paints."]</Footer>

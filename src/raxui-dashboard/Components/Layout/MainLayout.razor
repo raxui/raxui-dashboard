@@ -81,7 +81,8 @@
                             @foreach (var value in Appearances)
                             {
                                 <DropdownMenuItem Role="menuitemradio" aria-checked="@(theme.Appearance == value ? "true" : "false")"
-                                                  OnSelect="() => SetTheme(theme with { Appearance = value })">
+                                                  data-dash-theme-field="appearance" data-dash-theme-value="@value"
+                                                  OnSelect="ThemeManager.RefreshFromBrowserAsync">
                                     <span class="dash-check">@if (theme.Appearance == value) { <Lucide Path="@Lucide.Check" /> }</span>
                                     @L[Title(value)]
                                 </DropdownMenuItem>
@@ -91,7 +92,8 @@
                             @foreach (var value in Accents)
                             {
                                 <DropdownMenuItem Role="menuitemradio" aria-checked="@(theme.Accent == value ? "true" : "false")"
-                                                  OnSelect="() => SetTheme(theme with { Accent = value })">
+                                                  data-dash-theme-field="accent" data-dash-theme-value="@value"
+                                                  OnSelect="ThemeManager.RefreshFromBrowserAsync">
                                     <span class="dash-swatch" data-rax-accent="@value"></span>
                                     @L[Title(value)]
                                     @if (theme.Accent == value) { <span class="dash-check-end"><Lucide Path="@Lucide.Check" /></span> }
@@ -100,11 +102,11 @@
                         </ChildContent>
                     </DropdownMenu>
                     <Button Variant="ghost" Size="icon" aria-label="@L[theme.Dark ? "Switch to light mode" : "Switch to dark mode"]"
-                            title="@L[theme.Dark ? "Light mode" : "Dark mode"]" OnClick="() => SetTheme(theme with { Dark = !theme.Dark })">
+                            title="@L[theme.Dark ? "Light mode" : "Dark mode"]" data-dash-theme-toggle="dark" OnClick="ThemeManager.RefreshFromBrowserAsync">
                         <Lucide Path="@(theme.Dark ? Lucide.Sun : Lucide.Moon)" />
                     </Button>
                     <Button Variant="ghost" Size="sm" Class="dash-lang" aria-label="@L["Switch to Arabic"]"
-                            OnClick="() => SetTheme(theme with { Rtl = !theme.Rtl })">
+                            data-dash-theme-toggle="rtl" OnClick="ThemeManager.RefreshFromBrowserAsync">
                         <Lucide Path="@Lucide.Languages" />
                         <span lang="@(theme.Rtl ? "en" : "ar")">@L["العربية"]</span>
                     </Button>

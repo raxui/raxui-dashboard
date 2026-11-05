@@ -173,17 +173,13 @@ else
     private StoreView? view;
     private bool loading;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender) await Load();
-    }
+    protected override Task OnInitializedAsync() => Load();
 
     private async Task Load()
     {
         loading = true;
         view = await Report.LoadAsync(period, channel);
         loading = false;
-        StateHasChanged();
     }
 
     private Task SetPeriod(string value) { period = value; return Load(); }

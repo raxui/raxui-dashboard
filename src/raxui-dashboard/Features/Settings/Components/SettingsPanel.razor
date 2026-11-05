@@ -45,7 +45,7 @@
     {
         try
         {
-            await ThemeManager.SetAsync(next);
+            await ThemeManager.RefreshFromBrowserAsync();
             Toasts.Show(ThemeManager.Language["Preferences saved"], "success");
         }
         catch (JSException) { Toasts.Show(L["Could not save preferences"], "danger", L["Please try again."], duration: 8000); }

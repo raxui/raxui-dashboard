@@ -138,15 +138,11 @@ else
     private string range = "12m";
     private CrmView? view;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender) await Load();
-    }
+    protected override Task OnInitializedAsync() => Load();
 
     private async Task Load()
     {
         view = await Report.LoadAsync(range);
-        StateHasChanged();
     }
 
     private Task SetRange(string value) { range = value; return Load(); }
