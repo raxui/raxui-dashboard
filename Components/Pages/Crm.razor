@@ -1,0 +1,213 @@
+@page "/dashboard/crm"
+@using raxui_dashboard.Services
+@inject DashboardData Data
+
+<PageTitle>@L["CRM"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header dash-page-header-end">
+    <div>
+        <h1>@L["Pipeline overview"]</h1>
+        <p>@L["Lead quality, open deals and conversion for your wholesale accounts."]</p>
+    </div>
+    <div class="dash-filters">
+        <Select TValue="string" Value="@range" ValueChanged="SetRange" ValueExpression="() => range" Size="sm" aria-label="@L["Period"]" Class="dash-filter">
+            @foreach (var r in DashboardData.CrmRanges) { <option value="@r">@L[RangeName(r)]</option> }
+        </Select>
+    </div>
+</header>
+
+@if (view is null)
+{
+    <section class="dash-grid" aria-busy="true">
+        <Skeleton Class="dash-span-12" Height="8rem" />
+        <Skeleton Class="dash-span-8" Height="22rem" />
+        <Skeleton Class="dash-span-4" Height="22rem" />
+    </section>
+}
+else
+{
+    <section class="dash-grid">
+        <Card Class="dash-span-12 dash-kpi-grid dash-kpi-grid-4">
+            @foreach (var kpi in view.Kpis)
+            {
+                <KpiStat Kpi="kpi" Comparison="@L[PreviousName(view.Range)]" />
+            }
+        </Card>
+
+        <Card Class="dash-span-8">
+            <CardHeader>
+                <CardDescription>@L["Qualified lead flow"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Qualified.Sum().ToString("N0", L.Culture)</bdi> <small>@L["qualified leads"]</small></span></CardTitle>
+                <CardAction><span class="dash-muted dash-small">@L[view.Bucket == "week" ? "Weekly" : "Monthly"]</span></CardAction>
+            </CardHeader>
+            <CardContent>
+                <div class="dash-chart-aside">
+                    <Chart Type="bar" Stacked Label="@L["Qualified lead flow"]" Labels="BucketLabels" Height="240"
+                           Series="@([new ChartTypes.Series(L["Qualified"], view.Qualified) { Color = "1" },
+                                      new ChartTypes.Series(L["Other leads"], view.OtherLeads) { Color = "6" }])" />
+                    <aside class="dash-aside">
+                        <div>
+                            <span class="dash-kpi-stat-label">@L["Total leads"]</span>
+                            <strong class="dash-aside-value"><bdi>@((view.Qualified.Sum() + view.OtherLeads.Sum()).ToString("N0", L.Culture))</bdi></strong>
+                        </div>
+                        <div>
+                            <span class="dash-kpi-stat-label">@L["Discovery calls booked"]</span>
+                            <strong class="dash-aside-value"><bdi>@view.CallsBooked.ToString("N0", L.Culture)</bdi></strong>
+                            <Progress Value="view.CallsBooked" Max="view.Qualified.Sum()" Size="sm" AccessibleLabel="@L["Discovery calls booked"]" />
+                            <span class="dash-muted dash-small"><bdi>@Percent(view.CallsBooked, view.Qualified.Sum())</bdi> @L["of qualified leads booked a call"]</span>
+                        </div>
+                    </aside>
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-4">
+            <CardHeader>
+                <CardDescription>@L["Pipeline by stage"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@L.Money(view.Stages.Where(s => s.Stage != "Won").Sum(s => s.Value))</bdi> <small>@L["open"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <ul class="dash-funnel">
+                    @{ var max = view.Stages.Max(s => s.Value); }
+                    @foreach (var (stage, i) in view.Stages.Select((s, i) => (s, i)))
+                    {
+                        <li>
+                            <div class="dash-funnel-head">
+                                <span><span class="dash-dot" data-stage="@i"></span> @L[stage.Stage] <span class="dash-muted">· @stage.Count</span></span>
+                                <bdi class="dash-list-value">@L.Money(stage.Value)</bdi>
+                            </div>
+                            <Progress Value="(double)stage.Value" Max="(double)max" Size="sm" Color="@(stage.Stage == "Won" ? "success" : "primary")"
+                                      AccessibleLabel="@($"{L[stage.Stage]}: {L.Money(stage.Value)}")" />
+                        </li>
+                    }
+                </ul>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-8">
+            <CardHeader>
+                <CardDescription>@L["Upcoming meetings"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Meetings.Count(m => m.Date == DashboardData.StoreToday)</bdi> <small>@L["today"]</small></span></CardTitle>
+                <CardAction><a class="dash-link" href="calendar">@L["View calendar"] <Lucide Path="@Lucide.ArrowRight" Class="dash-flip-rtl" /></a></CardAction>
+            </CardHeader>
+            <CardContent>
+                <Timeline TimePosition="side" Size="sm" DoneLabel="@L["completed"]" CurrentLabel="@L["in progress"]" UpcomingLabel="@L["upcoming"]">
+                    @foreach (var group in view.Meetings.GroupBy(m => m.Date))
+                    {
+                        <TimelineGroup>@L[group.Key == DashboardData.StoreToday ? "Today" : "Tomorrow"]</TimelineGroup>
+                        @foreach (var (m, i) in group.Select((m, i) => (m, i)))
+                        {
+                            <TimelineItem Index="i" Title="@($"{L[m.Title]} · {m.Account}")" Status="@MeetingStatus(m)"
+                                          Time="@m.Start.ToString("HH:mm", L.Culture)" Description="@($"{(m.End - m.Start).TotalMinutes:0} {L["min"]}")" />
+                        }
+                    }
+                </Timeline>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-4">
+            <CardHeader>
+                <CardDescription>@L["Monthly proposal goal"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.ProposalsSent</bdi> <small>@L["sent of"] <bdi>@view.ProposalTarget</bdi></small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Progress Value="view.ProposalsSent" Max="view.ProposalTarget" Segments="view.ProposalTarget" AccessibleLabel="@L["Monthly proposal goal"]" />
+                <p class="dash-muted dash-small dash-gap">
+                    <bdi>@Percent(view.ProposalsSent, view.ProposalTarget)</bdi> @L["of this month's target reached."]
+                </p>
+                <div class="dash-counters dash-counters-2">
+                    <div><span>@L["Won this month"]</span><strong><bdi>@L.Money(view.WonThisMonth)</bdi></strong></div>
+                    <div><span>@L["Avg. deal size"]</span><strong><bdi>@L.Money(view.Opportunities.Average(o => o.Value))</bdi></strong></div>
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-12">
+            <CardHeader>
+                <CardDescription>@L["Recent opportunities"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Opportunities.Count</bdi> <small>@L["deals"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <DataTable TItem="Opportunity" Items="view.Opportunities" Columns="Columns" GetRowId="o => o.Id" Label="@L["Recent opportunities"]"
+                           Labels="TableLabels" Selectable="false" InitialPageSize="8" PageSizeOptions="@([8, 16, 24])" Density="compact"
+                           InitialSorting="@([new DataTableTypes.Sort("value", true)])" />
+            </CardContent>
+        </Card>
+    </section>
+}
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private static readonly TimeOnly Now = new(14, 20); // fixed like the Calendar page, so the mock day shows every state
+    private string range = "12m";
+    private CrmView? view;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await Load();
+    }
+
+    private async Task Load()
+    {
+        view = await Data.GetCrmAsync(range);
+        StateHasChanged();
+    }
+
+    private Task SetRange(string value) { range = value; return Load(); }
+
+    private string Percent(double part, double whole) => whole == 0 ? "0%" : (part / whole * 100).ToString("0", L.Culture) + "%";
+
+    private string[] BucketLabels => view!.Buckets.Select(d => d.ToString(view.Bucket == "week" ? "d MMM" : "MMM", L.Culture)).ToArray();
+
+    private static string RangeName(string r) => r switch { "quarter" => "Last quarter", "6m" => "Last 6 months", _ => "Last 12 months" };
+    private static string PreviousName(string r) => r switch { "quarter" => "previous quarter", "6m" => "previous 6 months", _ => "previous 12 months" };
+
+    private static string MeetingStatus(Meeting m) =>
+        m.Date < DashboardData.StoreToday || m.Date == DashboardData.StoreToday && m.End <= Now ? "done"
+        : m.Date == DashboardData.StoreToday && m.Start <= Now ? "current" : "upcoming";
+
+    private static string StageColor(string s) => s switch
+    {
+        "Won" => "success", "Negotiation" => "warning", "Proposal sent" => "info", "Qualified" => "primary", _ => "neutral",
+    };
+
+    private static string HealthColor(string h) => h switch
+    {
+        "On track" => "success", "Needs review" => "warning", "At risk" => "danger", _ => "neutral",
+    };
+
+    private RenderFragment<Opportunity> AccountCell => o =>
+        @<span class="dash-customer">
+            <Avatar Size="sm" Shape="rounded" Name="@o.Account" />
+            <span class="dash-brand"><strong>@o.Account</strong><small>@o.Contact</small></span>
+        </span>;
+    private RenderFragment<Opportunity> StageCell => o => @<Badge Variant="outline" Color="@StageColor(o.Stage)">@L[o.Stage]</Badge>;
+    private RenderFragment<Opportunity> OwnerCell => o => @<span title="@o.Owner"><Avatar Size="xs" Name="@o.Owner" /></span>;
+    private RenderFragment<Opportunity> HealthCell => o =>
+        @<span class="dash-health">
+            <Progress Value="o.HealthScore" Max="10" Size="sm" Color="@HealthColor(o.Health)" AccessibleLabel="@($"{L["Health"]}: {L[o.Health]}")" />
+            <span>@L[o.Health]</span>
+        </span>;
+
+    private DataTableTypes.Option[] Options(IEnumerable<string> values) => values.Select(v => new DataTableTypes.Option(v, L[v])).ToArray();
+
+    private IReadOnlyList<DataTableTypes.Column<Opportunity>> Columns =>
+    [
+        new() { Id = "id", Title = "ID", Value = o => o.Id, Class = "dash-mono" },
+        new() { Id = "account", Title = L["Account"], Value = o => o.Account + " " + o.Contact, Cell = AccountCell, Hideable = false },
+        new() { Id = "stage", Title = L["Stage"], Value = o => o.Stage, Cell = StageCell, Options = Options(DashboardData.Stages) },
+        new() { Id = "owner", Title = L["Owner"], Value = o => o.Owner, Cell = OwnerCell, Options = Options(["Noura Al-Qahtani", "Omar Haddad", "Layla Nasser", "Daniel Kim"]) },
+        new() { Id = "priority", Title = L["Priority"], Value = o => o.Priority, Format = v => L[(string)v!], Options = Options(["High", "Medium", "Low"]) },
+        new() { Id = "health", Title = L["Health"], Value = o => o.HealthScore, Cell = HealthCell, Searchable = false },
+        new() { Id = "value", Title = L["Value"], Value = o => o.Value, Format = v => L.Money((decimal)v!), Align = "end", Searchable = false },
+        new() { Id = "close", Title = L["Close date"], Value = o => o.Close, Format = v => ((DateOnly)v!).ToString("d MMM", L.Culture), Searchable = false },
+    ];
+
+    private DataTableTypes.Labels TableLabels => !L.Arabic ? new() { Search = "Search deals…" } : new()
+    {
+        Search = "ابحث في الصفقات…", View = "العرض", Columns = "الأعمدة", Compact = "مضغوط", Comfortable = "مريح",
+        Reset = "مسح الفلاتر", Empty = "لا توجد نتائج.", RowsPerPage = "صفوف الصفحة", Previous = "السابق", Next = "التالي",
+        Pagination = "الصفحات", MorePages = "صفحات أخرى", Results = n => $"{n} نتيجة", Selected = n => $"{n} محدد", Page = n => $"صفحة {n}",
+    };
+}

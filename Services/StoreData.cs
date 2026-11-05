@@ -35,7 +35,10 @@ public sealed record StoreView(
 public sealed partial class DashboardData
 {
     public static readonly DateOnly StoreToday = new(2026, 11, 5);
-    private static readonly DateOnly ModelStart = new(2025, 1, 1);
+    // Two full years before today, so every range (up to 12 months) has a complete previous range to compare with.
+    private static readonly DateOnly ModelStart = new(2024, 1, 1);
+    // Growth is measured from this date; earlier days get a negative t (a smaller store).
+    private static readonly DateOnly GrowthAnchor = new(2025, 1, 1);
     public static readonly string[] Periods = ["7d", "30d", "90d", "ytd"];
     public static readonly string[] Channels = ["Online store", "Mobile app", "Marketplace", "Retail"];
 
@@ -57,7 +60,7 @@ public sealed partial class DashboardData
         for (var i = 0; i < count; i++)
         {
             var date = ModelStart.AddDays(i);
-            var t = i / 365.0;
+            var t = (date.DayNumber - GrowthAnchor.DayNumber) / 365.0;
             var weekday = date.DayOfWeek switch
             {
                 DayOfWeek.Thursday or DayOfWeek.Friday => 1.22, DayOfWeek.Saturday => 1.1, _ => 0.94,
@@ -75,7 +78,7 @@ public sealed partial class DashboardData
     // Channel share drifts over the model: the mobile app grows, retail shrinks.
     private static double Share(string channel, DateOnly date)
     {
-        var t = (date.DayNumber - ModelStart.DayNumber) / 365.0;
+        var t = (date.DayNumber - GrowthAnchor.DayNumber) / 365.0;
         return channel switch
         {
             "Online store" => 0.47 - 0.01 * t,
