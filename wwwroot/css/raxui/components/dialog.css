@@ -1,0 +1,185 @@
+/* Generated from theme/scss by theme/build-css.mjs. Do not edit; change the SCSS and rebuild. */
+.rax-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+}
+
+.rax-dialog::backdrop,
+.rax-dialog-overlay {
+  background: rgba(var(--rax-overlay-rgb, 15, 23, 42), var(--rax-dialog-overlay-alpha, 0.3));
+  -webkit-backdrop-filter: blur(var(--rax-dialog-overlay-blur, 4px)) saturate(120%);
+  backdrop-filter: blur(var(--rax-dialog-overlay-blur, 4px)) saturate(120%);
+}
+
+.rax-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  width: calc(100% - 1rem);
+  max-width: none;
+  height: fit-content;
+  max-height: calc(100dvh - 2rem);
+  margin: auto auto 0.5rem;
+  gap: 1rem;
+  padding: 1.5rem;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--bs-emphasis-color-rgb), 0.28) transparent;
+  overscroll-behavior: contain;
+  color: var(--bs-body-color);
+  border-radius: var(--rax-radius-lg);
+  background-color: var(--rax-surface-bg);
+  border: 1px solid var(--rax-border-color);
+  box-shadow: var(--rax-surface-shadow);
+  -webkit-backdrop-filter: var(--rax-surface-filter);
+  backdrop-filter: var(--rax-surface-filter);
+  background-color: var(--rax-dialog-bg);
+  -webkit-backdrop-filter: var(--rax-dialog-filter);
+  backdrop-filter: var(--rax-dialog-filter);
+  box-shadow: var(--rax-surface-shadow), var(--rax-shadow-lg);
+}
+.rax-dialog:focus-visible {
+  outline: none;
+}
+@media (min-width: 576px) {
+  .rax-dialog {
+    width: min(32rem, 100% - 2rem);
+    margin: auto;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.rax-dialog:where(:not(dialog), [open]) {
+  display: grid;
+}
+
+.rax-dialog::before {
+  content: "";
+  justify-self: center;
+  width: 2.25rem;
+  height: 0.3125rem;
+  margin-block-start: -0.5rem;
+  border-radius: calc(1rem * var(--rax-radius-scale));
+  background-color: rgba(var(--bs-emphasis-color-rgb), 0.18);
+}
+@media (min-width: 576px) {
+  .rax-dialog::before {
+    display: none;
+  }
+}
+
+.rax-dialog-header {
+  display: grid;
+  gap: 0.375rem;
+  text-align: center;
+}
+@media (min-width: 576px) {
+  .rax-dialog-header {
+    padding-inline-end: 2rem;
+    text-align: start;
+  }
+}
+
+.rax-dialog-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.rax-dialog-description {
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.rax-dialog-footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+}
+@media (min-width: 576px) {
+  .rax-dialog-footer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+.rax-dialog-close {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rax-dialog-close {
+    transition: transform var(--rax-duration-slow) var(--rax-ease-spring);
+  }
+  .rax-dialog-close:active {
+    transform: scale(0.88);
+    transition-duration: var(--rax-duration-fast);
+  }
+}
+
+:root:has(dialog.rax-dialog:modal) {
+  overflow: hidden;
+}
+
+.rax-dialog-overlay[data-state=open],
+.rax-dialog[open]::backdrop {
+  animation: rax-fade-in var(--rax-duration) var(--rax-ease-out);
+}
+
+.rax-dialog-overlay[data-state=closed] {
+  animation: rax-fade-out var(--rax-duration) var(--rax-ease-in) forwards;
+}
+
+.rax-dialog:where(:not(dialog), [open]) {
+  animation: rax-fade-in var(--rax-duration-fast) linear;
+}
+
+.rax-dialog:not(dialog)[data-state=closed] {
+  animation: rax-fade-out var(--rax-duration-fast) linear forwards;
+}
+
+dialog.rax-dialog,
+dialog.rax-dialog::backdrop {
+  transition: opacity var(--rax-duration-fast) linear, display var(--rax-duration-fast) allow-discrete, overlay var(--rax-duration-fast) allow-discrete;
+}
+
+dialog.rax-dialog:not([open]),
+dialog.rax-dialog:not([open])::backdrop {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rax-dialog:where(:not(dialog), [open]) {
+    animation: rax-sheet-in var(--rax-duration-slow) var(--rax-ease-out);
+  }
+  .rax-dialog:not(dialog)[data-state=closed] {
+    animation: rax-sheet-out var(--rax-duration) var(--rax-ease-in) forwards;
+  }
+  dialog.rax-dialog,
+  dialog.rax-dialog::backdrop {
+    transition: opacity var(--rax-duration) var(--rax-ease-in), transform var(--rax-duration) var(--rax-ease-in), display var(--rax-duration) allow-discrete, overlay var(--rax-duration) allow-discrete;
+  }
+  dialog.rax-dialog:not([open]) {
+    opacity: 1;
+    transform: translateY(105%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 576px) {
+  .rax-dialog:where(:not(dialog), [open]) {
+    animation: rax-zoom-in var(--rax-duration-slow) var(--rax-ease-spring);
+  }
+  .rax-dialog:not(dialog)[data-state=closed] {
+    animation: rax-zoom-out var(--rax-duration) var(--rax-ease-in) forwards;
+  }
+  dialog.rax-dialog:not([open]) {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}

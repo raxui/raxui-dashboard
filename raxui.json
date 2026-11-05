@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "framework": "blazor",
+  "targetFramework": "net10.0",
+  "registryVersion": "0.1.0-preview.3",
+  "componentsPath": "Components/UI",
+  "stylesPath": "wwwroot/css/raxui",
+  "bootstrap": {
+    "managed": false
+  },
+  "theme": {
+    "default": "light",
+    "darkMode": true,
+    "rtl": false,
+    "appearance": "glass",
+    "accent": "indigo"
+  }
+}

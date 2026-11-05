@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "0.1.0-preview.3",
+  "components": {
+    "starter": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "8dd81614158487265878890072767af5e2bcaa76fc59933ab242c0c0348a12eb",
+      "files": [
+        {
+          "target": "Components/Pages/Home.razor",
+          "sourceHash": "efedeef231c0db394b650f3a8fa5307ceab977a7706b8cd20e5cd6d34b618ab2",
+          "installedHash": "efedeef231c0db394b650f3a8fa5307ceab977a7706b8cd20e5cd6d34b618ab2"
+        },
+        {
+          "target": "wwwroot/css/raxui/starter.css",
+          "sourceHash": "32da922dafd2acb406417b5da143c01b19d62999dcbd3ad172fcb22bc3bd8a75",
+          "installedHash": "32da922dafd2acb406417b5da143c01b19d62999dcbd3ad172fcb22bc3bd8a75"
+        }
+      ]
+    },
+    "dialog": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "dd95370aca83d9bf5d739fb5dc1a15077a56549c195145b36aa95096ae427609",
+      "files": [
+        {
+          "target": "Components/UI/Dialog/Dialog.razor",
+          "sourceHash": "6fd24ef9649ff8ff7b519450f5ab5e9238def8cf7f8bbb93075480aff8ce3ff8",
+          "installedHash": "6fd24ef9649ff8ff7b519450f5ab5e9238def8cf7f8bbb93075480aff8ce3ff8"
+        },
+        {
+          "target": "Components/UI/Dialog/Dialog.razor.js",
+          "sourceHash": "b2fd561ae6687b26f6f2e131fab8b981c1ad9af165f28eb949bdea5038007f7a",
+          "installedHash": "b2fd561ae6687b26f6f2e131fab8b981c1ad9af165f28eb949bdea5038007f7a"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/dialog.css",
+          "sourceHash": "b546f7fa1b69ebc4735f301e3c569e36026c866d215c5444760f2138fa04154e",
+          "installedHash": "b546f7fa1b69ebc4735f301e3c569e36026c866d215c5444760f2138fa04154e"
+        }
+      ]
+    },
+    "sheet": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "91f6c54b89173bf6fd9d543f72469f7217bbadee3fbdd8c4a54e41569f7ab6b9",
+      "files": [
+        {
+          "target": "Components/UI/Sheet/Sheet.razor",
+          "sourceHash": "474718fbf362af9f4f08a6dfc06b7718f947cea91727076e7b37008b2a391df1",
+          "installedHash": "474718fbf362af9f4f08a6dfc06b7718f947cea91727076e7b37008b2a391df1"
+        },
+        {
+          "target": "Components/UI/Sheet/Sheet.razor.js",
+          "sourceHash": "2ca8632a8c48af03dbccd5ebebaf036c4a31099d5096240c4c64ebb540832f87",
+          "installedHash": "2ca8632a8c48af03dbccd5ebebaf036c4a31099d5096240c4c64ebb540832f87"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/sheet.css",
+          "sourceHash": "660fe6135cb64d81e393897f4e8ef8dfee59f42e367e981f20404d0b24553887",
+          "installedHash": "660fe6135cb64d81e393897f4e8ef8dfee59f42e367e981f20404d0b24553887"
+        }
+      ]
+    },
+    "skeleton": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "066af6218b165403be4278471f7a96cc4c990096a8b4d6675bef37c1363bb841",
+      "files": [
+        {
+          "target": "Components/UI/Skeleton/Skeleton.razor",
+          "sourceHash": "7d08c14cd9f21d6b078d6365ee06f90780867248041bb87bde47f8dc6f7e7a74",
+          "installedHash": "7d08c14cd9f21d6b078d6365ee06f90780867248041bb87bde47f8dc6f7e7a74"
+        },
+        {
+          "target": "Components/UI/Skeleton/SkeletonText.razor",
+          "sourceHash": "67e2ad6af0ad19a33f6fde888bd1108d36cf25a4c75283fbce88beb904ea0ac1",
+          "installedHash": "67e2ad6af0ad19a33f6fde888bd1108d36cf25a4c75283fbce88beb904ea0ac1"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/skeleton.css",
+          "sourceHash": "032ae98b5eab29358e32174b18399a08978293d9841976a2e01d4bee4df61957",
+          "installedHash": "032ae98b5eab29358e32174b18399a08978293d9841976a2e01d4bee4df61957"
+        }
+      ]
+    },
+    "button": {
+      "version": "0.2.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "466dce32af349be8adda05e9728ee732ed9b762feeaab41389b2ccdaf046dc30",
+      "files": [
+        {
+          "target": "Components/UI/Button/Button.razor",
+          "sourceHash": "823ff41782997016aa21aac61e0a25d74a0f6a116b5d7badbdf8dca55dbf7e62",
+          "installedHash": "823ff41782997016aa21aac61e0a25d74a0f6a116b5d7badbdf8dca55dbf7e62"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/button.css",
+          "sourceHash": "cc6ef2251325d3256a724274a9abeca891c3e5ba0d5913cdde47f870eb3dda20",
+          "installedHash": "cc6ef2251325d3256a724274a9abeca891c3e5ba0d5913cdde47f870eb3dda20"
+        }
+      ]
+    },
+    "sidebar": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "5a79a691a66132aa691523a7b15a02d57aab4d8ee7752444dc654bf50dee6b2c",
+      "files": [
+        {
+          "target": "Components/UI/Sidebar/Sidebar.razor",
+          "sourceHash": "c6ed7da88ce7499fd80b669eccc5575c41776d4ed3fbf551ac93e24a9d660afb",
+          "installedHash": "c6ed7da88ce7499fd80b669eccc5575c41776d4ed3fbf551ac93e24a9d660afb"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarContent.razor",
+          "sourceHash": "7ab53d902e7eaa2de98c52151cf58559899ca015633306d71a7ea1c84fd345b8",
+          "installedHash": "7ab53d902e7eaa2de98c52151cf58559899ca015633306d71a7ea1c84fd345b8"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarFooter.razor",
+          "sourceHash": "8dc8ac65913fe891068a124812cb07cdcc7d18afbc7f795df99b15c1830e123b",
+          "installedHash": "8dc8ac65913fe891068a124812cb07cdcc7d18afbc7f795df99b15c1830e123b"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarGroup.razor",
+          "sourceHash": "d964d122b2953b5e996bd7e743c3d0d634089c8f4a508fe7be070b65c0d52faa",
+          "installedHash": "d964d122b2953b5e996bd7e743c3d0d634089c8f4a508fe7be070b65c0d52faa"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarGroupAction.razor",
+          "sourceHash": "6a5579537972b382470b5cfcabc1bd0147b1bd44e14056069aa0a183e52e914d",
+          "installedHash": "6a5579537972b382470b5cfcabc1bd0147b1bd44e14056069aa0a183e52e914d"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarGroupContent.razor",
+          "sourceHash": "d546535ddc6821e97c7daf4caf19fa1cfa9bd3664c7f5c5733efecf7da148f30",
+          "installedHash": "d546535ddc6821e97c7daf4caf19fa1cfa9bd3664c7f5c5733efecf7da148f30"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarGroupLabel.razor",
+          "sourceHash": "97801a6e6a8e02e0448e5f9f7563d6dff5496c60a88dc518875722a060c13541",
+          "installedHash": "97801a6e6a8e02e0448e5f9f7563d6dff5496c60a88dc518875722a060c13541"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarHeader.razor",
+          "sourceHash": "5a3850afa33a8591ddac6b2409a4f6167d8e00633c06a204f281193a65b3dcb7",
+          "installedHash": "5a3850afa33a8591ddac6b2409a4f6167d8e00633c06a204f281193a65b3dcb7"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarInput.razor",
+          "sourceHash": "817c4528f25828f66e5eec156b2b6df8d8c1373ce1d95c7b4ceffebdc63bfe91",
+          "installedHash": "817c4528f25828f66e5eec156b2b6df8d8c1373ce1d95c7b4ceffebdc63bfe91"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarInset.razor",
+          "sourceHash": "76f427584c31cdee3b2eb0942efb28ff3a3b2f874d4e0b406019bcfb3245d0fe",
+          "installedHash": "76f427584c31cdee3b2eb0942efb28ff3a3b2f874d4e0b406019bcfb3245d0fe"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenu.razor",
+          "sourceHash": "ed235aae18f0a02ef70f698bf6e20179632cb35a36c66afaa897d13faf1d7869",
+          "installedHash": "ed235aae18f0a02ef70f698bf6e20179632cb35a36c66afaa897d13faf1d7869"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuAction.razor",
+          "sourceHash": "dd78aa6cb3d0afc151cbbe42c0fb0a9fe998da25c94357b5fa3e0e3c7f2be485",
+          "installedHash": "dd78aa6cb3d0afc151cbbe42c0fb0a9fe998da25c94357b5fa3e0e3c7f2be485"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuBadge.razor",
+          "sourceHash": "2c5fe0446f3449d2524e3179fa7a4bec54abd0aa6b152a6e0a9973a27822fa09",
+          "installedHash": "2c5fe0446f3449d2524e3179fa7a4bec54abd0aa6b152a6e0a9973a27822fa09"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuButton.razor",
+          "sourceHash": "7ddf3cde580e2161c872d2b1581de245549e54d02f2bbb39ce96a6c8f99d0f3e",
+          "installedHash": "7ddf3cde580e2161c872d2b1581de245549e54d02f2bbb39ce96a6c8f99d0f3e"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuCollapsible.razor",
+          "sourceHash": "91f7a4ca135dcee355c8aa5c0a7627d2b2a1672fa5b7908feb75f171bfd22b3a",
+          "installedHash": "91f7a4ca135dcee355c8aa5c0a7627d2b2a1672fa5b7908feb75f171bfd22b3a"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuItem.razor",
+          "sourceHash": "7c908aedfc2cefa9e265205be028574e939536d4bb762aebc58135702a239510",
+          "installedHash": "7c908aedfc2cefa9e265205be028574e939536d4bb762aebc58135702a239510"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuSkeleton.razor",
+          "sourceHash": "aa092f8112347e59241f91b7c7423916ffb213f37c008dc4f1eca93b1c4c9ab8",
+          "installedHash": "aa092f8112347e59241f91b7c7423916ffb213f37c008dc4f1eca93b1c4c9ab8"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuSub.razor",
+          "sourceHash": "ff046a7aa21fbdd88a4d03da8478f35f03ea37ebf05c56f1e9b0c2ae71d74c49",
+          "installedHash": "ff046a7aa21fbdd88a4d03da8478f35f03ea37ebf05c56f1e9b0c2ae71d74c49"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuSubButton.razor",
+          "sourceHash": "49f7752917980ec0077fe0de0f873b0fa5e2b30f4ff3246039c3428b455d77eb",
+          "installedHash": "49f7752917980ec0077fe0de0f873b0fa5e2b30f4ff3246039c3428b455d77eb"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarMenuSubItem.razor",
+          "sourceHash": "10f531d011cf4ca3c9a6fc613a7e2b3499344fc92f97abf3a9ff9b02661b93ea",
+          "installedHash": "10f531d011cf4ca3c9a6fc613a7e2b3499344fc92f97abf3a9ff9b02661b93ea"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarProvider.razor",
+          "sourceHash": "cb25cea1bc2bd66b58658e4d53aa109e8c1598afa5f847dcb21a5c9cf434a07a",
+          "installedHash": "cb25cea1bc2bd66b58658e4d53aa109e8c1598afa5f847dcb21a5c9cf434a07a"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarProvider.razor.js",
+          "sourceHash": "afcf54131f61bba556712791d11f1a37c9e3fe109d6fc113e629f0dbcda848d9",
+          "installedHash": "afcf54131f61bba556712791d11f1a37c9e3fe109d6fc113e629f0dbcda848d9"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarRail.razor",
+          "sourceHash": "b5c4e8a4980699d27a1755b3756bd4c6204233d4a6360b1850b5e1f09a33aed8",
+          "installedHash": "b5c4e8a4980699d27a1755b3756bd4c6204233d4a6360b1850b5e1f09a33aed8"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarSeparator.razor",
+          "sourceHash": "7c9ca3668d1e5ab00d2e73b12d8fbf79593be4ea0fb022542b8345a7fa10ceb3",
+          "installedHash": "7c9ca3668d1e5ab00d2e73b12d8fbf79593be4ea0fb022542b8345a7fa10ceb3"
+        },
+        {
+          "target": "Components/UI/Sidebar/SidebarTrigger.razor",
+          "sourceHash": "4408a5336c3e725f18d0b32387c677270a71e3b50ee2376cbed880cc904d23bb",
+          "installedHash": "4408a5336c3e725f18d0b32387c677270a71e3b50ee2376cbed880cc904d23bb"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/sidebar.css",
+          "sourceHash": "5c6f7be5b6d581c8fed08a74509f08ae6007980938b437dbeb0af8810e15a326",
+          "installedHash": "5c6f7be5b6d581c8fed08a74509f08ae6007980938b437dbeb0af8810e15a326"
+        }
+      ]
+    },
+    "menu-toggle": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "eb33892cce71b461b2ac58eda057d22750d3c7c45615f56fe49b680fe09cc4b2",
+      "files": [
+        {
+          "target": "Components/UI/MenuToggle/MenuToggle.razor",
+          "sourceHash": "ad2b77da35ee73de6c31689584f89b4d8c03131851b648cf95a87376297c1c78",
+          "installedHash": "ad2b77da35ee73de6c31689584f89b4d8c03131851b648cf95a87376297c1c78"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/menu-toggle.css",
+          "sourceHash": "437a3af287bda548ee045fa9dd998bdfa0778a48fca4c6254d55d23baa893426",
+          "installedHash": "437a3af287bda548ee045fa9dd998bdfa0778a48fca4c6254d55d23baa893426"
+        }
+      ]
+    },
+    "navbar": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "b24143daaded8f4f5992bc1b88003068660b617a8e42052fa15298e45b7a2e93",
+      "files": [
+        {
+          "target": "Components/UI/Navbar/Navbar.razor",
+          "sourceHash": "108278f95dae8b54e9c428546ed7979b7e0314d167342437f27d28a58428a7cf",
+          "installedHash": "108278f95dae8b54e9c428546ed7979b7e0314d167342437f27d28a58428a7cf"
+        },
+        {
+          "target": "Components/UI/Navbar/Navbar.razor.js",
+          "sourceHash": "07da8ca759359bff03d240e518786d3aee4fa27796761d8ad752bd8b407c7460",
+          "installedHash": "07da8ca759359bff03d240e518786d3aee4fa27796761d8ad752bd8b407c7460"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarActions.razor",
+          "sourceHash": "12e489e1775c2d684576c98fc307cc4aab3fee6a1928fa41349831796b477eda",
+          "installedHash": "12e489e1775c2d684576c98fc307cc4aab3fee6a1928fa41349831796b477eda"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarBrand.razor",
+          "sourceHash": "84db2f6a184f130f25b9ab0592a3033650d77b623c78405f4626e17fb1737b90",
+          "installedHash": "84db2f6a184f130f25b9ab0592a3033650d77b623c78405f4626e17fb1737b90"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarLink.razor",
+          "sourceHash": "4aea3ae6c175ad2046f58abc1494a95c139645815aec5be304c16a02198c9347",
+          "installedHash": "4aea3ae6c175ad2046f58abc1494a95c139645815aec5be304c16a02198c9347"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarLinks.razor",
+          "sourceHash": "0a458925785ae5b54588f549368091473cb1eb0838febfef9d51c8c8a0ad3925",
+          "installedHash": "0a458925785ae5b54588f549368091473cb1eb0838febfef9d51c8c8a0ad3925"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarMenu.razor",
+          "sourceHash": "71752298df3954dd427549db9e11c26594b52f2a17ccf7febb9a6c6331560758",
+          "installedHash": "71752298df3954dd427549db9e11c26594b52f2a17ccf7febb9a6c6331560758"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarMenuLink.razor",
+          "sourceHash": "2277d8155983e571e3c2617723944072523e6c7404d72e8c6525f6cdf93eb5b7",
+          "installedHash": "2277d8155983e571e3c2617723944072523e6c7404d72e8c6525f6cdf93eb5b7"
+        },
+        {
+          "target": "Components/UI/Navbar/NavbarToggle.razor",
+          "sourceHash": "44752f250bf633daebf7d407e366dbaee543d60e700fe18e4d62f7e10c16559c",
+          "installedHash": "44752f250bf633daebf7d407e366dbaee543d60e700fe18e4d62f7e10c16559c"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/navbar.css",
+          "sourceHash": "7e18861cdbfbdd7fb428fd5b6e5fd14adc58067a84f5d2082815b7891a64c9a6",
+          "installedHash": "7e18861cdbfbdd7fb428fd5b6e5fd14adc58067a84f5d2082815b7891a64c9a6"
+        }
+      ]
+    },
+    "card": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "cad1402a4702d2ad6cc62d0aa3343da603f38aa9d7e30f3297294a714b602978",
+      "files": [
+        {
+          "target": "Components/UI/Card/Card.razor",
+          "sourceHash": "b8a2a0de1bfc5ed25a3e9a2bdeccdc876f8b44fb7e126e52d330d264815a846d",
+          "installedHash": "b8a2a0de1bfc5ed25a3e9a2bdeccdc876f8b44fb7e126e52d330d264815a846d"
+        },
+        {
+          "target": "Components/UI/Card/CardAction.razor",
+          "sourceHash": "1a0904e435d8e77f75884b5023b399c41f835d6f7c05df6d569cf546ea0ba030",
+          "installedHash": "1a0904e435d8e77f75884b5023b399c41f835d6f7c05df6d569cf546ea0ba030"
+        },
+        {
+          "target": "Components/UI/Card/CardContent.razor",
+          "sourceHash": "8d3dbbcbb6be2f657623557d3615354bac90fb54e6e6a84b16b2ec8fa9084cd0",
+          "installedHash": "8d3dbbcbb6be2f657623557d3615354bac90fb54e6e6a84b16b2ec8fa9084cd0"
+        },
+        {
+          "target": "Components/UI/Card/CardDescription.razor",
+          "sourceHash": "53b80481556a690fd52a767d66a6c1ba29d0a0636368ea5cf09394913b6b0e3d",
+          "installedHash": "53b80481556a690fd52a767d66a6c1ba29d0a0636368ea5cf09394913b6b0e3d"
+        },
+        {
+          "target": "Components/UI/Card/CardFooter.razor",
+          "sourceHash": "74956e91917d372787777fa290a18645a7323c70190dced12faa184e20aaefbd",
+          "installedHash": "74956e91917d372787777fa290a18645a7323c70190dced12faa184e20aaefbd"
+        },
+        {
+          "target": "Components/UI/Card/CardHeader.razor",
+          "sourceHash": "3500956c5f3af1e91af4ca8bfa4681f323f1a03c80c9f0e1ca11b5002efeda61",
+          "installedHash": "3500956c5f3af1e91af4ca8bfa4681f323f1a03c80c9f0e1ca11b5002efeda61"
+        },
+        {
+          "target": "Components/UI/Card/CardTitle.razor",
+          "sourceHash": "9e21e73b71a2653069dc06f65246be1ce7a6236202c3ab201ec85d993322ecc1",
+          "installedHash": "9e21e73b71a2653069dc06f65246be1ce7a6236202c3ab201ec85d993322ecc1"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/card.css",
+          "sourceHash": "54eb4f113d20d0ae6f9e821934e16e0b67145774665c10b782b28b7ae5b8dba4",
+          "installedHash": "54eb4f113d20d0ae6f9e821934e16e0b67145774665c10b782b28b7ae5b8dba4"
+        }
+      ]
+    },
+    "chart": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "3dc84dcfb127018fce33178127ff4937ab871f8c706a5fb518bec0ae48c8a4c0",
+      "files": [
+        {
+          "target": "Components/UI/Chart/Chart.razor",
+          "sourceHash": "bda3ddb5e2addef47118c39e4277ffaea3f9b89c4e89baeb59fa22c2670b55cd",
+          "installedHash": "bda3ddb5e2addef47118c39e4277ffaea3f9b89c4e89baeb59fa22c2670b55cd"
+        },
+        {
+          "target": "Components/UI/Chart/Chart.razor.js",
+          "sourceHash": "3ba102eb55fa06f15e90239e46e04f8c1acbe31d4c57d645838a4cc6222ef206",
+          "installedHash": "3ba102eb55fa06f15e90239e46e04f8c1acbe31d4c57d645838a4cc6222ef206"
+        },
+        {
+          "target": "Components/UI/Chart/ChartTypes.razor",
+          "sourceHash": "de235f1b1660e91e4516b8f5581191c62cc1b980e8a9e1378af05f2093ba5cae",
+          "installedHash": "de235f1b1660e91e4516b8f5581191c62cc1b980e8a9e1378af05f2093ba5cae"
+        },
+        {
+          "target": "Components/UI/Chart/ChartTypes.razor.js",
+          "sourceHash": "87364cc2b2a76a6684929e7d6b80b18a897794db38400caff1fcf1791c6925d2",
+          "installedHash": "87364cc2b2a76a6684929e7d6b80b18a897794db38400caff1fcf1791c6925d2"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/chart.css",
+          "sourceHash": "c433449dcbf495eaae36d9a6198d6b020a939f63aef5046d53103d6261e1d422",
+          "installedHash": "c433449dcbf495eaae36d9a6198d6b020a939f63aef5046d53103d6261e1d422"
+        }
+      ]
+    },
+    "badge": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "6057c25da0232c346282797586e59cc9e760232615dc73dbe253de77a1aba2c9",
+      "files": [
+        {
+          "target": "Components/UI/Badge/Badge.razor",
+          "sourceHash": "2b2a5a620e5a6eb23e99559d001a0c090fcaa6098953354593b8e43b7970d775",
+          "installedHash": "2b2a5a620e5a6eb23e99559d001a0c090fcaa6098953354593b8e43b7970d775"
+        },
+        {
+          "target": "Components/UI/Badge/BadgeCount.razor",
+          "sourceHash": "93907ccca107ff0c4dca2ea75ab26c4c606db62df69306466ceb9ce714d0449c",
+          "installedHash": "93907ccca107ff0c4dca2ea75ab26c4c606db62df69306466ceb9ce714d0449c"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/badge.css",
+          "sourceHash": "f92dad6466c53c64a7edeeca4ecd627fbfaeef0cab9189abc227167ce5f00d6b",
+          "installedHash": "f92dad6466c53c64a7edeeca4ecd627fbfaeef0cab9189abc227167ce5f00d6b"
+        }
+      ]
+    },
+    "avatar": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "39c5c055a7138d4be637d1958df273af3e85ca3dfc9cbcdcebd5d1a3e85e5ea3",
+      "files": [
+        {
+          "target": "Components/UI/Avatar/Avatar.razor",
+          "sourceHash": "fe378253f440574e7343e4b1160ac35f588e69e84119693f24fc98e71471a09f",
+          "installedHash": "fe378253f440574e7343e4b1160ac35f588e69e84119693f24fc98e71471a09f"
+        },
+        {
+          "target": "Components/UI/Avatar/Avatar.razor.js",
+          "sourceHash": "4266d30fda74de69f097dcffe597540e26c5d421f515d576f2ab57a612feb7e3",
+          "installedHash": "4266d30fda74de69f097dcffe597540e26c5d421f515d576f2ab57a612feb7e3"
+        },
+        {
+          "target": "Components/UI/Avatar/AvatarGroup.razor",
+          "sourceHash": "081efa1e1101fe7a1ee82e299a36ad8d77480a23f95c853651145d35b2d63643",
+          "installedHash": "081efa1e1101fe7a1ee82e299a36ad8d77480a23f95c853651145d35b2d63643"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/avatar.css",
+          "sourceHash": "35b0b24ab6a9055a35909e1b55ae2825b7c78d0486c5c760d7d55ef8ff74e69d",
+          "installedHash": "35b0b24ab6a9055a35909e1b55ae2825b7c78d0486c5c760d7d55ef8ff74e69d"
+        }
+      ]
+    },
+    "table": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "24695f16b4fd8c6482500971bab4af761dc5fa946c40caed24492d5f095d303f",
+      "files": [
+        {
+          "target": "Components/UI/Table/Table.razor",
+          "sourceHash": "adee11d1912e5aef5ab0d58c112a124ea70c999b0066235b1393c0f34b2dcfc3",
+          "installedHash": "adee11d1912e5aef5ab0d58c112a124ea70c999b0066235b1393c0f34b2dcfc3"
+        },
+        {
+          "target": "Components/UI/Table/TableBody.razor",
+          "sourceHash": "0acec6494e18979816c055ef22d6c1c2143dfeabc7dcd3df1c003e77218ebfe0",
+          "installedHash": "0acec6494e18979816c055ef22d6c1c2143dfeabc7dcd3df1c003e77218ebfe0"
+        },
+        {
+          "target": "Components/UI/Table/TableCaption.razor",
+          "sourceHash": "f356c93ac24b663a59dbf500353584378c960211065735eaf4c2a09c14712528",
+          "installedHash": "f356c93ac24b663a59dbf500353584378c960211065735eaf4c2a09c14712528"
+        },
+        {
+          "target": "Components/UI/Table/TableCell.razor",
+          "sourceHash": "0303f0e3074f31426763607e776d46c6958eac89a21be22ea72ac27867cabda6",
+          "installedHash": "0303f0e3074f31426763607e776d46c6958eac89a21be22ea72ac27867cabda6"
+        },
+        {
+          "target": "Components/UI/Table/TableFooter.razor",
+          "sourceHash": "7439de0d908f0ae2c28182188900163e0cbe015f2075e3dfe55309d69d6d7769",
+          "installedHash": "7439de0d908f0ae2c28182188900163e0cbe015f2075e3dfe55309d69d6d7769"
+        },
+        {
+          "target": "Components/UI/Table/TableHead.razor",
+          "sourceHash": "3b2b1fe70cabcc808815d9818d670c9f44de8e108abe8bee1059095fa6dce355",
+          "installedHash": "3b2b1fe70cabcc808815d9818d670c9f44de8e108abe8bee1059095fa6dce355"
+        },
+        {
+          "target": "Components/UI/Table/TableHeader.razor",
+          "sourceHash": "b6a6cdb358be2cb5364d8338740eb237c6824e50aa7dc4af4ada58a15474a927",
+          "installedHash": "b6a6cdb358be2cb5364d8338740eb237c6824e50aa7dc4af4ada58a15474a927"
+        },
+        {
+          "target": "Components/UI/Table/TableRow.razor",
+          "sourceHash": "b41efe3ddcdfbcad7fb34476d822f947deeebc767ae366f67e2ee234454a5a5d",
+          "installedHash": "b41efe3ddcdfbcad7fb34476d822f947deeebc767ae366f67e2ee234454a5a5d"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/table.css",
+          "sourceHash": "ea486c89044aa19d34182cec4fc45a32723c7d4e8a04df378bd91af41fa26ef9",
+          "installedHash": "ea486c89044aa19d34182cec4fc45a32723c7d4e8a04df378bd91af41fa26ef9"
+        }
+      ]
+    },
+    "dropdown-menu": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "66f59a77f0714e4455c23a1376135c2f8258ad2e76f048a29d51fca75bd7085f",
+      "files": [
+        {
+          "target": "Components/UI/DropdownMenu/DropdownMenu.razor",
+          "sourceHash": "2b27630c67692c54666d95af1e348b6b8d0e8682f2ac3906ab7cf8348813daa2",
+          "installedHash": "2b27630c67692c54666d95af1e348b6b8d0e8682f2ac3906ab7cf8348813daa2"
+        },
+        {
+          "target": "Components/UI/DropdownMenu/DropdownMenuItem.razor",
+          "sourceHash": "ad43bbfc15a060222f5b60426893771e14bfa28af7935ff9835f97a2b31d392d",
+          "installedHash": "ad43bbfc15a060222f5b60426893771e14bfa28af7935ff9835f97a2b31d392d"
+        },
+        {
+          "target": "Components/UI/DropdownMenu/DropdownMenuLabel.razor",
+          "sourceHash": "52fff1609dfc2e8899fb85f27794b9e06b6c2c9ed4234c5e2bf37bfc5af7a560",
+          "installedHash": "52fff1609dfc2e8899fb85f27794b9e06b6c2c9ed4234c5e2bf37bfc5af7a560"
+        },
+        {
+          "target": "Components/UI/DropdownMenu/DropdownMenuSeparator.razor",
+          "sourceHash": "57f1caebc7d3f6cf3474d0e9938ccf1401a4e6ea4879c6b7637cdde827d1aaf2",
+          "installedHash": "57f1caebc7d3f6cf3474d0e9938ccf1401a4e6ea4879c6b7637cdde827d1aaf2"
+        },
+        {
+          "target": "Components/UI/DropdownMenu/DropdownMenu.razor.js",
+          "sourceHash": "b792b17a064e187bfdbcc99a8deca270b182015fd4caa77e4aed5b2c5de74dd1",
+          "installedHash": "b792b17a064e187bfdbcc99a8deca270b182015fd4caa77e4aed5b2c5de74dd1"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/dropdown-menu.css",
+          "sourceHash": "c0f5273cd996fc25c5743d142b9e761493c6a12550f7f5904d71b0feb163f17b",
+          "installedHash": "c0f5273cd996fc25c5743d142b9e761493c6a12550f7f5904d71b0feb163f17b"
+        }
+      ]
+    },
+    "field": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "96fe6035c4ff64ba6a4ae879ab7022c86d2374d3199aab3c07d6db2873e5ab16",
+      "files": [
+        {
+          "target": "Components/UI/Field/Field.razor",
+          "sourceHash": "ec4b6bde32d64425b74a1a12d526c1026be87022ee24ae007c3ff30307bc3d04",
+          "installedHash": "ec4b6bde32d64425b74a1a12d526c1026be87022ee24ae007c3ff30307bc3d04"
+        },
+        {
+          "target": "Components/UI/Field/FieldDescription.razor",
+          "sourceHash": "0d945361076ae118d648bfaacb1d94bfcf20c702c33004046eb077d171b8f6e6",
+          "installedHash": "0d945361076ae118d648bfaacb1d94bfcf20c702c33004046eb077d171b8f6e6"
+        },
+        {
+          "target": "Components/UI/Field/FieldError.razor",
+          "sourceHash": "43ea7c5890a763d546552e3ab5a10e3ff3453f425ed59f6a7353ef5952931e27",
+          "installedHash": "43ea7c5890a763d546552e3ab5a10e3ff3453f425ed59f6a7353ef5952931e27"
+        },
+        {
+          "target": "Components/UI/Field/FieldLabel.razor",
+          "sourceHash": "fdaec71d126236bf80514cf8d435ad33af855b315725a2845b54bfe7f30fe76b",
+          "installedHash": "fdaec71d126236bf80514cf8d435ad33af855b315725a2845b54bfe7f30fe76b"
+        },
+        {
+          "target": "Components/UI/Field/FieldLegend.razor",
+          "sourceHash": "f055ac3554dec5d60358a4373f2d64043f9d8060a34d3a405a4ffe1849d231b8",
+          "installedHash": "f055ac3554dec5d60358a4373f2d64043f9d8060a34d3a405a4ffe1849d231b8"
+        },
+        {
+          "target": "Components/UI/Field/FieldSet.razor",
+          "sourceHash": "6ba6c8cccc08611aefcf5468e80d2b8e8a7abc460205620f4319174e31951084",
+          "installedHash": "6ba6c8cccc08611aefcf5468e80d2b8e8a7abc460205620f4319174e31951084"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/field.css",
+          "sourceHash": "bc4b78d29158ac0e09956e19ff6e8848760454804032fd816aa4c97cacfd4c5a",
+          "installedHash": "bc4b78d29158ac0e09956e19ff6e8848760454804032fd816aa4c97cacfd4c5a"
+        }
+      ]
+    },
+    "popover": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "ec67c8654943a13c9c7e9092804e7e6fa94489d6a35ea22ff255ce5b8255b821",
+      "files": [
+        {
+          "target": "Components/UI/Popover/Popover.razor",
+          "sourceHash": "6737b089127730e20516968903f2cc8ee7fc3c2a54ef15082f3c60d335fe8c5c",
+          "installedHash": "6737b089127730e20516968903f2cc8ee7fc3c2a54ef15082f3c60d335fe8c5c"
+        },
+        {
+          "target": "Components/UI/Popover/Popover.razor.js",
+          "sourceHash": "c4c211327778acb09bd6b8c33d5fe0e366604de789cfa39b13febb6a748c31eb",
+          "installedHash": "c4c211327778acb09bd6b8c33d5fe0e366604de789cfa39b13febb6a748c31eb"
+        },
+        {
+          "target": "Components/UI/Popover/ChoiceSearch.razor",
+          "sourceHash": "792e1292afa981172c3f6edfe70811e9108b00875b48bc9cec4b20aec96a8594",
+          "installedHash": "792e1292afa981172c3f6edfe70811e9108b00875b48bc9cec4b20aec96a8594"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/popover.css",
+          "sourceHash": "e6f42e69cc86c998e9c40ca4a578af9d018cc51c57733249e86daf22879c67d8",
+          "installedHash": "e6f42e69cc86c998e9c40ca4a578af9d018cc51c57733249e86daf22879c67d8"
+        }
+      ]
+    },
+    "command": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "1c021e5f392247d9faf72f8aa2ec6adbe5889c5ea8ec1bf28e8db1b3c25f0987",
+      "files": [
+        {
+          "target": "Components/UI/Command/Command.razor",
+          "sourceHash": "7a63d8b55351138134b6dc12200b64c4fb2d470364235d7445c78cb0f82a9946",
+          "installedHash": "7a63d8b55351138134b6dc12200b64c4fb2d470364235d7445c78cb0f82a9946"
+        },
+        {
+          "target": "Components/UI/Command/Command.razor.js",
+          "sourceHash": "4716d4a1454a4c8a35fe55fb33bc6ca9147dc63376cd1914335b755f09d6c265",
+          "installedHash": "4716d4a1454a4c8a35fe55fb33bc6ca9147dc63376cd1914335b755f09d6c265"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/command.css",
+          "sourceHash": "34d26119174cde649510d9843ca9fc73fa0adadb65ed3ddf72798b55c4c473ab",
+          "installedHash": "34d26119174cde649510d9843ca9fc73fa0adadb65ed3ddf72798b55c4c473ab"
+        }
+      ]
+    },
+    "toggle": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "9feb6b873512f68227ea81639c8e8f4a5836125a2f7d29ee50650a05817fd56d",
+      "files": [
+        {
+          "target": "Components/UI/Toggle/Toggle.razor",
+          "sourceHash": "5661fe6a03b627d4ed29e37a85286884ed39a246ed1c11b57c1a3e662c9fcb82",
+          "installedHash": "5661fe6a03b627d4ed29e37a85286884ed39a246ed1c11b57c1a3e662c9fcb82"
+        },
+        {
+          "target": "Components/UI/Toggle/ToggleGroup.razor",
+          "sourceHash": "854bfeaf128f85b5c424c67eed7680643e890b70fee332a981fe45901e7fe4a2",
+          "installedHash": "854bfeaf128f85b5c424c67eed7680643e890b70fee332a981fe45901e7fe4a2"
+        },
+        {
+          "target": "Components/UI/Toggle/ToggleGroupItem.razor",
+          "sourceHash": "ab016febadf32cc12ca3945678418e1202517726792411d56582ff17c569594b",
+          "installedHash": "ab016febadf32cc12ca3945678418e1202517726792411d56582ff17c569594b"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/toggle.css",
+          "sourceHash": "663a639c39ff8447ad7c983774bf316b76518b3cefaf9663a30a400649d47e89",
+          "installedHash": "663a639c39ff8447ad7c983774bf316b76518b3cefaf9663a30a400649d47e89"
+        }
+      ]
+    }
+  },
+  "assets": {
+    "wwwroot/css/raxui/raxui.css": {
+      "target": "wwwroot/css/raxui/raxui.css",
+      "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
+      "installedHash": "4d321ac67a090c372b3294cb6f3c514ba20b62b0a92bdf8483c59dafb321beab"
+    }
+  }
+}

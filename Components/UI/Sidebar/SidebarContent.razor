@@ -1,0 +1,6 @@
+<div @attributes="AdditionalAttributes" class="rax-sidebar-content @Class" data-sidebar="content"><span class="rax-sidebar-hover" aria-hidden="true"></span><span class="rax-sidebar-highlight" aria-hidden="true"></span>@ChildContent</div>
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object>? AdditionalAttributes { get; set; }
+}
