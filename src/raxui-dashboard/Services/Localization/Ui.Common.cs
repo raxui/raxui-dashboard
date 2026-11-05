@@ -43,6 +43,7 @@ public sealed partial record Ui
         ["Sign out"] = "تسجيل الخروج",
         ["Account menu"] = "قائمة الحساب",
         ["Theme settings"] = "إعدادات المظهر",
+        ["View source on GitHub (opens in a new tab)"] = "عرض السورس على GitHub (يفتح في تبويب جديد)",
         ["Pro plan"] = "خطة Pro",
     };
 }
