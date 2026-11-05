@@ -26,7 +26,7 @@ public sealed record Overview(
     IReadOnlyList<Order> RecentOrders);
 
 /// <summary>In-memory mock data for the showcase. Figures are consistent: orders = new + returning, AOV = revenue / orders.</summary>
-public sealed class DashboardData
+public sealed partial class DashboardData
 {
     private static readonly DateOnly LastMonth = new(2026, 10, 1);
 

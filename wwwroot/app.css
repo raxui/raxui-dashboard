@@ -413,6 +413,264 @@ html[lang=ar] body {
 
 .dash-grid > .dash-span-12 { grid-column: 1 / -1; }
 
+/* E-commerce dashboard */
+
+.dash-page-header-end {
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.dash-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.dash-filter {
+    min-width: 10rem;
+}
+
+.dash-small { font-size: 0.8125rem; }
+
+.dash-headline {
+    font-size: 1.625rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash-headline small {
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+/* Six headline figures in one card, divided by hairlines instead of six boxes. */
+.dash-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: hidden;
+}
+
+.dash-kpi-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 1.125rem 1.25rem;
+    border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.dash-kpi-stat:nth-child(odd) {
+    border-inline-end: 1px solid var(--bs-border-color-translucent);
+}
+
+.dash-kpi-stat:nth-last-child(-n + 2) {
+    border-bottom: 0;
+}
+
+.dash-kpi-stat-label {
+    color: var(--bs-secondary-color);
+    font-size: 0.8125rem;
+}
+
+.dash-kpi-stat-value {
+    font-size: 1.625rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash-kpi-stat-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+}
+
+.dash-kpi-stat-foot svg {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+/* Category share: one bar split into segments with a 2px surface gap. The --rax-chart-* slots are only
+   defined inside .rax-chart, so map the same four here to keep identical colours. */
+.dash-split,
+.dash-legend-row {
+    --rax-chart-1: var(--bs-primary);
+    --rax-chart-2: var(--bs-info);
+    --rax-chart-3: var(--bs-success);
+    --rax-chart-4: var(--bs-warning);
+}
+
+.dash-split {
+    display: flex;
+    gap: 2px;
+    height: 0.625rem;
+    overflow: hidden;
+    border-radius: 999px;
+}
+
+.dash-split > span:first-child { border-start-start-radius: 999px; border-end-start-radius: 999px; }
+.dash-split > span:last-child { border-start-end-radius: 999px; border-end-end-radius: 999px; }
+
+.dash-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.875rem;
+    margin: 0.625rem 0 1rem;
+    padding: 0;
+    list-style: none;
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+}
+
+.dash-legend-row li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.dash-swatch-sq {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 2px;
+}
+
+.dash-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dash-list > li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.dash-list-value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.dash-stock-item .rax-progress,
+.dash-stock-item > :last-child {
+    width: 6rem;
+    flex-shrink: 0;
+}
+
+.dash-counters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.dash-counters > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--rax-radius);
+    background: rgba(var(--bs-emphasis-color-rgb), 0.04);
+}
+
+.dash-counters span {
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+}
+
+.dash-counters strong {
+    font-size: 1.125rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash-subhead {
+    margin: 0 0 0.625rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.dash-bars {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.dash-bars > li {
+    display: grid;
+    grid-template-columns: 2rem 1fr 3rem;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+}
+
+.dash-bars-label {
+    color: var(--bs-secondary-color);
+    white-space: nowrap;
+}
+
+.dash-bars-value {
+    color: var(--bs-secondary-color);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+.dash-reviewers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.dash-quote {
+    margin: 0;
+    padding: 0.875rem 1rem;
+    border-radius: var(--rax-radius);
+    background: rgba(var(--bs-emphasis-color-rgb), 0.04);
+}
+
+.dash-quote p {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+}
+
+.dash-quote footer {
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+}
+
+.dash-soon {
+    margin-inline-start: auto;
+    padding: 0 0.375rem;
+    border-radius: 999px;
+    background: rgba(var(--bs-emphasis-color-rgb), 0.06);
+    color: var(--bs-secondary-color);
+    font-size: 0.625rem;
+}
+
+@media (min-width: 992px) {
+    .dash-grid > .dash-span-4 { grid-column: span 4; }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .dash-grid > .dash-span-4 { grid-column: span 6; }
+}
+
 /* Customers */
 
 .dash-stats {

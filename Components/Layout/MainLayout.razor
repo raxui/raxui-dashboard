@@ -21,6 +21,20 @@
                 <SidebarGroup>
                     <SidebarGroupLabel>@L["Workspace"]</SidebarGroupLabel>
                     <SidebarMenu>
+                        <SidebarMenuCollapsible Title="@L["Dashboards"]" DefaultOpen>
+                            <Icon><Lucide Path="@Lucide.Dashboard" /></Icon>
+                            <ChildContent>
+                                @foreach (var dash in Dashboards)
+                                {
+                                    <SidebarMenuSubItem @key="dash.Href">
+                                        <SidebarMenuSubButton Href="@dash.Href" Disabled="@(dash.Badge is not null)">
+                                            @L[dash.Title]
+                                            @if (dash.Badge is not null) { <span class="dash-soon">@L[dash.Badge]</span> }
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                }
+                            </ChildContent>
+                        </SidebarMenuCollapsible>
                         @foreach (var nav in Pages)
                         {
                             <SidebarMenuItem @key="nav.Href">
@@ -135,9 +149,16 @@
     public sealed record ThemeState(string Appearance, string Accent, bool Dark, bool Rtl);
     private sealed record NavPage(string Href, string Title, string Icon, string? Badge = null);
 
+    // Badge marks a dashboard that is not built yet; its link is disabled.
+    private static readonly NavPage[] Dashboards =
+    [
+        new("", "E-commerce", Lucide.Bag),
+        new("dashboard/crm", "CRM", Lucide.Users, "Soon"),
+        new("dashboard/analytics", "Analytics", Lucide.TrendUp, "Soon"),
+    ];
+
     private static readonly NavPage[] Pages =
     [
-        new("", "Overview", Lucide.Dashboard),
         new("customers", "Customers", Lucide.Users),
         new("tasks", "Tasks", Lucide.Tasks, "5"),
         new("calendar", "Calendar", Lucide.Calendar),
@@ -179,7 +200,7 @@
 
     private List<Command.Item> Commands =>
     [
-        .. Pages.Select(p => new Command.Item("go:" + p.Href, L[p.Title], L["Pages"], Icon: Glyph(p.Icon))),
+        .. Dashboards.Where(d => d.Badge is null).Concat(Pages).Select(p => new Command.Item("go:" + p.Href, L[p.Title], L["Pages"], Icon: Glyph(p.Icon))),
         new("toggle:dark", L[theme.Dark ? "Light mode" : "Dark mode"], L["Theme"], Keywords: "dark light theme", Icon: Glyph(theme.Dark ? Lucide.Sun : Lucide.Moon)),
         new("toggle:rtl", L["Switch to Arabic"], L["Theme"], Keywords: "arabic english rtl language عربي", Icon: Glyph(Lucide.Languages)),
         .. Appearances.Select(a => new Command.Item("appearance:" + a, $"{L["Appearance"]}: {L[Title(a)]}", L["Theme"], Keywords: a, Icon: Glyph(Lucide.Palette))),
