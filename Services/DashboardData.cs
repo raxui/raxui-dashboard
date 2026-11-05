@@ -75,7 +75,7 @@ public sealed class DashboardData
         "Sami Haddad", "Mia Jensen", "Tariq Aboud", "Grace Lee", "Rania Khoury", "Jonas Berg", "Huda Saeed",
         "Adam Novak", "Lina Sabri",
     ];
-    public static readonly string[] Countries = ["Saudi Arabia", "UAE", "Germany", "United States", "Egypt", "France", "Jordan", "United Kingdom"];
+    public static readonly string[] Countries = ["Iraq", "UAE", "Germany", "United States", "Egypt", "France", "Jordan", "United Kingdom"];
     private static readonly string[] Plans = ["Free", "Pro", "Pro", "Business", "Enterprise"];
     private static readonly string[] Statuses = ["Active", "Active", "Active", "Trial", "Active", "Churned", "Active", "Paused"];
 

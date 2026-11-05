@@ -125,7 +125,7 @@ public sealed record Ui(bool Arabic)
         ["Pro"] = "Pro",
         ["Business"] = "أعمال",
         ["Enterprise"] = "مؤسسات",
-        ["Saudi Arabia"] = "السعودية",
+        ["Iraq"] = "العراق",
         ["UAE"] = "الإمارات",
         ["Germany"] = "ألمانيا",
         ["United States"] = "الولايات المتحدة",
