@@ -1,0 +1,197 @@
+/* Generated from theme/scss by theme/build-css.mjs. Do not edit; change the SCSS and rebuild. */
+:is(.rax-progress, .rax-progress-circle) {
+  --rax-progress-rgb: var(--bs-primary-rgb);
+}
+:is(.rax-progress, .rax-progress-circle)[data-color=success] {
+  --rax-progress-rgb: var(--bs-success-rgb);
+}
+:is(.rax-progress, .rax-progress-circle)[data-color=warning] {
+  --rax-progress-rgb: var(--bs-warning-rgb);
+}
+:is(.rax-progress, .rax-progress-circle)[data-color=danger] {
+  --rax-progress-rgb: var(--bs-danger-rgb);
+}
+:is(.rax-progress, .rax-progress-circle)[data-color=info] {
+  --rax-progress-rgb: var(--bs-info-rgb);
+}
+:is(.rax-progress, .rax-progress-circle)[data-color=neutral] {
+  --rax-progress-rgb: var(--bs-emphasis-color-rgb);
+}
+
+.rax-progress {
+  --rax-progress-height: 0.5rem;
+  --rax-progress-track: rgba(var(--bs-emphasis-color-rgb), 0.08);
+  position: relative;
+  display: flex;
+  gap: 0.25rem;
+  width: 100%;
+  height: var(--rax-progress-height);
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: var(--rax-progress-track);
+  box-shadow: inset 0 1px 1px rgba(var(--rax-shadow-rgb), 0.06);
+  isolation: isolate;
+}
+.rax-progress[data-size=sm] {
+  --rax-progress-height: 0.25rem;
+}
+.rax-progress[data-size=lg] {
+  --rax-progress-height: 0.875rem;
+}
+.rax-progress:dir(rtl) {
+  transform: scaleX(-1);
+}
+.rax-progress[data-segmented] {
+  overflow: visible;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.rax-progress-segment {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: var(--rax-progress-track);
+  isolation: isolate;
+}
+
+.rax-progress-indicator {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-color: rgb(var(--rax-progress-rgb));
+  transform: translateX(-100%);
+  transition: background-color var(--rax-duration) ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rax-progress-indicator {
+    transition: transform 700ms cubic-bezier(0.32, 0.72, 0, 1), background-color var(--rax-duration) ease;
+  }
+}
+.rax-progress-indicator[data-empty], .rax-progress[data-value="0"] > .rax-progress-indicator {
+  opacity: 0;
+}
+.rax-progress[data-state=indeterminate] > .rax-progress-indicator {
+  width: 40%;
+  transform: translateX(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rax-progress[data-state=indeterminate] > .rax-progress-indicator {
+    animation: rax-progress-sweep 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rax-progress[data-state=indeterminate] > .rax-progress-indicator {
+    width: 100%;
+    transform: none;
+    opacity: 0.4;
+  }
+}
+
+@keyframes rax-progress-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+.rax-progress-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.rax-progress-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+
+.rax-progress-label {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--bs-emphasis-color);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rax-progress-value {
+  margin-inline-start: auto;
+  color: var(--bs-secondary-color);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: color var(--rax-duration) ease;
+}
+.rax-progress-field[data-complete] .rax-progress-value {
+  color: var(--bs-emphasis-color);
+  font-weight: 600;
+}
+
+.rax-progress-circle {
+  position: relative;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  vertical-align: middle;
+}
+.rax-progress-circle svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+.rax-progress-circle circle {
+  fill: none;
+}
+
+.rax-progress-circle-track {
+  stroke: rgba(var(--bs-emphasis-color-rgb), 0.08);
+}
+
+.rax-progress-circle-bar {
+  stroke: rgb(var(--rax-progress-rgb));
+  stroke-dasharray: 100;
+  stroke-linecap: round;
+  transition: stroke var(--rax-duration) ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rax-progress-circle-bar {
+    transition: stroke-dashoffset 700ms cubic-bezier(0.32, 0.72, 0, 1), stroke var(--rax-duration) ease;
+  }
+}
+.rax-progress-circle[data-value="0"] .rax-progress-circle-bar {
+  stroke-opacity: 0;
+}
+.rax-progress-circle[data-state=indeterminate] .rax-progress-circle-bar {
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rax-progress-circle[data-state=indeterminate] .rax-progress-circle-bar {
+    animation: rax-spin 0.9s linear infinite;
+  }
+}
+
+.rax-progress-circle-content.rax-progress-circle-content {
+  position: relative;
+  color: var(--bs-emphasis-color);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.rax-progress-circle-content.rax-progress-circle-content svg {
+  position: static;
+  width: 1.1em;
+  height: 1.1em;
+  transform: none;
+}

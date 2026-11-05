@@ -1126,13 +1126,69 @@
           "installedHash": "2671d5549f6c1f149750b134792eb48285bcd00d3ddb1b832d7cf0d85c122714"
         }
       ]
+    },
+    "progress": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "2b7ae6c73547b3172fa185c08795373b663ad3ce9688d3f6186a95258b0b1231",
+      "files": [
+        {
+          "target": "Components/UI/Progress/Progress.razor",
+          "sourceHash": "b3bd24e8242421c69b06429b5c652826b6b803b1929e6cfe26dc88e574fc69c9",
+          "installedHash": "b3bd24e8242421c69b06429b5c652826b6b803b1929e6cfe26dc88e574fc69c9"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/progress.css",
+          "sourceHash": "9ce87b32b0b6b7f008dd9baadb32eeb7cbd346c945e0d44443857edb8cd8c321",
+          "installedHash": "9ce87b32b0b6b7f008dd9baadb32eeb7cbd346c945e0d44443857edb8cd8c321"
+        }
+      ]
+    },
+    "rating": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "90b39961b72e2eec648522ffed8dfa5dff21cb0588b3153671e828c63eb965a7",
+      "files": [
+        {
+          "target": "Components/UI/Rating/Rating.razor",
+          "sourceHash": "d0f418b4b0634d5dce4a45f56da75c421b30870e8584413c772b96e84fafede8",
+          "installedHash": "d0f418b4b0634d5dce4a45f56da75c421b30870e8584413c772b96e84fafede8"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/rating.css",
+          "sourceHash": "dbade68f5bc08d301c622561e23eae09d1dfdc4c77d826d5621d22d0debb89f9",
+          "installedHash": "dbade68f5bc08d301c622561e23eae09d1dfdc4c77d826d5621d22d0debb89f9"
+        }
+      ]
+    },
+    "tooltip": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "fc6654f760101743c847de3db8f0cf934be9cf187f18d286746422780ca093b6",
+      "files": [
+        {
+          "target": "Components/UI/Tooltip/Tooltip.razor",
+          "sourceHash": "da5d0289d15adf67c44a4c4ddfdb01b04919db1b90d54575dcbecdbc88562872",
+          "installedHash": "da5d0289d15adf67c44a4c4ddfdb01b04919db1b90d54575dcbecdbc88562872"
+        },
+        {
+          "target": "Components/UI/Tooltip/Tooltip.razor.js",
+          "sourceHash": "dc4ad57349a0094eb738ae99df62f790aba5dec6bc8c6c8d68e1ff828043e547",
+          "installedHash": "dc4ad57349a0094eb738ae99df62f790aba5dec6bc8c6c8d68e1ff828043e547"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/tooltip.css",
+          "sourceHash": "6970c0ca8cafc95c8d30449c34584d2fdb326a9952c00f0808bb43d1fb9c58ee",
+          "installedHash": "6970c0ca8cafc95c8d30449c34584d2fdb326a9952c00f0808bb43d1fb9c58ee"
+        }
+      ]
     }
   },
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
       "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "6c712f57ff20d630ab4858a6e9fc8db1c67b9411852baca26f5ca1341f223dd1"
+      "installedHash": "fb9a8cbb0d384d436ae09789b6c578477647de48118be792c70808811dda3cfb"
     }
   }
 }
