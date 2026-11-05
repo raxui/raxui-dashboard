@@ -1,0 +1,30 @@
+@* Lucide icon paths (ISC), drawn at the size of the component slot. *@
+<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="@Class"><path d="@Path" /></svg>
+@code {
+    [Parameter, EditorRequired] public string Path { get; set; } = "";
+    [Parameter] public string? Class { get; set; }
+
+    public const string Dashboard = "M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z";
+    public const string Users = "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75";
+    public const string Tasks = "m9 11 3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11";
+    public const string Calendar = "M4 5h16v16H4zM4 9h16M8 3v4M16 3v4";
+    public const string Sparkles = "M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 3v4M21 5h-4M5 17v4M7 19H3";
+    public const string Settings = "M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4";
+    public const string Search = "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.3-4.3";
+    public const string Sun = "M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4";
+    public const string Moon = "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9";
+    public const string Languages = "m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6";
+    public const string Palette = "M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3A1.7 1.7 0 0 1 12 22M7.5 10.5h.01M10.5 7.5h.01M14.5 7.5h.01M16.5 11.5h.01";
+    public const string TrendUp = "M22 7l-8.5 8.5-5-5L2 17M16 7h6v6";
+    public const string TrendDown = "M22 17l-8.5-8.5-5 5L2 7M16 17h6v-6";
+    public const string Check = "M20 6 9 17l-5-5";
+    public const string User = "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8";
+    public const string Card = "M2 5h20v14H2zM2 10h20";
+    public const string LogOut = "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9";
+    public const string Dollar = "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6";
+    public const string Bag = "M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0";
+    public const string UserPlus = "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M19 8v6M22 11h-6";
+    public const string Receipt = "M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1zM8 8h8M8 12h8M8 16h5";
+    public const string ArrowRight = "M5 12h14M12 5l7 7-7 7";
+    public const string Logo = "m12 2 10 5-10 5L2 7zM2 12l10 5 10-5M2 17l10 5 10-5";
+}

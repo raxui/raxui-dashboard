@@ -1,0 +1,7 @@
+@* Animated sidebar trigger (from RaxUI examples/blazor/app-shell/ShellSidebarToggle.razor). Place inside SidebarProvider. *@
+<MenuToggle Open="@(Parent?.IsOpen == true)" OpenChanged="@(_ => Parent?.Toggle() ?? Task.CompletedTask)" Disabled="@(Parent?.Ready != true)"
+            OpenLabel="@Label" CloseLabel="@Label" Class="btn-sm" aria-controls="@Parent?.PanelId" />
+@code {
+    [CascadingParameter] public SidebarProvider? Parent { get; set; }
+    [Parameter] public string Label { get; set; } = "Toggle sidebar";
+}

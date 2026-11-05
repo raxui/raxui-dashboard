@@ -1,0 +1,44 @@
+@page "/customers"
+@page "/tasks"
+@page "/calendar"
+@page "/assistant"
+@page "/settings"
+@inject NavigationManager Navigation
+
+<PageTitle>@L[Title] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L[Title]</h1>
+        <p>@L["This page is part of the next slice of the dashboard."]</p>
+    </div>
+    <Badge Color="neutral">@L["Coming soon"]</Badge>
+</header>
+
+<Card>
+    <CardContent>
+        <div class="dash-placeholder">
+            <Skeleton Height="2.5rem" Width="40%" />
+            <SkeletonText Lines="4" Animation="pulse" />
+            <div class="dash-placeholder-grid">
+                <Skeleton Height="8rem" Animation="pulse" />
+                <Skeleton Height="8rem" Animation="pulse" />
+                <Skeleton Height="8rem" Animation="pulse" />
+            </div>
+            <a class="dash-link" href="">@L["Back to overview"] <Lucide Path="@Lucide.ArrowRight" Class="dash-flip-rtl" /></a>
+        </div>
+    </CardContent>
+</Card>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private string Title => Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0] switch
+    {
+        "customers" => "Customers",
+        "tasks" => "Tasks",
+        "calendar" => "Calendar",
+        "assistant" => "AI Assistant",
+        _ => "Settings",
+    };
+}

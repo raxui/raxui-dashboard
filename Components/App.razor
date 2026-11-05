@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <ResourcePreloader />
-    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link id="bootstrap-css" rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]"
+          data-ltr="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" data-rtl="@Assets["lib/bootstrap/dist/css/bootstrap.rtl.min.css"]" />
     <link rel="stylesheet" href="@Assets["css/raxui/raxui.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["raxui-dashboard.styles.css"]" />
+    <script src="@Assets["js/theme.js"]"></script>
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet @rendermode="InteractiveServer" />

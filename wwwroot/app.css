@@ -36,3 +36,361 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    inset-inline-start: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    inset-inline-end: 0.75rem;
+    top: 0.5rem;
+}
+
+/* ---------- Dashboard shell ---------- */
+
+body {
+    background-color: var(--bs-tertiary-bg);
+}
+
+html[lang=ar] body {
+    font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
+}
+
+.dash-shell {
+    min-height: 100vh;
+}
+
+.dash-logo {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border-radius: var(--rax-radius);
+    color: var(--bs-white);
+    background: linear-gradient(135deg, var(--bs-primary), color-mix(in srgb, var(--bs-primary) 55%, var(--bs-info)));
+}
+
+.dash-logo svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.dash-brand {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.dash-brand strong {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dash-brand small {
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dash-topbar {
+    border-start-start-radius: inherit;
+    border-start-end-radius: inherit;
+}
+
+.dash-topbar .rax-navbar-bar {
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+}
+
+.dash-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: min(22rem, 100%);
+    height: 2.25rem;
+    padding-inline: 0.75rem 0.375rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--rax-radius);
+    background: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+    text-align: start;
+    transition: border-color 150ms ease, color 150ms ease;
+}
+
+.dash-search:hover {
+    border-color: color-mix(in srgb, var(--bs-primary) 45%, var(--bs-border-color));
+    color: var(--bs-body-color);
+}
+
+.dash-search:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.dash-search span {
+    flex: 1;
+}
+
+.dash-search kbd {
+    padding: 0.125rem 0.375rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: calc(var(--rax-radius) * 0.6);
+    background: var(--bs-tertiary-bg);
+    color: var(--bs-secondary-color);
+    font-size: 0.6875rem;
+    font-family: inherit;
+}
+
+.dash-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-inline-start: auto;
+}
+
+.dash-actions .btn-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    display: inline-grid;
+    place-items: center;
+}
+
+.dash-lang {
+    gap: 0.375rem;
+}
+
+.dash-user-trigger {
+    padding: 0.125rem;
+    border-radius: 999px;
+}
+
+.dash-check,
+.dash-check-end {
+    display: inline-flex;
+    width: 1rem;
+    color: var(--bs-primary);
+}
+
+.dash-check-end {
+    margin-inline-start: auto;
+}
+
+.dash-swatch {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 999px;
+    background: var(--bs-primary);
+    box-shadow: inset 0 0 0 1px rgba(var(--bs-emphasis-color-rgb), 0.15);
+}
+
+.dash-swatch[data-rax-accent=blue] {
+    background: var(--bs-blue);
+}
+
+[dir=rtl] .dash-flip-rtl {
+    transform: scaleX(-1);
+}
+
+.dash-main {
+    flex: 1;
+    width: 100%;
+    max-width: 96rem;
+    margin-inline: auto;
+    padding: 1.5rem;
+}
+
+/* Workaround: Chart's screen-reader <table class="visually-hidden"> cannot shrink below its rows (tables ignore
+   height), so it overflowed the chart and lengthened the page. Clipping keeps it readable but out of layout. */
+.rax-chart {
+    overflow: clip;
+}
+
+/* ---------- Pages ---------- */
+
+.dash-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.dash-page-header h1 {
+    margin: 0 0 0.25rem;
+    font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.75rem);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+.dash-page-header p {
+    margin: 0;
+    color: var(--bs-secondary-color);
+}
+
+.dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 575.98px) {
+    .dash-kpis { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (min-width: 1200px) {
+    .dash-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.dash-kpi-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--rax-radius);
+    color: var(--bs-primary);
+    background: color-mix(in srgb, var(--bs-primary) 12%, transparent);
+}
+
+.dash-kpi-value {
+    font-size: 1.75rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.dash-kpi-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.8125rem;
+}
+
+.dash-kpi-trend svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.dash-grid > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+.dash-grid h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (min-width: 992px) {
+    .dash-grid > .dash-span-8 { grid-column: span 8; }
+    .dash-grid > .dash-span-4 { grid-column: span 4; }
+    .dash-grid > .dash-span-5 { grid-column: span 5; }
+    .dash-grid > .dash-span-7 { grid-column: span 7; }
+}
+
+@media (min-width: 992px) and (max-width: 1399.98px) {
+    .dash-grid > .dash-span-5,
+    .dash-grid > .dash-span-7 { grid-column: 1 / -1; }
+}
+
+.dash-table-content {
+    padding-inline: 0;
+    padding-bottom: 0.5rem;
+}
+
+.dash-table-content th:first-child,
+.dash-table-content td:first-child {
+    padding-inline-start: 1.5rem;
+}
+
+.dash-table-content th:last-child,
+.dash-table-content td:last-child {
+    padding-inline-end: 1.5rem;
+}
+
+.dash-customer {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+}
+
+.dash-num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash-table-content td,
+.dash-table-content th {
+    white-space: nowrap;
+}
+
+.dash-mono {
+    font-family: var(--bs-font-monospace);
+    font-size: 0.8125rem;
+    color: var(--bs-secondary-color);
+}
+
+.dash-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.dash-link svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.dash-placeholder {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: 0.5rem;
+}
+
+.dash-placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 767.98px) {
+    .dash-main { padding: 1rem; }
+    .dash-hide-sm { display: none; }
+    .dash-search span, .dash-search kbd, .dash-lang span { display: none; }
+    .dash-search { width: 2.25rem; padding: 0; justify-content: center; }
+}

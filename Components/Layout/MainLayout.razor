@@ -1,9 +1,192 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
 
-@Body
+<CascadingValue Value="L">
+    <SidebarProvider StorageKey="rax-dashboard-sidebar" Class="dash-shell">
+        <Sidebar Variant="inset" Collapsible="icon" Label="@L["Main navigation"]" Description="@L["Navigation"]">
+            <SidebarHeader>
+                <SidebarMenuButton Href="" Size="lg" Tooltip="RaxUI Admin">
+                    <Icon><span class="dash-logo"><Lucide Path="@Lucide.Logo" /></span></Icon>
+                    <ChildContent>
+                        <span class="dash-brand">
+                            <strong>RaxUI Admin</strong>
+                            <small>@L["Admin dashboard"]</small>
+                        </span>
+                    </ChildContent>
+                </SidebarMenuButton>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupLabel>@L["Workspace"]</SidebarGroupLabel>
+                    <SidebarMenu>
+                        @foreach (var nav in Pages)
+                        {
+                            <SidebarMenuItem @key="nav.Href">
+                                <SidebarMenuButton Href="@nav.Href" Tooltip="@L[nav.Title]">
+                                    <Icon><Lucide Path="@nav.Icon" /></Icon>
+                                    <ChildContent>@L[nav.Title]</ChildContent>
+                                </SidebarMenuButton>
+                                @if (nav.Badge is not null)
+                                {
+                                    <SidebarMenuBadge>@nav.Badge</SidebarMenuBadge>
+                                }
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter>
+                <SidebarMenuButton Href="settings" Size="lg" Tooltip="Noura Al-Qahtani">
+                    <Icon><Avatar Size="sm" Name="Noura Al-Qahtani" Status="online" /></Icon>
+                    <ChildContent>
+                        <span class="dash-brand">
+                            <strong>Noura Al-Qahtani</strong>
+                            <small>noura@acme.co</small>
+                        </span>
+                    </ChildContent>
+                </SidebarMenuButton>
+            </SidebarFooter>
+            <SidebarRail />
+        </Sidebar>
+
+        <SidebarInset>
+            <Navbar Variant="glass" Expand="always" MaxWidth="none" Class="dash-topbar">
+                <SidebarToggle Label="@L["Toggle sidebar"]" />
+                <button type="button" class="dash-search" @onclick="() => commandOpen = true">
+                    <Lucide Path="@Lucide.Search" />
+                    <span>@L["Search…"]</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+                <NavbarActions Class="dash-actions">
+                    <DropdownMenu TriggerVariant="ghost" TriggerClass="btn-icon" TriggerLabel="@L["Theme settings"]">
+                        <Trigger><Lucide Path="@Lucide.Palette" /></Trigger>
+                        <ChildContent>
+                            <DropdownMenuLabel>@L["Appearance"]</DropdownMenuLabel>
+                            @foreach (var value in Appearances)
+                            {
+                                <DropdownMenuItem Role="menuitemradio" aria-checked="@(theme.Appearance == value ? "true" : "false")"
+                                                  OnSelect="() => SetTheme(theme with { Appearance = value })">
+                                    <span class="dash-check">@if (theme.Appearance == value) { <Lucide Path="@Lucide.Check" /> }</span>
+                                    @L[Title(value)]
+                                </DropdownMenuItem>
+                            }
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel>@L["Accent"]</DropdownMenuLabel>
+                            @foreach (var value in Accents)
+                            {
+                                <DropdownMenuItem Role="menuitemradio" aria-checked="@(theme.Accent == value ? "true" : "false")"
+                                                  OnSelect="() => SetTheme(theme with { Accent = value })">
+                                    <span class="dash-swatch" data-rax-accent="@value"></span>
+                                    @L[Title(value)]
+                                    @if (theme.Accent == value) { <span class="dash-check-end"><Lucide Path="@Lucide.Check" /></span> }
+                                </DropdownMenuItem>
+                            }
+                        </ChildContent>
+                    </DropdownMenu>
+                    <Button Variant="ghost" Size="icon" aria-label="@L[theme.Dark ? "Switch to light mode" : "Switch to dark mode"]"
+                            title="@L[theme.Dark ? "Light mode" : "Dark mode"]" OnClick="() => SetTheme(theme with { Dark = !theme.Dark })">
+                        <Lucide Path="@(theme.Dark ? Lucide.Sun : Lucide.Moon)" />
+                    </Button>
+                    <Button Variant="ghost" Size="sm" Class="dash-lang" aria-label="@L["Switch to Arabic"]"
+                            OnClick="() => SetTheme(theme with { Rtl = !theme.Rtl })">
+                        <Lucide Path="@Lucide.Languages" />
+                        <span lang="@(theme.Rtl ? "en" : "ar")">@L["العربية"]</span>
+                    </Button>
+                    <DropdownMenu TriggerVariant="ghost" TriggerClass="dash-user-trigger" TriggerLabel="@L["Account menu"]">
+                        <Trigger><Avatar Size="sm" Name="Noura Al-Qahtani" Status="online" /></Trigger>
+                        <ChildContent>
+                            <DropdownMenuLabel>
+                                <span class="dash-brand">
+                                    <strong>Noura Al-Qahtani</strong>
+                                    <small>noura@acme.co</small>
+                                </span>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem OnSelect="@(() => Navigation.NavigateTo("settings"))"><Lucide Path="@Lucide.User" /> @L["Profile"]</DropdownMenuItem>
+                            <DropdownMenuItem OnSelect="@(() => Navigation.NavigateTo("settings"))"><Lucide Path="@Lucide.Card" /> @L["Billing"]</DropdownMenuItem>
+                            <DropdownMenuItem OnSelect="@(() => Navigation.NavigateTo("settings"))"><Lucide Path="@Lucide.Settings" /> @L["Settings"]</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            @* shortcut: no auth yet, so Sign out only returns home; wire it when auth lands. *@
+                            <DropdownMenuItem OnSelect="@(() => Navigation.NavigateTo(""))"><Lucide Path="@Lucide.LogOut" /> @L["Sign out"]</DropdownMenuItem>
+                        </ChildContent>
+                    </DropdownMenu>
+                </NavbarActions>
+            </Navbar>
+            <main class="dash-main">
+                @Body
+            </main>
+        </SidebarInset>
+    </SidebarProvider>
+
+    <Command @bind-Open="commandOpen" Items="Commands" OnSelect="RunCommand" Shortcut="k"
+             Title="@L["Command palette"]" SearchPlaceholder="@L["Search pages and actions…"]" EmptyMessage="@L["No results found."]" />
+</CascadingValue>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    public sealed record ThemeState(string Appearance, string Accent, bool Dark, bool Rtl);
+    private sealed record NavPage(string Href, string Title, string Icon, string? Badge = null);
+
+    private static readonly NavPage[] Pages =
+    [
+        new("", "Overview", Lucide.Dashboard),
+        new("customers", "Customers", Lucide.Users),
+        new("tasks", "Tasks", Lucide.Tasks, "5"),
+        new("calendar", "Calendar", Lucide.Calendar),
+        new("assistant", "AI Assistant", Lucide.Sparkles),
+        new("settings", "Settings", Lucide.Settings),
+    ];
+    private static readonly string[] Appearances = ["default", "flat", "glass"];
+    private static readonly string[] Accents = ["blue", "emerald", "indigo", "amber"];
+
+    private ThemeState theme = new("glass", "indigo", false, false);
+    private Ui L = new(false);
+    private bool commandOpen;
+
+    private static string Title(string value) => char.ToUpperInvariant(value[0]) + value[1..];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        theme = await JS.InvokeAsync<ThemeState>("dashTheme.load");
+        L = new Ui(theme.Rtl);
+        StateHasChanged();
+    }
+
+    private async Task SetTheme(ThemeState next)
+    {
+        theme = next;
+        L = new Ui(next.Rtl);
+        await JS.InvokeVoidAsync("dashTheme.apply", next, true);
+    }
+
+    private List<Command.Item> Commands =>
+    [
+        .. Pages.Select(p => new Command.Item("go:" + p.Href, L[p.Title], L["Pages"], Icon: Glyph(p.Icon))),
+        new("toggle:dark", L[theme.Dark ? "Light mode" : "Dark mode"], L["Theme"], Keywords: "dark light theme", Icon: Glyph(theme.Dark ? Lucide.Sun : Lucide.Moon)),
+        new("toggle:rtl", L["Switch to Arabic"], L["Theme"], Keywords: "arabic english rtl language عربي", Icon: Glyph(Lucide.Languages)),
+        .. Appearances.Select(a => new Command.Item("appearance:" + a, $"{L["Appearance"]}: {L[Title(a)]}", L["Theme"], Keywords: a, Icon: Glyph(Lucide.Palette))),
+        .. Accents.Select(a => new Command.Item("accent:" + a, $"{L["Accent"]}: {L[Title(a)]}", L["Theme"], Keywords: a, Icon: Glyph(Lucide.Palette))),
+    ];
+
+    private static RenderFragment Glyph(string path) => @<Lucide Path="@path" />;
+
+    private async Task RunCommand(string value)
+    {
+        var (kind, arg) = (value[..value.IndexOf(':')], value[(value.IndexOf(':') + 1)..]);
+        switch (kind)
+        {
+            case "go": Navigation.NavigateTo(arg); break;
+            case "toggle" when arg == "dark": await SetTheme(theme with { Dark = !theme.Dark }); break;
+            case "toggle": await SetTheme(theme with { Rtl = !theme.Rtl }); break;
+            case "appearance": await SetTheme(theme with { Appearance = arg }); break;
+            case "accent": await SetTheme(theme with { Accent = arg }); break;
+        }
+    }
+}

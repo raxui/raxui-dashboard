@@ -1,0 +1,62 @@
+namespace raxui_dashboard.Services;
+
+public sealed record Kpi(string Title, decimal Value, string Format, IReadOnlyList<double> History)
+{
+    /// <summary>Change of the last month against the one before, in percent.</summary>
+    public double Trend => History[^2] == 0 ? 0 : Math.Round((History[^1] - History[^2]) / History[^2] * 100, 1);
+}
+
+public sealed record Order(string Id, string Customer, string Email, string Channel, DateOnly Date, string Status, decimal Amount);
+
+public sealed record Overview(
+    IReadOnlyList<DateOnly> Months,
+    IReadOnlyList<Kpi> Kpis,
+    IReadOnlyList<double> Revenue,
+    IReadOnlyList<double> RevenueLastYear,
+    IReadOnlyList<double> NewCustomers,
+    IReadOnlyList<double> ReturningCustomers,
+    IReadOnlyList<string> Channels,
+    IReadOnlyList<double> ChannelShare,
+    IReadOnlyList<Order> RecentOrders);
+
+/// <summary>In-memory mock data for the showcase. Figures are consistent: orders = new + returning, AOV = revenue / orders.</summary>
+public sealed class DashboardData
+{
+    private static readonly DateOnly LastMonth = new(2026, 10, 1);
+
+    // Revenue in thousands of dollars, November 2025 to October 2026.
+    private static readonly double[] Revenue = [42.6, 47.1, 45.3, 52.8, 58.2, 61.4, 59.7, 66.3, 72.1, 78.4, 84.2, 91.2];
+    private static readonly double[] RevenueLastYear = [36.2, 39.4, 41.0, 40.3, 46.1, 48.5, 51.2, 50.4, 57.3, 60.1, 63.8, 70.4];
+    private static readonly double[] NewCustomers = [182, 214, 196, 231, 258, 244, 276, 301, 288, 322, 345, 370];
+    private static readonly double[] Returning = [121, 133, 149, 162, 171, 188, 202, 214, 229, 241, 262, 280];
+
+    public Task<Overview> GetOverviewAsync()
+    {
+        var months = Enumerable.Range(0, 12).Select(i => LastMonth.AddMonths(i - 11)).ToArray();
+        var orders = NewCustomers.Zip(Returning, (n, r) => n + r).ToArray();
+        var aov = Revenue.Zip(orders, (rev, o) => Math.Round(rev * 1000 / o, 2)).ToArray();
+
+        Kpi[] kpis =
+        [
+            new("Revenue", (decimal)Revenue[^1] * 1000, "money", Revenue),
+            new("Orders", (decimal)orders[^1], "number", orders),
+            new("New customers", (decimal)NewCustomers[^1], "number", NewCustomers),
+            new("Avg. order value", (decimal)aov[^1], "money2", aov),
+        ];
+
+        Order[] recent =
+        [
+            new("#10482", "Layla Nasser", "layla.nasser@mail.com", "Online store", new(2026, 11, 5), "Paid", 249.00m),
+            new("#10481", "Liam Carter", "liam.carter@mail.com", "Mobile app", new(2026, 11, 5), "Pending", 89.50m),
+            new("#10480", "Omar Haddad", "omar.haddad@mail.com", "Marketplace", new(2026, 11, 4), "Shipped", 512.75m),
+            new("#10479", "Sofia Martins", "sofia.martins@mail.com", "Online store", new(2026, 11, 4), "Paid", 134.20m),
+            new("#10478", "Yusuf Rahman", "yusuf.rahman@mail.com", "Retail", new(2026, 11, 3), "Refunded", 64.00m),
+            new("#10477", "Emma Schmidt", "emma.schmidt@mail.com", "Mobile app", new(2026, 11, 3), "Shipped", 318.40m),
+            new("#10476", "Daniel Kim", "daniel.kim@mail.com", "Online store", new(2026, 11, 2), "Cancelled", 77.99m),
+        ];
+
+        return Task.FromResult(new Overview(
+            months, kpis, Revenue, RevenueLastYear, NewCustomers, Returning,
+            ["Online store", "Mobile app", "Marketplace", "Retail"], [46, 28, 16, 10], recent));
+    }
+}
