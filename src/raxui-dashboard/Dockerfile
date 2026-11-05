@@ -5,6 +5,7 @@ RUN dotnet restore src/raxui-dashboard/raxui-dashboard.csproj
 COPY src/raxui-dashboard/ src/raxui-dashboard/
 RUN dotnet publish src/raxui-dashboard/raxui-dashboard.csproj \
     -c Release -o /app/publish --no-restore /p:UseAppHost=false
+RUN test -s /app/publish/wwwroot/_framework/blazor.web.js
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
