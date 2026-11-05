@@ -225,6 +225,12 @@ html[lang=ar] body {
     overflow: clip;
 }
 
+/* Workaround (RaxUI sidebar.css): in icon mode the hidden chevron of a collapsible group keeps
+   margin-inline-start:auto, which takes the free space and pushes the icon off centre. */
+.rax-sidebar[data-collapsible=icon] .rax-sidebar-chevron {
+    margin-inline-start: 0;
+}
+
 /* ---------- Pages ---------- */
 
 .dash-page-header {
