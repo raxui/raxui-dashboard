@@ -1065,13 +1065,35 @@
           "installedHash": "6cffe250ec184a81991d31edc754127053d7d28a1752eaecb5217ffe7c903de5"
         }
       ]
+    },
+    "date-picker": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "159aaf9908aa06155491e8150895c8c7a7e81b83f52f18f74adb63217230fa2a",
+      "files": [
+        {
+          "target": "Components/UI/DatePicker/DatePicker.razor",
+          "sourceHash": "5b204ad8a3cdb5bc8201943b93762c9b95c770225d911cec74a9dd5f18e9a973",
+          "installedHash": "5b204ad8a3cdb5bc8201943b93762c9b95c770225d911cec74a9dd5f18e9a973"
+        },
+        {
+          "target": "Components/UI/DatePicker/DatePickerBase.razor",
+          "sourceHash": "7c6d51cb727daba16512ec47bdbf6d7afe111d9642502060f59e52b7181579d8",
+          "installedHash": "7c6d51cb727daba16512ec47bdbf6d7afe111d9642502060f59e52b7181579d8"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/date-picker.css",
+          "sourceHash": "7484506a19f0a53b47e18c91d8fda1e7035c1bbb97e2d5d85574ac0fb7e9e0b7",
+          "installedHash": "7484506a19f0a53b47e18c91d8fda1e7035c1bbb97e2d5d85574ac0fb7e9e0b7"
+        }
+      ]
     }
   },
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
       "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "0326c3738f474f26be772dbbd901669f97f8486899c63e17b2dd5474282f61c4"
+      "installedHash": "47e4d61c9fed4a918274f62388888c8d5906ac5c002118a527a34573ab34543a"
     }
   }
 }

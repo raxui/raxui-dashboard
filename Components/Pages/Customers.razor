@@ -1,4 +1,5 @@
 @page "/customers"
+@using System.ComponentModel.DataAnnotations
 @using raxui_dashboard.Services
 @inject DashboardData Data
 
@@ -9,10 +10,50 @@
         <h1>@L["Customers"]</h1>
         <p>@L["Search, filter and manage everyone who bought from your store."]</p>
     </div>
-    <Button Size="sm" OnClick="@(() => message = L["Invite sent to the new customer."])">
+    <Button Size="sm" OnClick="OpenAdd">
         <Lucide Path="@Lucide.UserPlus" /> @L["Add customer"]
     </Button>
 </header>
+
+<Dialog @bind-Open="adding" Title="@L["Add customer"]" Description="@L["They will get an email invite to your store."]" CloseLabel="@L["Close"]">
+    <ChildContent>
+        <EditForm id="add-customer" Context="form" Model="draft" OnValidSubmit="SaveCustomer" class="dash-dialog-form">
+            <DataAnnotationsValidator />
+            <Field Id="customer-name" For="@(() => draft.Name)" Required="true">
+                <FieldLabel>@L["Full name"]</FieldLabel>
+                <Input @bind-Value="draft.Name" autocomplete="off" />
+                <FieldError />
+            </Field>
+            <Field Id="customer-email" For="@(() => draft.Email)" Required="true">
+                <FieldLabel>@L["Email"]</FieldLabel>
+                <Input Type="email" @bind-Value="draft.Email" autocomplete="off" dir="ltr" />
+                <FieldError />
+            </Field>
+            <div class="dash-dialog-row">
+                <Field Id="customer-country" For="@(() => draft.Country)">
+                    <FieldLabel>@L["Country"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Country">
+                        @foreach (var c in DashboardData.Countries) { <option value="@c">@L[c]</option> }
+                    </Select>
+                </Field>
+                <Field Id="customer-plan" For="@(() => draft.Plan)">
+                    <FieldLabel>@L["Plan"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Plan">
+                        @foreach (var p in PlanNames) { <option value="@p">@L[p]</option> }
+                    </Select>
+                </Field>
+            </div>
+            <Field Id="customer-trial" Orientation="inline">
+                <Switch @bind-Value="draft.Trial" />
+                <FieldLabel>@L["Start with a 14-day trial"]</FieldLabel>
+            </Field>
+        </EditForm>
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" OnClick="() => adding = false">@L["Cancel"]</Button>
+        <Button Type="submit" form="add-customer">@L["Add customer"]</Button>
+    </Footer>
+</Dialog>
 
 <section class="dash-stats" aria-label="@L["Summary"]">
     @foreach (var (label, value) in Stats)
@@ -30,7 +71,7 @@
     <CardContent>
         <DataTable @ref="table" TItem="Customer" Items="customers" Columns="Columns" GetRowId="c => c.Id"
                    Label="@L["Customers"]" Labels="Labels" Loading="customers.Count == 0"
-                   InitialSorting="@([new DataTableTypes.Sort("spent", true)])" InitialHiddenColumns="@(["id"])">
+                   InitialSorting="@([new DataTableTypes.Sort("last", true)])" InitialHiddenColumns="@(["id"])">
             <Toolbar>
                 <Button Size="sm" Variant="secondary" OnClick="@(() => message = L["Export started"] + $" · {customers.Count} CSV")">
                     <Lucide Path="@Lucide.Download" /> @L["Export"]
@@ -51,6 +92,43 @@
     private DataTable<Customer>? table;
     private IReadOnlyList<Customer> customers = [];
     private string message = "";
+
+    private static readonly string[] PlanNames = ["Free", "Pro", "Business", "Enterprise"];
+    private bool adding;
+    private CustomerDraft draft = new(new(false));
+    private int nextId = 2042;
+
+    // Error texts come from the cascaded Ui so they follow the interface language.
+    private sealed class CustomerDraft(Ui l) : IValidatableObject
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Country { get; set; } = "Saudi Arabia";
+        public string Plan { get; set; } = "Pro";
+        public bool Trial { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext context)
+        {
+            if (string.IsNullOrWhiteSpace(Name)) yield return new(l["Enter the customer's name."], [nameof(Name)]);
+            if (!new EmailAddressAttribute().IsValid(Email) || string.IsNullOrWhiteSpace(Email))
+                yield return new(l["Enter a valid email address."], [nameof(Email)]);
+        }
+    }
+
+    private void OpenAdd()
+    {
+        draft = new(L);
+        adding = true;
+    }
+
+    private void SaveCustomer()
+    {
+        var customer = new Customer($"C-{nextId++}", draft.Name.Trim(), draft.Email.Trim(), draft.Country, draft.Plan,
+            draft.Trial ? "Trial" : "Active", 0, 0, new DateOnly(2026, 11, 5));
+        customers = [customer, .. customers];
+        adding = false;
+        message = L["Customer added"] + $": {customer.Name}";
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

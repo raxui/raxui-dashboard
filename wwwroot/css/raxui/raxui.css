@@ -31,6 +31,7 @@
 @import url("components/switch.css");
 @import url("components/textarea.css");
 @import url("components/tabs.css");
+@import url("components/date-picker.css");
 /* raxui:imports:end */
 /* Generated from theme/scss by theme/build-css.mjs. Do not edit; change the SCSS and rebuild. */
 :root,

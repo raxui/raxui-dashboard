@@ -1,4 +1,5 @@
 @page "/tasks"
+@using System.ComponentModel.DataAnnotations
 @using raxui_dashboard.Services
 @inject DashboardData Data
 
@@ -11,6 +12,56 @@
     </div>
     <Button Size="sm" OnClick="Add"><Lucide Path="@Lucide.Plus" /> @L["New task"]</Button>
 </header>
+
+<Dialog @bind-Open="adding" Title="@L["New task"]" Description="@L["Add a card to the board. You can drag it later."]" CloseLabel="@L["Close"]">
+    <ChildContent>
+        <EditForm id="add-task" Context="form" Model="draft" OnValidSubmit="SaveTask" class="dash-dialog-form">
+            <DataAnnotationsValidator />
+            <Field Id="task-title" For="@(() => draft.Title)" Required="true">
+                <FieldLabel>@L["Title"]</FieldLabel>
+                <Input @bind-Value="draft.Title" autocomplete="off" placeholder="@L["e.g. Prepare the holiday campaign"]" />
+                <FieldError />
+            </Field>
+            <div class="dash-dialog-row">
+                <Field Id="task-column" For="@(() => draft.Column)">
+                    <FieldLabel>@L["Column"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Column">
+                        @foreach (var (id, meta) in Meta.Where(m => m.Key != "done")) { <option value="@id">@L[meta.Title]</option> }
+                    </Select>
+                </Field>
+                <Field Id="task-priority" For="@(() => draft.Priority)">
+                    <FieldLabel>@L["Priority"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Priority">
+                        @foreach (var p in Priorities) { <option value="@p">@L[p]</option> }
+                    </Select>
+                </Field>
+            </div>
+            <div class="dash-dialog-row">
+                <Field Id="task-tag" For="@(() => draft.Tag)">
+                    <FieldLabel>@L["Tag"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Tag">
+                        @foreach (var t in Tags) { <option value="@t">@L[t]</option> }
+                    </Select>
+                </Field>
+                <Field Id="task-assignee" For="@(() => draft.Assignee)">
+                    <FieldLabel>@L["Assignee"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="draft.Assignee">
+                        @foreach (var name in Team) { <option value="@name">@name</option> }
+                    </Select>
+                </Field>
+            </div>
+            <Field Id="task-due" For="@(() => draft.Due)" Optional>
+                <FieldLabel OptionalText="@L["(Optional)"]">@L["Due date"]</FieldLabel>
+                <DatePicker @bind-Value="draft.Due" Culture="L.Culture" Today="Today" Min="Today" Clearable Placeholder="@L["Pick a date"]" />
+                <FieldError />
+            </Field>
+        </EditForm>
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" OnClick="() => adding = false">@L["Cancel"]</Button>
+        <Button Type="submit" form="add-task">@L["Add task"]</Button>
+    </Footer>
+</Dialog>
 
 <Kanban TItem="TaskCard" Columns="Board" ColumnsChanged="cols => columns = cols" GetId="c => c.Id" GetLabel="c => c.Title"
         Committed="Log" Class="dash-board" Direction="@(L.Arabic ? "rtl" : "ltr")"
@@ -74,11 +125,43 @@
 
     private bool IsDone(TaskCard card) => columns.First(c => c.Id == "done").Items.Contains(card);
 
+    private static readonly string[] Tags = ["Design", "Engineering", "Marketing", "Finance", "Operations", "Content", "Support", "Analytics"];
+    private static readonly string[] Priorities = ["Low", "Medium", "High"];
+    private static readonly string[] Team =
+        ["Noura Al-Qahtani", "Layla Nasser", "Liam Carter", "Omar Haddad", "Sofia Martins", "Yusuf Rahman", "Emma Schmidt", "Daniel Kim"];
+
+    private bool adding;
+    private TaskDraft draft = new(new(false));
+
+    // Error texts come from the cascaded Ui so they follow the interface language.
+    private sealed class TaskDraft(Ui l) : IValidatableObject
+    {
+        public string Title { get; set; } = "";
+        public string Column { get; set; } = "todo";
+        public string Tag { get; set; } = "Operations";
+        public string Priority { get; set; } = "Medium";
+        public string Assignee { get; set; } = "Noura Al-Qahtani";
+        public DateOnly? Due { get; set; } = Today.AddDays(7);
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext context)
+        {
+            if (string.IsNullOrWhiteSpace(Title)) yield return new(l["Give the task a title."], [nameof(Title)]);
+            else if (Title.Trim().Length > 80) yield return new(l["Keep the title under 80 characters."], [nameof(Title)]);
+        }
+    }
+
     private void Add()
     {
-        var card = new TaskCard($"t{next}", L["New task"] + $" #{next++}", "Operations", "Medium", "Noura Al-Qahtani", Today.AddDays(7), 0);
-        columns = columns.Select(c => c.Id == "backlog" ? c with { Items = [card, .. c.Items] } : c).ToArray();
-        log = L["Task added to Backlog."];
+        draft = new(L);
+        adding = true;
+    }
+
+    private void SaveTask()
+    {
+        var card = new TaskCard($"t{next++}", draft.Title.Trim(), draft.Tag, draft.Priority, draft.Assignee, draft.Due, 0);
+        columns = columns.Select(c => c.Id == draft.Column ? c with { Items = [card, .. c.Items] } : c).ToArray();
+        adding = false;
+        log = $"{card.Title} → {L[Meta[draft.Column].Title]}";
     }
 
     private void Log(KanbanTypes.Change change)

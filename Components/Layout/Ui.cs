@@ -106,7 +106,6 @@ public sealed record Ui(bool Arabic)
         // Customers
         ["Search, filter and manage everyone who bought from your store."] = "ابحث وصفِّ وأدر كل من اشترى من متجرك.",
         ["Add customer"] = "إضافة عميل",
-        ["Invite sent to the new customer."] = "أُرسلت الدعوة إلى العميل الجديد.",
         ["Summary"] = "ملخص",
         ["Active"] = "نشط",
         ["Trial"] = "تجريبي",
@@ -138,7 +137,6 @@ public sealed record Ui(bool Arabic)
         // Tasks
         ["Drag cards between columns with the mouse, touch or keyboard."] = "اسحب البطاقات بين الأعمدة بالفأرة أو اللمس أو لوحة المفاتيح.",
         ["New task"] = "مهمة جديدة",
-        ["Task added to Backlog."] = "أُضيفت المهمة إلى قائمة الانتظار.",
         ["Backlog"] = "قائمة الانتظار",
         ["To do"] = "للتنفيذ",
         ["In progress"] = "قيد التنفيذ",
@@ -249,5 +247,26 @@ public sealed record Ui(bool Arabic)
         ["When a product falls below 10 units."] = "عندما يقل منتج عن 10 وحدات.",
         ["Occasional updates about new features."] = "تحديثات متفرقة عن الميزات الجديدة.",
         ["Renews on 1 Dec 2026"] = "يتجدد في 1 ديسمبر 2026",
+
+        // Dialogs
+        ["Close"] = "إغلاق",
+        ["Cancel"] = "إلغاء",
+        ["They will get an email invite to your store."] = "سيصله بريد دعوة إلى متجرك.",
+        ["Start with a 14-day trial"] = "البدء بتجربة لمدة 14 يومًا",
+        ["Enter the customer's name."] = "أدخل اسم العميل.",
+        ["Enter a valid email address."] = "أدخل بريدًا إلكترونيًا صحيحًا.",
+        ["Customer added"] = "أُضيف العميل",
+        ["Add a card to the board. You can drag it later."] = "أضف بطاقة إلى اللوحة، ويمكنك سحبها لاحقًا.",
+        ["Title"] = "العنوان",
+        ["e.g. Prepare the holiday campaign"] = "مثال: تجهيز حملة العيد",
+        ["Column"] = "العمود",
+        ["Priority"] = "الأولوية",
+        ["Tag"] = "الوسم",
+        ["Assignee"] = "المسؤول",
+        ["Due date"] = "تاريخ الاستحقاق",
+        ["Pick a date"] = "اختر تاريخًا",
+        ["Add task"] = "إضافة المهمة",
+        ["Give the task a title."] = "اكتب عنوانًا للمهمة.",
+        ["Keep the title under 80 characters."] = "اجعل العنوان أقل من 80 حرفًا.",
     };
 }
