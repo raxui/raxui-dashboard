@@ -769,6 +769,17 @@ html[lang=ar] body {
     margin-top: 1rem;
 }
 
+/* RaxUI Tabs lists don't scroll on their own; five tabs overflow a phone and widened the whole page. */
+.dash-tabs > .rax-tabs-list {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.dash-tabs > .rax-tabs-list > .rax-tabs-trigger {
+    flex-shrink: 0;
+}
+
 @media (min-width: 992px) {
     .dash-kpi-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     .dash-kpi-grid-5 > .dash-kpi-stat { border-bottom: 0; border-inline-end: 1px solid var(--bs-border-color-translucent); }

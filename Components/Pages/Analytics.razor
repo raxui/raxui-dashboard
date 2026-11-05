@@ -1,7 +1,8 @@
 @page "/dashboard/analytics"
 @using raxui_dashboard.Services
-@implements IDisposable
+@implements IAsyncDisposable
 @inject DashboardData Data
+@inject IJSRuntime JS
 
 <PageTitle>@L["Analytics"] · RaxUI Admin</PageTitle>
 
@@ -17,7 +18,7 @@
     </div>
 </header>
 
-<Tabs Items="TabItems" @bind-Value="tab" Label="@L["Analytics"]" Class="dash-tabs">
+<Tabs Items="TabItems" @bind-Value="tab" @bind-Value:after="() => revealTab = true" Label="@L["Analytics"]" Class="dash-tabs">
     <Panel Context="value">
         @if (view is null)
         {
@@ -349,6 +350,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (revealTab) await RevealTab();
         if (!firstRender) return;
         await Load();
         _ = Tick(lifetime.Token);
@@ -370,10 +372,30 @@
         catch (OperationCanceledException) { }
     }
 
-    public void Dispose()
+    private IJSObjectReference? ui;
+
+    private bool revealTab;
+
+    // After the new tab has rendered (aria-selected updated), scroll it into view in the narrow tab list.
+    private async Task RevealTab()
+    {
+        revealTab = false;
+        try
+        {
+            ui ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/ui.js");
+            await ui.InvokeVoidAsync("revealSelected", ".dash-tabs > .rax-tabs-list");
+        }
+        catch (JSDisconnectedException) { }
+    }
+
+    public async ValueTask DisposeAsync()
     {
         lifetime.Cancel();
         lifetime.Dispose();
+        if (ui is not null)
+        {
+            try { await ui.DisposeAsync(); } catch (JSDisconnectedException) { }
+        }
     }
 
     private async Task Load()
