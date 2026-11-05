@@ -92,5 +92,9 @@
         {
             // The circuit is gone; the browser already dropped the module.
         }
+        catch (OperationCanceledException)
+        {
+            // Browser cleanup may be canceled while the circuit is shutting down.
+        }
     }
 }

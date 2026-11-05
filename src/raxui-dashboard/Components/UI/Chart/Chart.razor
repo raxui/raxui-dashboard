@@ -93,5 +93,6 @@
         if (module is null) return;
         try { await module.InvokeVoidAsync("dispose", id); await module.DisposeAsync(); }
         catch (JSDisconnectedException) { }
+        catch (OperationCanceledException) { /* Browser cleanup was canceled during circuit shutdown. */ }
     }
 }

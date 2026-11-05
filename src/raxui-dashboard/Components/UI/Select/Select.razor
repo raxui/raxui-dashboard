@@ -26,6 +26,7 @@
         if (_module is null) return;
         try { await _module.InvokeVoidAsync("dispose", _root); await _module.DisposeAsync(); }
         catch (JSDisconnectedException) { }
+        catch (OperationCanceledException) { /* Browser cleanup was canceled during circuit shutdown. */ }
     }
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
