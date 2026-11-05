@@ -1,0 +1,139 @@
+@page "/settings"
+@using System.ComponentModel.DataAnnotations
+@implements IDisposable
+@inject NavigationManager Navigation
+
+<PageTitle>@L["Settings"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["Settings"]</h1>
+        <p>@L["Manage your profile, appearance and notifications."]</p>
+    </div>
+</header>
+
+<div class="dash-settings">
+    <Tabs Items="TabItems" @bind-Value="tab" Label="@L["Settings"]" Variant="underline">
+        <Panel Context="value">
+            @switch (value)
+            {
+                case "profile":
+                    <EditForm Model="profile" OnValidSubmit="SaveProfile" FormName="profile">
+                        <DataAnnotationsValidator />
+                        <FormSection Title="@L["Profile"]">
+                            <ChildContent>
+                                <FormRow Id="name" Label="@L["Full name"]" For="@(() => profile.Name)" Layout="stacked" Context="field">
+                                    <Input @bind-Value="profile.Name" autocomplete="name" />
+                                </FormRow>
+                                <FormRow Id="email" Label="@L["Email"]" For="@(() => profile.Email)" Layout="stacked" Context="field">
+                                    <Input Type="email" @bind-Value="profile.Email" autocomplete="email" />
+                                </FormRow>
+                                <FormRow Id="role" Label="@L["Role"]" For="@(() => profile.Role)" Context="field">
+                                    <Select TValue="string" @bind-Value="profile.Role">
+                                        @foreach (var role in Roles) { <option value="@role">@L[role]</option> }
+                                    </Select>
+                                </FormRow>
+                                <FormRow Id="bio" Label="@L["Bio"]" For="@(() => profile.Bio)" Description="@L["Shown to your team."]" Layout="stacked" Optional OptionalText="@L["(Optional)"]" Context="field">
+                                    <Textarea @bind-Value="profile.Bio" AutoResize MinRows="3" MaxRows="6" MaxLength="160" ShowCount />
+                                </FormRow>
+                            </ChildContent>
+                        </FormSection>
+                        <div class="dash-form-actions">
+                            <output class="dash-status" role="status">@saved</output>
+                            <Button Type="submit">@L["Save changes"]</Button>
+                        </div>
+                    </EditForm>
+                    break;
+
+                case "appearance":
+                    <FormSection Title="@L["Theme"]">
+                        <ChildContent>
+                            <FormRow Id="appearance" Label="@L["Appearance"]" Description="@L["Default, flat or frosted glass surfaces."]" Context="field">
+                                <Select TValue="string" Value="@Theme.Appearance" ValueExpression="() => Layout!.Theme.Appearance"
+                                        ValueChanged="v => Set(Theme with { Appearance = v })">
+                                    @foreach (var a in MainLayout.AppearanceOptions) { <option value="@a">@L[MainLayout.Title(a)]</option> }
+                                </Select>
+                            </FormRow>
+                            <FormRow Id="accent" Label="@L["Accent"]" Context="field">
+                                <Select TValue="string" Value="@Theme.Accent" ValueExpression="() => Layout!.Theme.Accent"
+                                        ValueChanged="v => Set(Theme with { Accent = v })">
+                                    @foreach (var a in MainLayout.AccentOptions) { <option value="@a">@L[MainLayout.Title(a)]</option> }
+                                </Select>
+                            </FormRow>
+                            <FormRow Id="dark" Label="@L["Dark mode"]" Context="field">
+                                <Switch Value="@Theme.Dark" ValueExpression="() => Layout!.Theme.Dark" ValueChanged="v => Set(Theme with { Dark = v })" />
+                            </FormRow>
+                            <FormRow Id="rtl" Label="@L["Arabic interface"]" Description="@L["Right-to-left layout with Arabic text."]" Context="field">
+                                <Switch Value="@Theme.Rtl" ValueExpression="() => Layout!.Theme.Rtl" ValueChanged="v => Set(Theme with { Rtl = v })" />
+                            </FormRow>
+                        </ChildContent>
+                        <Footer>@L["Saved in this browser and applied before the page paints."]</Footer>
+                    </FormSection>
+                    break;
+
+                default:
+                    <FormSection Title="@L["Email"]">
+                        <ChildContent>
+                            @foreach (var n in notifications)
+                            {
+                                <FormRow Id="@("notify-" + n.Key.Replace(' ', '-'))" Label="@L[n.Key]" Description="@L[n.Hint]" Context="field">
+                                    <Switch @bind-Value="n.On" />
+                                </FormRow>
+                            }
+                        </ChildContent>
+                    </FormSection>
+                    <FormSection Title="@L["Account"]">
+                        <ChildContent>
+                            <FormRowLink Label="@L["Billing"]" Value="Pro" Description="@L["Renews on 1 Dec 2026"]" Href="settings" />
+                            <FormRowLink Label="@L["Sign out"]" Destructive OnClick="@(() => Navigation.NavigateTo(""))" />
+                        </ChildContent>
+                    </FormSection>
+                    break;
+            }
+        </Panel>
+    </Tabs>
+</div>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [CascadingParameter] public MainLayout? Layout { get; set; }
+
+    private sealed class Profile
+    {
+        [Required(ErrorMessage = "Enter your name.")] public string Name { get; set; } = "Noura Al-Qahtani";
+        [Required(ErrorMessage = "Enter your email."), EmailAddress(ErrorMessage = "Enter a valid email.")] public string Email { get; set; } = "noura@acme.co";
+        public string Role { get; set; } = "Admin";
+        [StringLength(160)] public string? Bio { get; set; } = "Head of e-commerce at Acme.";
+    }
+
+    private static readonly string[] Roles = ["Admin", "Manager", "Analyst", "Support"];
+    // A class, not a dictionary: input bindings need a member expression (FieldIdentifier rejects indexers).
+    private sealed class Notification(string key, string hint, bool on)
+    {
+        public string Key => key;
+        public string Hint => hint;
+        public bool On { get; set; } = on;
+    }
+
+    private readonly Profile profile = new();
+    private readonly Notification[] notifications =
+    [
+        new("New orders", "An email for every order over $250.", true),
+        new("Weekly report", "Revenue and orders every Monday.", true),
+        new("Low stock", "When a product falls below 10 units.", false),
+        new("Product news", "Occasional updates about new features.", false),
+    ];
+    private string tab = "profile";
+    private string saved = "";
+
+    private MainLayout.ThemeState Theme => Layout?.Theme ?? new("glass", "indigo", false, false);
+    private Tabs.Item[] TabItems => [new("profile", L["Profile"]), new("appearance", L["Appearance"]), new("notifications", L["Notifications"])];
+
+    protected override void OnInitialized() { if (Layout is not null) Layout.ThemeChanged += Refresh; }
+    private void Refresh() => InvokeAsync(StateHasChanged);
+    public void Dispose() { if (Layout is not null) Layout.ThemeChanged -= Refresh; }
+
+    private Task Set(MainLayout.ThemeState next) => Layout?.SetTheme(next) ?? Task.CompletedTask;
+
+    private void SaveProfile() => saved = L["Saved"] + " · " + DateTime.Now.ToString("HH:mm", L.Culture);
+}

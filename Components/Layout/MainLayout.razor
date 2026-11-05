@@ -2,6 +2,7 @@
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
 
+<CascadingValue Value="this" IsFixed="true">
 <CascadingValue Value="L">
     <SidebarProvider StorageKey="rax-dashboard-sidebar" Class="dash-shell">
         <Sidebar Variant="inset" Collapsible="icon" Label="@L["Main navigation"]" Description="@L["Navigation"]">
@@ -122,6 +123,7 @@
     <Command @bind-Open="commandOpen" Items="Commands" OnSelect="RunCommand" Shortcut="k"
              Title="@L["Command palette"]" SearchPlaceholder="@L["Search pages and actions…"]" EmptyMessage="@L["No results found."]" />
 </CascadingValue>
+</CascadingValue>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -146,10 +148,16 @@
     private static readonly string[] Accents = ["blue", "emerald", "indigo", "amber"];
 
     private ThemeState theme = new("glass", "indigo", false, false);
+    /// <summary>Current theme, for pages that edit it (Settings). The layout is cascaded as a fixed value.</summary>
+    public ThemeState Theme => theme;
+    public static IReadOnlyList<string> AppearanceOptions => Appearances;
+    public static IReadOnlyList<string> AccentOptions => Accents;
+    /// <summary>Raised after the saved theme loads or the theme changes, so pages showing it can re-render.</summary>
+    public event Action? ThemeChanged;
     private Ui L = new(false);
     private bool commandOpen;
 
-    private static string Title(string value) => char.ToUpperInvariant(value[0]) + value[1..];
+    public static string Title(string value) => char.ToUpperInvariant(value[0]) + value[1..];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -157,12 +165,15 @@
         theme = await JS.InvokeAsync<ThemeState>("dashTheme.load");
         L = new Ui(theme.Rtl);
         StateHasChanged();
+        ThemeChanged?.Invoke();
     }
 
-    private async Task SetTheme(ThemeState next)
+    public async Task SetTheme(ThemeState next)
     {
         theme = next;
         L = new Ui(next.Rtl);
+        StateHasChanged(); // also called from pages, whose events don't re-render the layout
+        ThemeChanged?.Invoke();
         await JS.InvokeVoidAsync("dashTheme.apply", next, true);
     }
 

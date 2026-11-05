@@ -1,0 +1,117 @@
+@page "/customers"
+@using raxui_dashboard.Services
+@inject DashboardData Data
+
+<PageTitle>@L["Customers"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["Customers"]</h1>
+        <p>@L["Search, filter and manage everyone who bought from your store."]</p>
+    </div>
+    <Button Size="sm" OnClick="@(() => message = L["Invite sent to the new customer."])">
+        <Lucide Path="@Lucide.UserPlus" /> @L["Add customer"]
+    </Button>
+</header>
+
+<section class="dash-stats" aria-label="@L["Summary"]">
+    @foreach (var (label, value) in Stats)
+    {
+        <Card Class="dash-stat">
+            <CardContent>
+                <span class="dash-stat-label">@label</span>
+                <span class="dash-stat-value" dir="ltr">@value</span>
+            </CardContent>
+        </Card>
+    }
+</section>
+
+<Card>
+    <CardContent>
+        <DataTable @ref="table" TItem="Customer" Items="customers" Columns="Columns" GetRowId="c => c.Id"
+                   Label="@L["Customers"]" Labels="Labels" Loading="customers.Count == 0"
+                   InitialSorting="@([new DataTableTypes.Sort("spent", true)])" InitialHiddenColumns="@(["id"])">
+            <Toolbar>
+                <Button Size="sm" Variant="secondary" OnClick="@(() => message = L["Export started"] + $" · {customers.Count} CSV")">
+                    <Lucide Path="@Lucide.Download" /> @L["Export"]
+                </Button>
+            </Toolbar>
+            <BulkActions Context="selected">
+                <Button Size="sm" Variant="ghost" OnClick="() => ExportSelected(selected)">@L["Export"]</Button>
+                <Button Size="sm" Variant="ghost" Class="text-danger" OnClick="() => Remove(selected)">@L["Delete"]</Button>
+            </BulkActions>
+        </DataTable>
+        <output class="dash-status" role="status">@message</output>
+    </CardContent>
+</Card>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private DataTable<Customer>? table;
+    private IReadOnlyList<Customer> customers = [];
+    private string message = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        customers = await Data.GetCustomersAsync();
+        StateHasChanged();
+    }
+
+    private (string, string)[] Stats =>
+    [
+        (L["Customers"], customers.Count.ToString("N0", L.Culture)),
+        (L["Active"], customers.Count(c => c.Status == "Active").ToString("N0", L.Culture)),
+        (L["Lifetime value"], L.Money(customers.Sum(c => c.Spent))),
+        (L["Avg. orders"], customers.Count == 0 ? "0" : customers.Average(c => c.Orders).ToString("0.0", L.Culture)),
+    ];
+
+    private async Task ExportSelected(IReadOnlyList<Customer> rows)
+    {
+        message = L["Export started"] + $" · {rows.Count} CSV";
+        if (table is not null) await table.ClearSelection();
+    }
+
+    private void Remove(IReadOnlyList<Customer> rows)
+    {
+        var ids = rows.Select(r => r.Id).ToHashSet();
+        customers = customers.Where(c => !ids.Contains(c.Id)).ToArray();
+        message = L["Deleted"] + $": {ids.Count}";
+    }
+
+    private static string StatusColor(string s) => s switch { "Active" => "success", "Trial" => "info", "Paused" => "warning", _ => "neutral" };
+    private static string PlanColor(string p) => p switch { "Enterprise" => "primary", "Business" => "info", "Pro" => "success", _ => "neutral" };
+
+    private RenderFragment<Customer> CustomerCell => c =>
+        @<span class="dash-customer">
+            <Avatar Size="sm" Name="@c.Name" />
+            <span class="dash-brand"><strong>@c.Name</strong><small>@c.Email</small></span>
+        </span>;
+    private RenderFragment<Customer> PlanCell => c => @<Badge Variant="outline" Color="@PlanColor(c.Plan)">@L[c.Plan]</Badge>;
+    private RenderFragment<Customer> StatusCell => c => @<Badge Color="@StatusColor(c.Status)" Dot>@L[c.Status]</Badge>;
+
+    private DataTableTypes.Option[] Options(params string[] values) => values.Select(v => new DataTableTypes.Option(v, L[v])).ToArray();
+
+    private IReadOnlyList<DataTableTypes.Column<Customer>> Columns =>
+    [
+        new() { Id = "id", Title = "ID", Value = c => c.Id },
+        new() { Id = "customer", Title = L["Customer"], Value = c => c.Name + " " + c.Email, Cell = CustomerCell, Hideable = false },
+        new() { Id = "country", Title = L["Country"], Value = c => c.Country, Format = v => L[(string)v!],
+                Options = Options(customers.Select(c => c.Country).Distinct().Order().ToArray()) },
+        new() { Id = "plan", Title = L["Plan"], Value = c => c.Plan, Cell = PlanCell, Options = Options("Free", "Pro", "Business", "Enterprise") },
+        new() { Id = "status", Title = L["Status"], Value = c => c.Status, Cell = StatusCell, Options = Options("Active", "Trial", "Paused", "Churned") },
+        new() { Id = "orders", Title = L["Orders"], Value = c => c.Orders, Align = "end", Searchable = false },
+        new() { Id = "spent", Title = L["Spent"], Value = c => c.Spent, Format = v => L.Money((decimal)v!, 2), Align = "end", Searchable = false },
+        new() { Id = "last", Title = L["Last order"], Value = c => c.LastOrder, Format = v => ((DateOnly)v!).ToString("d MMM yyyy", L.Culture), Searchable = false },
+    ];
+
+    private DataTableTypes.Labels Labels => !L.Arabic ? new() { Search = "Search customers…" } : new()
+    {
+        Search = "ابحث عن عميل…", View = "العرض", Columns = "الأعمدة", Compact = "مضغوط", Comfortable = "مريح",
+        Reset = "مسح الفلاتر", Empty = "لا توجد نتائج.", SelectAll = "تحديد صفوف الصفحة", SelectRow = "تحديد العميل",
+        ClearSelection = "إلغاء التحديد", RowsPerPage = "صفوف الصفحة", Previous = "السابق", Next = "التالي",
+        Pagination = "الصفحات", MorePages = "صفحات أخرى", BulkActions = "إجراءات جماعية",
+        Results = n => $"{n} نتيجة", Selected = n => $"{n} محدد", Page = n => $"صفحة {n}",
+    };
+}
