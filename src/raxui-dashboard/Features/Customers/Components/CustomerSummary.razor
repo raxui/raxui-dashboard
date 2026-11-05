@@ -1,0 +1,34 @@
+<section class="dash-stats" aria-label="@L["Summary"]">
+    @foreach (var (label, value, icon, detailValue, detailLabel) in Stats)
+    {
+        <Card Class="dash-stat">
+            <CardContent>
+                <div class="dash-stat-heading">
+                    <span class="dash-stat-label">@label</span>
+                    <Lucide Path="@icon" />
+                </div>
+                <span class="dash-stat-value" dir="ltr">@value</span>
+                <div class="dash-stat-detail">
+                    <strong dir="ltr">@detailValue</strong>
+                    <span>@detailLabel</span>
+                </div>
+            </CardContent>
+        </Card>
+    }
+</section>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public IReadOnlyList<Customer> Customers { get; set; } = [];
+
+    private (string Label, string Value, string Icon, string DetailValue, string DetailLabel)[] Stats =>
+    [
+        (L["Customers"], Customers.Count.ToString("N0", L.Culture), Lucide.Users,
+            Customers.Select(c => c.Country).Distinct().Count().ToString("N0", L.Culture), L["Countries represented"]),
+        (L["Active"], Customers.Count(c => c.Status == "Active").ToString("N0", L.Culture), Lucide.User,
+            (Customers.Count == 0 ? 0 : 100d * Customers.Count(c => c.Status == "Active") / Customers.Count).ToString("0.#", L.Culture) + "%", L["Of all Customers"]),
+        (L["Lifetime value"], L.Money(Customers.Sum(c => c.Spent)), Lucide.Card,
+            L.Money(Customers.Count == 0 ? 0 : Customers.Average(c => c.Spent)), L["Average per customer"]),
+        (L["Avg. orders"], Customers.Count == 0 ? "0" : Customers.Average(c => c.Orders).ToString("0.0", L.Culture), Lucide.Bag,
+            Customers.Sum(c => c.Orders).ToString("N0", L.Culture), L["Total orders"]),
+    ];
+}

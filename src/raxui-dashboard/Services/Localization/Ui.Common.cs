@@ -1,0 +1,48 @@
+namespace raxui_dashboard.Services.Localization;
+
+public sealed partial record Ui
+{
+    private static Dictionary<string, string> CommonStrings() => new()
+    {
+        ["Overview"] = "نظرة عامة",
+        ["Customers"] = "العملاء",
+        ["Tasks"] = "المهام",
+        ["Calendar"] = "التقويم",
+        ["AI Assistant"] = "المساعد الذكي",
+        ["Settings"] = "الإعدادات",
+        ["Workspace"] = "مساحة العمل",
+        ["Navigation"] = "التنقل",
+        ["Main navigation"] = "التنقل الرئيسي",
+        ["Admin dashboard"] = "لوحة التحكم",
+        ["Toggle sidebar"] = "تبديل الشريط الجانبي",
+        ["Search…"] = "بحث…",
+        ["Search pages and actions…"] = "ابحث في الصفحات والإجراءات…",
+        ["Command palette"] = "لوحة الأوامر",
+        ["No results found."] = "لا توجد نتائج.",
+        ["Pages"] = "الصفحات",
+        ["Theme"] = "المظهر",
+        ["Appearance"] = "النمط",
+        ["Accent"] = "اللون",
+        ["Default"] = "افتراضي",
+        ["Flat"] = "مسطّح",
+        ["Glass"] = "زجاجي",
+        ["Blue"] = "أزرق",
+        ["Emerald"] = "زمردي",
+        ["Indigo"] = "نيلي",
+        ["Amber"] = "كهرماني",
+        ["Dark mode"] = "الوضع الداكن",
+        ["Light mode"] = "الوضع الفاتح",
+        ["Switch to dark mode"] = "التبديل إلى الوضع الداكن",
+        ["Switch to light mode"] = "التبديل إلى الوضع الفاتح",
+        ["العربية"] = "English",
+        ["Switch to Arabic"] = "Switch to English",
+        ["Language"] = "اللغة",
+        ["Account"] = "الحساب",
+        ["Profile"] = "الملف الشخصي",
+        ["Billing"] = "الفوترة",
+        ["Sign out"] = "تسجيل الخروج",
+        ["Account menu"] = "قائمة الحساب",
+        ["Theme settings"] = "إعدادات المظهر",
+        ["Pro plan"] = "خطة Pro",
+    };
+}

@@ -1,0 +1,32 @@
+@inject NavigationManager Navigation
+@inject Toaster.ToastService Toasts
+<div class="settings-section">
+    <div class="settings-section-heading">
+        <h2>@L["Stay in the loop"]</h2>
+        <p>@L["Choose which updates arrive in your inbox."]</p>
+    </div>
+    <div class="settings-preferences">
+        <FormSection Title="@L["Email"]">
+            <ChildContent>
+                @foreach (var n in Notifications)
+                {
+                    <FormRow Id="@("notify-" + n.Key.Replace(' ', '-'))" Label="@L[n.Key]" Description="@L[n.Hint]" Context="field">
+                        <Switch @bind-Value="n.On" @bind-Value:after="PreferenceChanged" />
+                    </FormRow>
+                }
+            </ChildContent>
+        </FormSection>
+        <FormSection Title="@L["Account"]">
+            <ChildContent>
+                <FormRowLink Label="@L["Billing"]" Value="Pro" Description="@L["Renews on 1 Dec 2026"]" Href="settings" />
+                <FormRowLink Label="@L["Sign out"]" Destructive OnClick="@(() => Navigation.NavigateTo(""))" />
+            </ChildContent>
+        </FormSection>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public IReadOnlyList<NotificationOption> Notifications { get; set; } = [];
+    private void PreferenceChanged() => Toasts.Show(L["Notification preference updated"], description: L["Demo setting; resets when you leave this page."]);
+}

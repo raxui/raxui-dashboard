@@ -1,0 +1,40 @@
+@inherits AnalyticsSectionBase
+
+<Card Class="dash-span-8">
+    <CardHeader>
+        <CardDescription>@L["Average engagement time"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@Duration((int)view.EngagementSeconds.Average())</bdi> <small>@L["per session"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="area" Legend="false" Label="@L["Average engagement time"]" Labels="BucketLabels" Height="240"
+               Series="@([new ChartTypes.Series(L["Seconds"], view.EngagementSeconds) { Color = "3" }])" />
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-4">
+    <CardHeader><CardDescription>@L["Engagement"]</CardDescription></CardHeader>
+    <CardContent>
+        <div class="dash-aside">
+            <div>
+                <span class="dash-kpi-stat-label">@L["Engagement rate"]</span>
+                <strong class="dash-aside-value"><bdi>@view.Kpis[3].Value.ToString("0.0", L.Culture)%</bdi></strong>
+                <Progress Value="view.Kpis[3].Value" Size="sm" Color="success" AccessibleLabel="@L["Engagement rate"]" />
+            </div>
+            <div>
+                <span class="dash-kpi-stat-label">@L["Pages per session"]</span>
+                <strong class="dash-aside-value"><bdi>@((view.Kpis[2].Value / view.Kpis[1].Value).ToString("0.0", L.Culture))</bdi></strong>
+            </div>
+            <div>
+                <span class="dash-kpi-stat-label">@L["Bounce rate"]</span>
+                <strong class="dash-aside-value"><bdi>@((100 - view.Kpis[3].Value).ToString("0.0", L.Culture))%</bdi></strong>
+            </div>
+        </div>
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-12">
+    <CardHeader><CardDescription>@L["Most engaging pages"]</CardDescription></CardHeader>
+    <CardContent Class="dash-table-content">
+        <PagesTable Pages="@view.Pages.OrderByDescending(p => p.AvgSeconds).ToArray()" />
+    </CardContent>
+</Card>

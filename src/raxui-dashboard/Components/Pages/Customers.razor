@@ -1,0 +1,111 @@
+@page "/customers"
+@using raxui_dashboard.Features.Customers.Components.Table
+@inject raxui_dashboard.Features.Customers.Services.CustomerService CustomerStore
+@inject Toaster.ToastService Toasts
+
+<PageTitle>@L["Customers"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["Customers"]</h1>
+        <p>@L["Search, filter and manage everyone who bought from your store."]</p>
+    </div>
+    <Button Size="sm" OnClick="OpenAdd">
+        <Lucide Path="@Lucide.UserPlus" /> @L["Add customer"]
+    </Button>
+</header>
+
+<CustomerForm @bind-Open="adding" Draft="draft" Editing="@(editingId is not null)" Saving="saving" OnSubmit="SaveCustomer" />
+<CustomerDetailsSheet @bind-Open="viewing" Value="viewed" OnEdit="Edit" OnDelete="c => AskDelete([c])" />
+
+<ConfirmDialog @bind-Open="confirmingDelete" Tone="destructive" ConfirmText="@L["Delete"]" CancelText="@L["Cancel"]" OnConfirm="DeleteAsync"
+               Title="@L[deleting.Count == 1 ? "Delete this customer?" : "Delete these customers?"]"
+               Description="@(deleting.Count == 1
+                   ? $"“{deleting[0].Name}” {L["will be removed with their history. This can't be undone."]}"
+                   : string.Format(L["The {0} selected customers will be removed with their history. This can't be undone."], deleting.Count))" />
+
+<CustomerSummary Customers="customers" />
+
+<CustomersTable @ref="table" Customers="customers"
+                OnView="View" OnEdit="Edit" OnDelete="AskDelete" />
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private CustomersTable? table;
+    private IReadOnlyList<Customer> customers => CustomerStore.Items;
+
+    private bool adding, saving;
+    private CustomerDraft draft = new(new(false));
+
+    private string? editingId;            // null while adding
+    private bool viewing, confirmingDelete;
+    private Customer? viewed;
+    private IReadOnlyList<Customer> deleting = [];
+
+    private void OpenAdd()
+    {
+        editingId = null;
+        draft = new(L);
+        adding = true;
+    }
+
+    private void View(Customer c)
+    {
+        viewed = c;
+        viewing = true;
+    }
+
+    private void Edit(Customer c)
+    {
+        viewing = false;
+        editingId = c.Id;
+        draft = new(L) { Name = c.Name, Email = c.Email, Country = c.Country, Plan = c.Plan, Status = c.Status };
+        adding = true;
+    }
+
+    private void AskDelete(IReadOnlyList<Customer> rows)
+    {
+        if (rows.Count == 0) return;
+        viewing = false;
+        deleting = rows.ToArray();
+        confirmingDelete = true;
+    }
+
+    // ConfirmDialog shows its own spinner while this runs and closes when it finishes.
+    private async Task DeleteAsync()
+    {
+        var ids = deleting.Select(r => r.Id).ToHashSet();
+        try { await CustomerStore.DeleteAsync(ids); }
+        catch (Exception ex)
+        {
+            Toasts.Show(L["Could not delete customers"], "danger", L["Please try again."], duration: 8000);
+            throw new InvalidOperationException(L["Could not delete customers"], ex);
+        }
+        Toasts.Show(L["Deleted"], "success", deleting.Count == 1 ? deleting[0].Name : string.Format(L["{0} customers"], ids.Count));
+        deleting = [];
+        if (table is not null) await table.ClearSelection();
+    }
+
+    private async Task SaveCustomer()
+    {
+        if (saving) return;
+        saving = true;
+        try
+        {
+            await CustomerStore.SaveAsync(draft, editingId);
+            Toasts.Show(L[editingId is null ? "Customer added" : "Customer updated"], "success", draft.Name.Trim());
+            adding = false;
+        }
+        catch (Exception) { Toasts.Show(L["Could not save customer"], "danger", L["Please try again."], duration: 8000); }
+        finally { saving = false; }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await CustomerStore.LoadAsync();
+        StateHasChanged();
+    }
+
+}

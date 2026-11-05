@@ -1,0 +1,79 @@
+@using static raxui_dashboard.Features.Tasks.Models.TaskOptions
+<Dialog Open="Open" OpenChanged="OpenChanged" Title="@L[!Editing ? "New task" : "Edit task"]" CloseLabel="@L["Close"]" Class="dash-task-dialog"
+        Description="@L[!Editing ? "Add a card to the board. You can drag it later." : "Changes apply to the card on the board."]">
+    <ChildContent>
+        <EditForm id="add-task" Context="form" Model="Draft" OnValidSubmit="@(() => OnSubmit.InvokeAsync())" class="dash-dialog-form">
+            <DataAnnotationsValidator />
+            <Field Id="task-title" For="@(() => Draft.Title)" Required="true">
+                <FieldLabel>@L["Title"]</FieldLabel>
+                <Input @bind-Value="Draft.Title" autocomplete="off" placeholder="@L["e.g. Prepare the holiday campaign"]" />
+                <FieldError />
+            </Field>
+            <FieldSet Id="task-column" For="@(() => Draft.Column)" Context="field">
+                <FieldLegend>@L["Column"]</FieldLegend>
+                <InputRadioGroup TValue="string" Name="task-column" @bind-Value="Draft.Column">
+                    <div class="dash-task-choices dash-task-column-choices" role="radiogroup" aria-labelledby="task-column-label">
+                        @foreach (var (id, meta) in Meta.Where(m => Editing || m.Key != "done"))
+                        {
+                            <label class="dash-task-choice">
+                                <InputRadio TValue="string" Value="@id" class="dash-task-radio" />
+                                <span>@L[meta.Title]</span>
+                            </label>
+                        }
+                    </div>
+                </InputRadioGroup>
+            </FieldSet>
+            <div class="dash-dialog-row">
+                <Field Id="task-tag" For="@(() => Draft.Tag)">
+                    <FieldLabel>@L["Tag"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="Draft.Tag">
+                        @foreach (var t in Tags) { <option value="@t">@L[t]</option> }
+                    </Select>
+                </Field>
+                <Field Id="task-assignee" For="@(() => Draft.Assignee)">
+                    <FieldLabel>@L["Assignee"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="Draft.Assignee">
+                        @foreach (var name in TeamOptions) { <option value="@name">@name</option> }
+                    </Select>
+                </Field>
+            </div>
+            <FieldSet Id="task-priority" For="@(() => Draft.Priority)" Context="field">
+                <FieldLegend>@L["Priority"]</FieldLegend>
+                <InputRadioGroup TValue="string" Name="task-priority" @bind-Value="Draft.Priority">
+                    <div class="dash-task-choices" role="radiogroup" aria-labelledby="task-priority-label">
+                        @foreach (var p in Priorities)
+                        {
+                            <label class="dash-task-choice">
+                                <InputRadio TValue="string" Value="@p" class="dash-task-radio" />
+                                <span>@L[p]</span>
+                            </label>
+                        }
+                    </div>
+                </InputRadioGroup>
+            </FieldSet>
+            <Field Id="task-due" For="@(() => Draft.Due)" Optional>
+                <FieldLabel OptionalText="@L["(Optional)"]">@L["Due date"]</FieldLabel>
+                @* Past dates are only blocked for new tasks; an existing task may already be past due. *@
+                <DatePicker @bind-Value="Draft.Due" Culture="L.Culture" Today="Today" Min="@(!Editing ? Today : null)" Clearable Placeholder="@L["Pick a date"]" />
+                <FieldError />
+            </Field>
+        </EditForm>
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" OnClick="() => OpenChanged.InvokeAsync(false)">@L["Cancel"]</Button>
+        <SubmitButton form="add-task" Loading="Saving" LoadingText="@L[!Editing ? "Adding…" : "Saving…"]">
+            @L[!Editing ? "Add task" : "Save changes"]
+        </SubmitButton>
+    </Footer>
+</Dialog>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter, EditorRequired] public TaskDraft Draft { get; set; } = default!;
+    [Parameter] public bool Editing { get; set; }
+    [Parameter] public bool Saving { get; set; }
+    [Parameter] public DateOnly Today { get; set; }
+    [Parameter] public IEnumerable<string> TeamOptions { get; set; } = [];
+    [Parameter] public EventCallback OnSubmit { get; set; }
+}

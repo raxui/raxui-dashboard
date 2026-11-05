@@ -1,0 +1,35 @@
+@if (Turn.Thinking || Turn.Reasoning.Length > 0)
+{
+    <AIReasoning Streaming="Turn.Thinking" ThinkingLabel="@L["Thinking…"]" DoneLabel="@L["Thought for {s}s"]">@Turn.Reasoning</AIReasoning>
+}
+@if (Turn.Tool is not null)
+{
+    <AIToolCall Name="@Turn.Answer.Tool" Status="@Turn.Tool" Input="@Turn.Answer.Input" Output="@Turn.Output" Error="@L["Stopped"]"
+                PendingLabel="@L["Waiting"]" RunningLabel="@L["Running"]" CompletedLabel="@L["Completed"]" ErrorLabel="@L["Failed"]"
+                InputLabel="@L["Input"]" OutputLabel="@L["Output"]">
+        <Title>@L["Querying dashboard data"]</Title>
+    </AIToolCall>
+}
+@if (Turn.Streaming || Turn.Text.Length > 0)
+{
+    <AIResponse Markdown Streaming="Turn.Streaming" Text="@Turn.Text" CopyLabel="@L["Copy"]" CopiedLabel="@L["Copied"]" />
+}
+@if (Turn.Stopped)
+{
+    <div class="dash-status">@L["Stopped."]</div>
+}
+@if (Turn.Done)
+{
+    <AIActions CopyText="@Turn.Text"
+               OnRegenerate="@(CanRegenerate ? EventCallback.Factory.Create(this, () => OnRegenerate.InvokeAsync()) : default)"
+               Feedback="@Turn.Feedback" FeedbackChanged="@(value => Turn.Feedback = value)"
+               CopyLabel="@L["Copy"]" CopiedLabel="@L["Copied"]" RegenerateLabel="@L["Regenerate"]"
+               GoodLabel="@L["Good response"]" BadLabel="@L["Bad response"]" />
+}
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter, EditorRequired] public AssistantTurn Turn { get; set; } = default!;
+    [Parameter] public bool CanRegenerate { get; set; }
+    [Parameter] public EventCallback OnRegenerate { get; set; }
+}

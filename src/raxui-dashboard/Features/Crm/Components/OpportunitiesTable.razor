@@ -1,0 +1,52 @@
+<DataTable TItem="Opportunity" Items="Opportunities" Columns="Columns" GetRowId="o => o.Id" Label="@L["Recent opportunities"]"
+                           Labels="TableLabels" Selectable="false" InitialPageSize="8" PageSizeOptions="@([8, 16, 24])" Density="compact"
+                           InitialSorting="@([new DataTableTypes.Sort("value", true)])" />
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public IReadOnlyList<Opportunity> Opportunities { get; set; } = [];
+
+    private static string StageColor(string s) => s switch
+    {
+        "Won" => "success", "Negotiation" => "warning", "Proposal sent" => "info", "Qualified" => "primary", _ => "neutral",
+    };
+
+    private static string HealthColor(string h) => h switch
+    {
+        "On track" => "success", "Needs review" => "warning", "At risk" => "danger", _ => "neutral",
+    };
+
+    private RenderFragment<Opportunity> AccountCell => o =>
+        @<span class="dash-customer">
+            <Avatar Size="sm" Shape="rounded" Name="@o.Account" />
+            <span class="dash-brand"><strong>@o.Account</strong><small>@o.Contact</small></span>
+        </span>;
+    private RenderFragment<Opportunity> StageCell => o => @<Badge Variant="outline" Color="@StageColor(o.Stage)">@L[o.Stage]</Badge>;
+    private RenderFragment<Opportunity> OwnerCell => o => @<span title="@o.Owner"><Avatar Size="xs" Name="@o.Owner" /></span>;
+    private RenderFragment<Opportunity> HealthCell => o =>
+        @<span class="dash-health">
+            <Progress Value="o.HealthScore" Max="10" Size="sm" Color="@HealthColor(o.Health)" AccessibleLabel="@($"{L["Health"]}: {L[o.Health]}")" />
+            <span>@L[o.Health]</span>
+        </span>;
+
+    private DataTableTypes.Option[] Options(IEnumerable<string> values) => values.Select(v => new DataTableTypes.Option(v, L[v])).ToArray();
+
+    private IReadOnlyList<DataTableTypes.Column<Opportunity>> Columns =>
+    [
+        new() { Id = "id", Title = "ID", Value = o => o.Id, Class = "dash-mono" },
+        new() { Id = "account", Title = L["Account"], Value = o => o.Account + " " + o.Contact, Cell = AccountCell, Hideable = false },
+        new() { Id = "stage", Title = L["Stage"], Value = o => o.Stage, Cell = StageCell, Options = Options(CrmOptions.Stages) },
+        new() { Id = "owner", Title = L["Owner"], Value = o => o.Owner, Cell = OwnerCell, Options = Options(["Noura Al-Qahtani", "Omar Haddad", "Layla Nasser", "Daniel Kim"]) },
+        new() { Id = "priority", Title = L["Priority"], Value = o => o.Priority, Format = v => L[(string)v!], Options = Options(["High", "Medium", "Low"]) },
+        new() { Id = "health", Title = L["Health"], Value = o => o.HealthScore, Cell = HealthCell, Searchable = false },
+        new() { Id = "value", Title = L["Value"], Value = o => o.Value, Format = v => L.Money((decimal)v!), Align = "end", Searchable = false },
+        new() { Id = "close", Title = L["Close date"], Value = o => o.Close, Format = v => ((DateOnly)v!).ToString("d MMM", L.Culture), Searchable = false },
+    ];
+
+    private DataTableTypes.Labels TableLabels => !L.Arabic ? new() { Search = "Search deals…" } : new()
+    {
+        Search = "ابحث في الصفقات…", View = "العرض", Columns = "الأعمدة", Compact = "مضغوط", Comfortable = "مريح",
+        Reset = "مسح الفلاتر", Empty = "لا توجد نتائج.", RowsPerPage = "صفوف الصفحة", Previous = "السابق", Next = "التالي",
+        Pagination = "الصفحات", MorePages = "صفحات أخرى", Results = n => $"{n} نتيجة", Selected = n => $"{n} محدد", Page = n => $"صفحة {n}",
+    };
+}

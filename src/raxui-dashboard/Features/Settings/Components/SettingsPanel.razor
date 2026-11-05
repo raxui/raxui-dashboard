@@ -1,0 +1,53 @@
+@implements IDisposable
+@inject raxui_dashboard.Features.Settings.Services.SettingsService SettingsState
+@inject ThemeService ThemeManager
+@inject Toaster.ToastService Toasts
+
+<PageTitle>@L["Settings"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header dash-account-header">
+    <div>
+        <h1>@L["Settings"]</h1>
+        <p>@L["Manage your appearance, language and notifications."]</p>
+    </div>
+</header>
+
+<div class="dash-settings settings-page">
+    <Tabs Id="settings-tabs" Class="settings-tabs" Items="TabItems" @bind-Value="tab" Label="@L["Settings"]" Orientation="horizontal" Variant="underline">
+        <Panel Context="value">
+            @switch (value)
+            {
+                case "appearance":
+                    <AppearanceSettings Value="Theme" ValueChanged="Set" />
+                    break;
+
+                default:
+                    <NotificationSettings Notifications="SettingsState.Notifications" />
+                    break;
+            }
+        </Panel>
+    </Tabs>
+</div>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private string tab = "appearance";
+
+    private ThemeState Theme => ThemeManager.State;
+    private Tabs.Item[] TabItems => [new("appearance", L["Appearance"]), new("notifications", L["Notifications"])];
+
+    protected override void OnInitialized() { ThemeManager.Changed += Refresh; }
+    private void Refresh() => InvokeAsync(StateHasChanged);
+    public void Dispose() { ThemeManager.Changed -= Refresh; }
+
+    private async Task Set(ThemeState next)
+    {
+        try
+        {
+            await ThemeManager.SetAsync(next);
+            Toasts.Show(ThemeManager.Language["Preferences saved"], "success");
+        }
+        catch (JSException) { Toasts.Show(L["Could not save preferences"], "danger", L["Please try again."], duration: 8000); }
+    }
+}

@@ -1,0 +1,89 @@
+@inject raxui_dashboard.Features.Profile.Services.ProfileService ProfileState
+@inject Toaster.ToastService Toasts
+
+<PageTitle>@L["Profile"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header dash-account-header">
+    <div>
+        <h1>@L["Profile"]</h1>
+        <p>@L["Manage the details your team sees on your profile."]</p>
+    </div>
+</header>
+
+<div class="profile-page">
+    <div class="profile-identity">
+        <Avatar Name="@profile.Name" Size="xl" />
+        <div class="profile-identity-text">
+            <h2>@profile.Name</h2>
+            <span dir="ltr">@profile.Email</span>
+        </div>
+        <span class="profile-role"><Lucide Path="@Lucide.User" />@L[profile.Role]</span>
+    </div>
+
+    <EditForm Model="profile" OnValidSubmit="SaveProfile" FormName="profile">
+        <DataAnnotationsValidator />
+        <div class="profile-section">
+            <div class="profile-section-heading">
+                <h2>@L["Personal information"]</h2>
+                <p>@L["Manage the details your team sees on your profile."]</p>
+            </div>
+            <div class="profile-fields">
+                <Field Id="name" For="@(() => profile.Name)">
+                    <ChildContent Context="field">
+                        <FieldLabel>@L["Full name"]</FieldLabel>
+                        <Input @bind-Value="profile.Name" autocomplete="name" />
+                        <FieldError />
+                    </ChildContent>
+                </Field>
+                <Field Id="email" For="@(() => profile.Email)">
+                    <ChildContent Context="field">
+                        <FieldLabel>@L["Email"]</FieldLabel>
+                        <Input Type="email" @bind-Value="profile.Email" autocomplete="email" dir="ltr" />
+                        <FieldError />
+                    </ChildContent>
+                </Field>
+                <Field Id="role" For="@(() => profile.Role)" Class="profile-field-wide">
+                    <ChildContent Context="field">
+                        <FieldLabel>@L["Role"]</FieldLabel>
+                        <Select TValue="string" @bind-Value="profile.Role">
+                            @foreach (var role in Roles) { <option value="@role">@L[role]</option> }
+                        </Select>
+                    </ChildContent>
+                </Field>
+                <Field Id="bio" For="@(() => profile.Bio)" Optional Class="profile-field-wide">
+                    <ChildContent Context="field">
+                        <FieldLabel OptionalText="@L["(Optional)"]">@L["Bio"]</FieldLabel>
+                        <Textarea @bind-Value="profile.Bio" AutoResize MinRows="4" MaxRows="6" MaxLength="160" ShowCount />
+                        <FieldError />
+                    </ChildContent>
+                    <Description>@L["Shown to your team."]</Description>
+                </Field>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <SubmitButton Loading="saving" LoadingText="@L["Saving…"]">@L["Save changes"]</SubmitButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private static readonly string[] Roles = ["Admin", "Manager", "Analyst", "Support"];
+    private ProfileDraft profile => ProfileState.Draft;
+
+    private bool saving;
+
+    private async Task SaveProfile()
+    {
+        if (saving) return;
+        saving = true;
+        try
+        {
+            await ProfileState.SaveAsync();
+            Toasts.Show(L["Profile saved"], "success");
+        }
+        catch (Exception) { Toasts.Show(L["Could not save profile"], "danger", L["Please try again."], duration: 8000); }
+        finally { saving = false; }
+    }
+}

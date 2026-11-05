@@ -1,0 +1,64 @@
+@using static raxui_dashboard.Features.Customers.Models.CustomerOptions
+<Dialog Open="Open" OpenChanged="OpenChanged" Title="@L[!Editing ? "Add customer" : "Edit customer"]" CloseLabel="@L["Close"]"
+        Description="@L[!Editing ? "They will get an email invite to your store." : "Update the customer's details."]">
+    <ChildContent>
+        <EditForm id="add-customer" Context="form" Model="Draft" OnValidSubmit="@(() => OnSubmit.InvokeAsync())" class="dash-dialog-form">
+            <DataAnnotationsValidator />
+            <Field Id="customer-name" For="@(() => Draft.Name)" Required="true">
+                <FieldLabel>@L["Full name"]</FieldLabel>
+                <Input @bind-Value="Draft.Name" autocomplete="off" />
+                <FieldError />
+            </Field>
+            <Field Id="customer-email" For="@(() => Draft.Email)" Required="true">
+                <FieldLabel>@L["Email"]</FieldLabel>
+                <Input Type="email" @bind-Value="Draft.Email" autocomplete="off" dir="ltr" />
+                <FieldError />
+            </Field>
+            <div class="dash-dialog-row">
+                <Field Id="customer-country" For="@(() => Draft.Country)">
+                    <FieldLabel>@L["Country"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="Draft.Country">
+                        @foreach (var c in Countries) { <option value="@c">@L[c]</option> }
+                    </Select>
+                </Field>
+                <Field Id="customer-plan" For="@(() => Draft.Plan)">
+                    <FieldLabel>@L["Plan"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="Draft.Plan">
+                        @foreach (var p in PlanNames) { <option value="@p">@L[p]</option> }
+                    </Select>
+                </Field>
+            </div>
+            @if (!Editing)
+            {
+                <Field Id="customer-trial" Orientation="inline">
+                    <Switch @bind-Value="Draft.Trial" />
+                    <FieldLabel>@L["Start with a 14-day trial"]</FieldLabel>
+                </Field>
+            }
+            else
+            {
+                <Field Id="customer-status" For="@(() => Draft.Status)">
+                    <FieldLabel>@L["Status"]</FieldLabel>
+                    <Select TValue="string" @bind-Value="Draft.Status">
+                        @foreach (var s in StatusNames) { <option value="@s">@L[s]</option> }
+                    </Select>
+                </Field>
+            }
+        </EditForm>
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" OnClick="() => OpenChanged.InvokeAsync(false)">@L["Cancel"]</Button>
+        <SubmitButton form="add-customer" Loading="Saving" LoadingText="@L[!Editing ? "Adding…" : "Saving…"]">
+            @L[!Editing ? "Add customer" : "Save changes"]
+        </SubmitButton>
+    </Footer>
+</Dialog>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter, EditorRequired] public CustomerDraft Draft { get; set; } = default!;
+    [Parameter] public bool Editing { get; set; }
+    [Parameter] public bool Saving { get; set; }
+    [Parameter] public EventCallback OnSubmit { get; set; }
+}

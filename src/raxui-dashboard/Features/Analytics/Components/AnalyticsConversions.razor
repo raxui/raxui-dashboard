@@ -1,0 +1,46 @@
+@inherits AnalyticsSectionBase
+
+<Card Class="dash-span-5">
+    <CardHeader>
+        <CardDescription>@L["Checkout funnel"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@view.Kpis[4].Value.ToString("0.00", L.Culture)%</bdi> <small>@L["of sessions purchase"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <ol class="dash-funnel">
+            @for (var i = 0; i < view.Funnel.Count; i++)
+            {
+                var step = view.Funnel[i];
+                var drop = i == 0 ? (double?)null : 100 - step.Count / view.Funnel[i - 1].Count * 100;
+                <li>
+                    <div class="dash-funnel-head">
+                        <span>@L[step.Step]</span>
+                        <span>
+                            <bdi class="dash-list-value">@step.Count.ToString("N0", L.Culture)</bdi>
+                            @if (drop is { } d) { <span class="dash-muted dash-small"> · <bdi>−@d.ToString("0", L.Culture)%</bdi></span> }
+                        </span>
+                    </div>
+                    <Progress Value="step.Count" Max="view.Funnel[0].Count" Color="@(i == view.Funnel.Count - 1 ? "success" : "primary")"
+                              AccessibleLabel="@($"{L[step.Step]}: {step.Count:N0}")" />
+                </li>
+            }
+        </ol>
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-7">
+    <CardHeader>
+        <CardDescription>@L["Conversion rate"]</CardDescription>
+        <CardTitle>
+            <span class="dash-headline"><bdi>@view.Kpis[4].Value.ToString("0.00", L.Culture)%</bdi></span>
+        </CardTitle>
+        <CardAction>
+            <Badge Size="sm" Color="@(view.Kpis[4].Good ? "success" : "danger")">
+                <bdi>@(view.Kpis[4].Change >= 0 ? "+" : "")@view.Kpis[4].Change.ToString("0.0", L.Culture)%</bdi>
+            </Badge>
+        </CardAction>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="line" Legend="false" Label="@L["Conversion rate"]" Labels="BucketLabels" Height="260"
+               Series="@([new ChartTypes.Series(L["Conversion rate"], view.ConversionRate) { Color = "1" }])" />
+    </CardContent>
+</Card>

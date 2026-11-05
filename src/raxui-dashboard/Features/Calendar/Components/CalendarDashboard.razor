@@ -1,0 +1,50 @@
+@using static raxui_dashboard.Features.Calendar.Components.CalendarPresentation
+@inject raxui_dashboard.Features.Calendar.Services.CalendarService Report
+
+<PageTitle>@L["Calendar"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["Calendar"]</h1>
+        <p>@L["Meetings, reviews and launches for the team."]</p>
+    </div>
+    <div class="dash-legend" aria-hidden="true">
+        @foreach (var kind in Kinds)
+        {
+            <span><span class="dash-dot" data-kind="@kind"></span>@L[Title(kind)]</span>
+        }
+    </div>
+</header>
+
+<section class="dash-grid">
+    <Card Class="dash-span-7 dash-calendar-card">
+        <CardContent>
+            <Calendar @bind-Value="day" @bind-Month="month" Today="Today" Culture="L.Culture" Class="dash-calendar">
+                <DayContent Context="date">
+                    @{ var kinds = events.Where(e => e.Date == date).Select(e => e.Kind).Distinct().Take(3).ToArray(); }
+                    @if (kinds.Length > 0)
+                    {
+                        <span class="dash-day-dots">
+                            @foreach (var kind in kinds) { <span class="dash-dot" data-kind="@kind"></span> }
+                        </span>
+                    }
+                </DayContent>
+            </Calendar>
+        </CardContent>
+    </Card>
+
+    <CalendarDayAgenda Day="day" Events="events" Today="Today" Now="Report.Now" />
+
+    <UpcomingEvents Events="events" Today="Today" OnSelect="SelectDay" />
+</section>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    private DateOnly Today => Report.Today;
+    private static IReadOnlyList<string> Kinds => CalendarOptions.Kinds;
+    private IReadOnlyList<CalendarEvent> events => Report.Events;
+    private DateOnly? day;
+    private DateOnly month;
+    protected override void OnInitialized() => SelectDay(Today);
+    private void SelectDay(DateOnly date) { day = date; month = new(date.Year, date.Month, 1); }
+}

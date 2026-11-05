@@ -1,0 +1,214 @@
+@inject raxui_dashboard.Features.Store.Services.StoreService Report
+
+<PageTitle>@L["E-commerce"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header dash-page-header-end">
+    <div>
+        <h1>@L["Store overview"]</h1>
+        <p>@Report.Today.ToString(L.Arabic ? "dddd، d MMMM yyyy" : "dddd, d MMMM yyyy", L.Culture)</p>
+    </div>
+    <div class="dash-filters" role="group" aria-label="@L["Filters"]">
+        <Select TValue="string" Value="@period" ValueChanged="SetPeriod" ValueExpression="() => period" Size="sm" aria-label="@L["Period"]" Class="dash-filter">
+            @foreach (var p in StoreOptions.Periods) { <option value="@p">@L[PeriodName(p)]</option> }
+        </Select>
+        <Select TValue="string" Value="@channel" ValueChanged="SetChannel" ValueExpression="() => channel" Size="sm" aria-label="@L["Channel"]" Class="dash-filter">
+            <option value="all">@L["All channels"]</option>
+            @foreach (var c in StoreOptions.Channels) { <option value="@c">@L[c]</option> }
+        </Select>
+    </div>
+</header>
+
+@if (view is null)
+{
+    <section class="dash-grid" aria-busy="true">
+        <Skeleton Class="dash-span-5" Height="22rem" />
+        <Skeleton Class="dash-span-7" Height="22rem" />
+        <Skeleton Class="dash-span-5" Height="18rem" />
+        <Skeleton Class="dash-span-7" Height="18rem" />
+    </section>
+}
+else
+{
+    <section class="dash-grid" aria-busy="@(loading ? "true" : null)">
+        @* Headline figures *@
+        <Card Class="dash-span-5 dash-kpi-grid">
+            @foreach (var kpi in view.Kpis)
+            {
+                <KpiStat Kpi="kpi" Comparison="@L[PreviousName(view.Period)]" />
+            }
+        </Card>
+
+        @* Sales over time *@
+        <Card Class="dash-span-7">
+            <CardHeader>
+                <CardDescription>@L["Sales overview"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@L.Money((decimal)view.Kpis[0].Value)</bdi></span></CardTitle>
+                <CardAction><span class="dash-muted dash-small">@L[BucketName(view.Bucket)]</span></CardAction>
+            </CardHeader>
+            <CardContent>
+                <Chart Type="bar" Label="@L["Sales overview"]" Labels="BucketLabels" Legend="false" Height="250"
+                       Series="@([new ChartTypes.Series(L["Sales"], view.Sales)])" />
+            </CardContent>
+        </Card>
+
+        @* Traffic *@
+        <Card Class="dash-span-5">
+            <CardHeader>
+                <CardDescription>@L["Store traffic"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Visits.Sum().ToString("N0", L.Culture)</bdi> <small>@L["visits"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Chart Type="area" Label="@L["Store traffic"]" Labels="BucketLabels" Legend="false" Height="200"
+                       Series="@([new ChartTypes.Series(L["Visits"], view.Visits) { Color = "2" }])" />
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-7">
+            <CardHeader>
+                <CardDescription>@L["Traffic sources"]</CardDescription>
+                <CardTitle>
+                    <span class="dash-headline">@L[view.Sources[0].Source] <small><bdi>@Percent(view.Sources[0].Visits, view.Sources.Sum(s => s.Visits))</bdi></small></span>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Chart Type="bar" Horizontal Label="@L["Traffic sources"]" Legend="false" Height="200" Grid="false"
+                       Labels="@(view.Sources.Select(s => L[s.Source]).ToArray())"
+                       Series="@([new ChartTypes.Series(L["Visits"], view.Sources.Select(s => s.Visits).ToArray()) { Color = "2" }])" />
+            </CardContent>
+        </Card>
+
+        @* Products, stock, reviews *@
+        <Card Class="dash-span-4">
+            <CardHeader>
+                <CardDescription>@L["Top products"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@Percent(view.TopProducts.Sum(p => p.Revenue), view.Kpis[0].Value)</bdi> <small>@L["of sales"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <SplitBar Parts="@view.Categories.Select(c => (L[c.Category], c.Share)).ToArray()" />
+                <ul class="dash-list">
+                    @foreach (var p in view.TopProducts.Take(5))
+                    {
+                        <li>
+                            <span class="dash-brand"><strong>@L[p.Name]</strong><small>@L[p.Category] · @p.Units.ToString("N0", L.Culture) @L["sold"]</small></span>
+                            <bdi class="dash-list-value">@L.Money((decimal)p.Revenue)</bdi>
+                        </li>
+                    }
+                </ul>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-4">
+            <CardHeader>
+                <CardDescription>@L["Inventory"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@Percent(view.Stock.InStock, StockTotal)</bdi> <small>@L["available"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Progress Value="view.Stock.InStock" Max="StockTotal" Segments="24" AccessibleLabel="@L["Available stock"]" />
+                <div class="dash-counters">
+                    <div><span>@L["In stock"]</span><strong>@view.Stock.InStock.ToString("N0", L.Culture)</strong></div>
+                    <div><span>@L["Low stock"]</span><strong>@view.Stock.Low.ToString("N0", L.Culture)</strong></div>
+                    <div><span>@L["Out of stock"]</span><strong>@view.Stock.Out.ToString("N0", L.Culture)</strong></div>
+                </div>
+                <h3 class="dash-subhead">@L["Restock soon"]</h3>
+                <ul class="dash-list">
+                    @foreach (var item in view.LowStock)
+                    {
+                        <li class="dash-stock-item">
+                            <span class="dash-brand"><strong>@L[item.Name]</strong><small>@item.Units @L["left"] · @L["reorder at"] @item.Threshold</small></span>
+                            <Progress Value="item.Units" Max="item.Threshold" Size="sm" Color="@(item.Units * 3 < item.Threshold ? "danger" : "warning")"
+                                      AccessibleLabel="@($"{L[item.Name]}: {item.Units} {L["left"]}")" />
+                        </li>
+                    }
+                </ul>
+            </CardContent>
+        </Card>
+
+        <Card Class="dash-span-4">
+            <CardHeader>
+                <CardDescription>@L["Reviews"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Rating.ToString("0.0", L.Culture)</bdi> <small>@L["average rating"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <ul class="dash-bars">
+                    @for (var s = 0; s < 5; s++)
+                    {
+                        var stars = 5 - s;
+                        var count = view.RatingCounts[s];
+                        <li>
+                            <span class="dash-bars-label"><bdi>@stars</bdi> ★</span>
+                            <Progress Value="count" Max="view.Reviews" Size="sm" Color="warning" AccessibleLabel="@($"{stars} ★: {count}")" />
+                            <bdi class="dash-bars-value">@count.ToString("N0", L.Culture)</bdi>
+                        </li>
+                    }
+                </ul>
+                <div class="dash-reviewers">
+                    <AvatarGroup TItem="string" Items="view.Reviewers" GetName="n => n" Max="5" Size="sm" Label="@L["Recent reviewers"]" />
+                    <span class="dash-muted dash-small"><bdi>@view.Reviews.ToString("N0", L.Culture)</bdi> @L["reviews"]</span>
+                </div>
+                <blockquote class="dash-quote">
+                    <Rating Value="5" ReadOnly Clearable="false" Size="sm" GetValueText="@(n => $"{n}/5")" />
+                    <p>@L["Fast delivery and the linen shirt fits perfectly. Ordering again."]</p>
+                    <footer>Layla Nasser</footer>
+                </blockquote>
+            </CardContent>
+        </Card>
+
+        @* Orders *@
+        <Card Class="dash-span-12">
+            <CardHeader>
+                <CardDescription>@L["Recent orders"]</CardDescription>
+                <CardTitle><span class="dash-headline"><bdi>@view.Orders.Count</bdi> <small>@L["orders"]</small></span></CardTitle>
+            </CardHeader>
+            <CardContent>
+                <RecentOrdersTable Orders="view.Orders" />
+            </CardContent>
+        </Card>
+    </section>
+}
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private string period = "30d", channel = "all";
+    private StoreView? view;
+    private bool loading;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await Load();
+    }
+
+    private async Task Load()
+    {
+        loading = true;
+        view = await Report.LoadAsync(period, channel);
+        loading = false;
+        StateHasChanged();
+    }
+
+    private Task SetPeriod(string value) { period = value; return Load(); }
+    private Task SetChannel(string value) { channel = value; return Load(); }
+
+    private int StockTotal => view!.Stock.InStock + view.Stock.Low + view.Stock.Out;
+
+    private string Percent(double part, double whole) => whole == 0 ? "0%" : (part / whole * 100).ToString("0", L.Culture) + "%";
+
+    private string[] BucketLabels => view!.Buckets.Select(d => view.Bucket switch
+    {
+        "month" => d.ToString("MMM", L.Culture),
+        _ => d.ToString("d MMM", L.Culture),
+    }).ToArray();
+
+    private static string PeriodName(string p) => p switch
+    {
+        "7d" => "Last 7 days", "30d" => "Last 30 days", "90d" => "Last 90 days", _ => "Year to date",
+    };
+
+    private static string PreviousName(string p) => p switch
+    {
+        "7d" => "previous 7 days", "30d" => "previous 30 days", "90d" => "previous 90 days", _ => "same period last year",
+    };
+
+    private static string BucketName(string b) => b switch { "day" => "Daily", "week" => "Weekly", _ => "Monthly" };
+
+}

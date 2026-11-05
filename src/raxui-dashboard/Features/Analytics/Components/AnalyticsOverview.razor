@@ -1,0 +1,91 @@
+@inherits AnalyticsSectionBase
+
+<Card Class="dash-span-12 dash-kpi-grid dash-kpi-grid-5">
+    @foreach (var kpi in view.Kpis) { <KpiStat Kpi="kpi" Comparison="@L[PreviousName(view.Range)]" /> }
+</Card>
+
+<Card Class="dash-span-7">
+    <CardHeader>
+        <CardDescription>@L["Traffic trend"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@view.Sessions.Sum().ToString("N0", L.Culture)</bdi> <small>@L["sessions"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="line" Label="@L["Traffic trend"]" Labels="BucketLabels" Height="250"
+               Series="@([new ChartTypes.Series(L["Sessions"], view.Sessions) { Color = "1" },
+                          new ChartTypes.Series(L["Unique visitors"], view.Visitors) { Color = "2" }])" />
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-5">
+    <CardHeader>
+        <CardDescription>@L["Realtime visitors"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@active</bdi> <small>@L["in the last minute"]</small></span></CardTitle>
+        <CardAction><Badge Color="success" Dot Ping>@L["Live"]</Badge></CardAction>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="sparkline" Label="@L["Realtime visitors"]" Labels="LiveLabels" Height="64"
+               Series="@([new ChartTypes.Series(L["Visitors"], live) { Color = "3" }])" />
+        <ul class="dash-list dash-gap">
+            @foreach (var c in view.Countries.Take(4))
+            {
+                <li>
+                    <span class="dash-country"><span class="dash-code">@c.Code</span> @L[c.Name]</span>
+                    <bdi class="dash-list-value">@((int)Math.Round(active * c.Visitors / view.Countries.Sum(x => x.Visitors)))</bdi>
+                </li>
+            }
+        </ul>
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-7">
+    <CardHeader>
+        <CardDescription>@L["Page performance"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@view.Kpis[2].Value.ToString("N0", L.Culture)</bdi> <small>@L["pageviews"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent Class="dash-table-content">
+        <PagesTable Pages="view.Pages" />
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-5">
+    <CardHeader>
+        <CardDescription>@L["Traffic sources"]</CardDescription>
+    </CardHeader>
+    <CardContent>
+        <Tabs Items="SourceTabs" @bind-Value="sourceTab" Variant="underline" Label="@L["Traffic sources"]">
+            <Panel Context="source">
+                @{
+                    var rows = source switch
+                    {
+                        "campaigns" => view.Campaigns.Select(c => (c.Name, c.Visits)).ToArray(),
+                        "referrers" => view.Referrers.ToArray(),
+                        _ => view.Sources.ToArray(),
+                    };
+                    var top = rows.Max(r => r.Item2);
+                }
+                <ul class="dash-funnel dash-gap">
+                    @foreach (var (name, visits) in rows)
+                    {
+                        <li>
+                            <div class="dash-funnel-head">
+                                <span>@(source == "referrers" ? name : L[name])</span>
+                                <bdi class="dash-list-value">@visits.ToString("N0", L.Culture)</bdi>
+                            </div>
+                            <Progress Value="visits" Max="top" Size="sm" Color="info" AccessibleLabel="@($"{name}: {visits:N0}")" />
+                        </li>
+                    }
+                </ul>
+            </Panel>
+        </Tabs>
+    </CardContent>
+</Card>
+
+@code {
+    [Parameter] public int Active { get; set; }
+    [Parameter] public IReadOnlyList<double> Live { get; set; } = [];
+    private int active => Active;
+    private IReadOnlyList<double> live => Live;
+    private string sourceTab = "sources";
+    private string[] LiveLabels => live.Select((_, i) => $"-{(live.Count - 1 - i) * 3}s").ToArray();
+    private Tabs.Item[] SourceTabs => [new("sources", L["Sources"]), new("campaigns", L["Campaigns"]), new("referrers", L["Referrers"])];
+}

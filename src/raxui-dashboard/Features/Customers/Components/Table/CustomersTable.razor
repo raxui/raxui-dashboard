@@ -1,0 +1,40 @@
+@using static raxui_dashboard.Features.Customers.Components.CustomerPresentation
+
+<Card>
+    <CardContent>
+        <DataTable @ref="table" TItem="Customer" Items="Customers" Columns="Columns" GetRowId="c => c.Id"
+                   Label="@L["Customers"]" Labels="Labels" Loading="Customers.Count == 0"
+                   InitialSorting="@([new DataTableTypes.Sort("last", true)])" InitialHiddenColumns="@(["id"])">
+            <Toolbar>
+                <Button Size="sm" Variant="secondary" OnClick="() => Export(Customers.Count)">
+                    <Lucide Path="@Lucide.Download" /> @L["Export"]
+                </Button>
+            </Toolbar>
+            <BulkActions Context="selected">
+                <Button Size="sm" Variant="ghost" OnClick="() => ExportSelected(selected)">@L["Export"]</Button>
+                <Button Size="sm" Variant="ghost" Class="text-danger" OnClick="() => OnDelete.InvokeAsync(selected)">@L["Delete"]</Button>
+            </BulkActions>
+        </DataTable>
+    </CardContent>
+</Card>
+
+@code {
+    private RenderFragment<Customer> CustomerCell => c =>
+        @<button type="button" class="dash-customer dash-customer-trigger" aria-haspopup="dialog"
+                 aria-label="@($"{L["View"]}: {c.Name}")" @onclick="() => OnView.InvokeAsync(c)" @onclick:stopPropagation="true">
+            <Avatar Size="sm" Name="@c.Name" />
+            <span class="dash-brand"><strong>@c.Name</strong><small>@c.Email</small></span>
+        </button>;
+    private RenderFragment<Customer> PlanCell => c => @<Badge Variant="outline" Color="@PlanColor(c.Plan)">@L[c.Plan]</Badge>;
+    private RenderFragment<Customer> StatusCell => c => @<Badge Color="@StatusColor(c.Status)" Dot>@L[c.Status]</Badge>;
+    private RenderFragment<Customer> ActionsCell => c =>
+        @<DropdownMenu TriggerVariant="ghost" TriggerClass="dash-row-menu" TriggerLabel="@($"{L["Customer actions"]}: {c.Name}")">
+            <Trigger><Lucide Path="@Lucide.Dots" /></Trigger>
+            <ChildContent>
+                <DropdownMenuItem OnSelect="() => OnView.InvokeAsync(c)"><Lucide Path="@Lucide.Eye" /> @L["View"]</DropdownMenuItem>
+                <DropdownMenuItem OnSelect="() => OnEdit.InvokeAsync(c)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem Class="text-danger" OnSelect="() => OnDelete.InvokeAsync(new[] { c })"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</DropdownMenuItem>
+            </ChildContent>
+        </DropdownMenu>;
+}

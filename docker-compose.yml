@@ -1,0 +1,27 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: src/raxui-dashboard/Dockerfile
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: "8080"
+      # Only accessible through Dokploy's trusted reverse proxy (no host port).
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      AllowedHosts: "blazor.raxui.com;localhost;127.0.0.1"
+      Application__TimeZone: Asia/Baghdad
+      DataProtection__KeysPath: /var/lib/raxui-dashboard/keys
+    expose:
+      - "8080"
+    volumes:
+      - dashboard-keys:/var/lib/raxui-dashboard/keys
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  dashboard-keys:

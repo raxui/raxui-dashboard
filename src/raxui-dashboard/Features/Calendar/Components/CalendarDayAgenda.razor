@@ -1,0 +1,35 @@
+@using static raxui_dashboard.Features.Calendar.Components.CalendarPresentation
+
+<Card Class="dash-span-5">
+    <CardHeader>
+        <CardTitle><h2>@(Day?.ToString(L.Arabic ? "dddd، d MMMM" : "dddd, d MMMM", L.Culture))</h2></CardTitle>
+        <CardDescription>@DayEvents.Length @L[DayEvents.Length == 1 ? "event" : "events"]</CardDescription>
+    </CardHeader>
+    <CardContent>
+        @if (DayEvents.Length == 0)
+        {
+            <p class="dash-empty">@L["Nothing scheduled. Enjoy the quiet day."]</p>
+        }
+        else
+        {
+            <Timeline TimePosition="side" DoneLabel="@L["completed"]" CurrentLabel="@L["in progress"]" UpcomingLabel="@L["upcoming"]">
+                @foreach (var (e, i) in DayEvents.Select((e, i) => (e, i)))
+                {
+                    <TimelineItem Index="i" Title="@L[e.Title]" Status="@StatusOf(e)" Tone="@ToneOf(e.Kind)"
+                                  Time="@Time(e)" Description="@($"{L[Title(e.Kind)]} · {(e.End - e.Start).TotalMinutes:0} {L["min"]}")" />
+                }
+            </Timeline>
+        }
+    </CardContent>
+</Card>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public DateOnly? Day { get; set; }
+    [Parameter] public IReadOnlyList<CalendarEvent> Events { get; set; } = [];
+    [Parameter] public DateOnly Today { get; set; }
+    [Parameter] public TimeOnly Now { get; set; }
+    private CalendarEvent[] DayEvents => Events.Where(e => e.Date == Day).OrderBy(e => e.Start).ToArray();
+    private string StatusOf(CalendarEvent e) => CalendarPresentation.StatusOf(e, Today, Now);
+    private string Time(CalendarEvent e) => CalendarPresentation.Time(e, L);
+}

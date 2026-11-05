@@ -1,0 +1,63 @@
+@inherits AnalyticsSectionBase
+
+<Card Class="dash-span-7">
+    <CardHeader>
+        <CardDescription>@L["Sessions by channel"]</CardDescription>
+        <CardTitle><span class="dash-headline">@L[view.Sources[0].Name] <small><bdi>@Percent(view.Sources[0].Visits, view.Sources.Sum(s => s.Visits))</bdi></small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="bar" Horizontal Grid="false" Legend="false" Label="@L["Sessions by channel"]" Height="240"
+               Labels="@view.Sources.Select(s => L[s.Name]).ToArray()"
+               Series="@([new ChartTypes.Series(L["Sessions"], view.Sources.Select(s => s.Visits).ToArray()) { Color = "2" }])" />
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-5">
+    <CardHeader>
+        <CardDescription>@L["Top referrers"]</CardDescription>
+        <CardTitle><span class="dash-headline">@view.Referrers[0].Name</span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <ul class="dash-funnel">
+            @foreach (var r in view.Referrers)
+            {
+                <li>
+                    <div class="dash-funnel-head"><span>@r.Name</span><bdi class="dash-list-value">@r.Visits.ToString("N0", L.Culture)</bdi></div>
+                    <Progress Value="r.Visits" Max="view.Referrers[0].Visits" Size="sm" Color="info" AccessibleLabel="@($"{r.Name}: {r.Visits:N0}")" />
+                </li>
+            }
+        </ul>
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-12">
+    <CardHeader><CardDescription>@L["Campaigns"]</CardDescription></CardHeader>
+    <CardContent Class="dash-table-content">
+        <Table Density="compact">
+            <TableHeader>
+                <TableRow>
+                    <TableHead>@L["Campaign"]</TableHead>
+                    <TableHead Class="dash-num">@L["Sessions"]</TableHead>
+                    <TableHead Class="dash-num">@L["Conversion rate"]</TableHead>
+                    <TableHead>@L["vs store average"]</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                @foreach (var c in view.Campaigns.OrderByDescending(c => c.Conversion))
+                {
+                    var diff = c.Conversion - view.Kpis[4].Value;
+                    <TableRow @key="c.Name">
+                        <TableCell><strong>@L[c.Name]</strong></TableCell>
+                        <TableCell Class="dash-num"><bdi>@c.Visits.ToString("N0", L.Culture)</bdi></TableCell>
+                        <TableCell Class="dash-num"><bdi>@c.Conversion.ToString("0.0", L.Culture)%</bdi></TableCell>
+                        <TableCell>
+                            <Badge Size="sm" Color="@(diff >= 0 ? "success" : "danger")">
+                                <bdi>@(diff >= 0 ? "+" : "")@diff.ToString("0.0", L.Culture) pt</bdi>
+                            </Badge>
+                        </TableCell>
+                    </TableRow>
+                }
+            </TableBody>
+        </Table>
+    </CardContent>
+</Card>

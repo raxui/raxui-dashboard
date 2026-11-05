@@ -1,0 +1,146 @@
+@page "/tasks"
+@using static raxui_dashboard.Features.Tasks.Models.TaskOptions
+@inject raxui_dashboard.Features.Tasks.Services.TaskService TaskStore
+@inject AppClock Clock
+@inject Toaster.ToastService Toasts
+
+<PageTitle>@L["Tasks"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["Tasks"]</h1>
+        <p>@L["Drag cards between columns with the mouse, touch or keyboard."]</p>
+    </div>
+    <Button Size="sm" OnClick="Add"><Lucide Path="@Lucide.Plus" /> @L["New task"]</Button>
+</header>
+
+<TaskForm @bind-Open="adding" Draft="draft" Editing="@(editingId is not null)" Saving="saving" Today="Today" TeamOptions="TeamOptions" OnSubmit="SaveTask" />
+<TaskDetailsSheet @bind-Open="viewing" Value="viewed" Column="@ColumnOf(viewed?.Id ?? "")" Today="Today" OnEdit="Edit" OnDelete="AskDelete" />
+
+<ConfirmDialog @bind-Open="confirmingDelete" Tone="destructive" Title="@L["Delete this task?"]"
+               Description="@($"“{deleting?.Title}” {L["will be removed from the board. This can't be undone."]}")"
+               ConfirmText="@L["Delete"]" CancelText="@L["Cancel"]" OnConfirm="DeleteAsync" />
+
+<Kanban TItem="TaskCard" Columns="Board" ColumnsChanged="SetColumns" GetId="c => c.Id" GetLabel="c => c.Title"
+        Committed="Log" Class="dash-board" Direction="@(L.Arabic ? "rtl" : "ltr")"
+        Instructions="@L["To pick up a card or column, press Space or Enter. Use the arrow keys to move it, Space or Enter to drop it, and Escape to cancel."]"
+        ItemHandleLabel="@L["Drag card"]" ColumnHandleLabel="@L["Drag column"]"
+        Grabbed="@L["Picked up {item} in {column}. Position {position} of {total}."]"
+        Moved="@L["{item} moved to {column}, position {position} of {total}."]"
+        Dropped="@L["{item} dropped in {column} at position {position} of {total}."]"
+        Cancelled="@L["Cancelled. {item} is back where it was."]">
+    <ColumnHeader Context="column">
+        <span class="dash-dot" data-column="@column.Id" aria-hidden="true"></span>
+        <h2 class="rax-kanban-column-title">@column.Title</h2>
+        <span @key="column.Items.Count" class="rax-kanban-column-count" data-over-limit="@(column.Items.Count > column.Limit ? "" : null)">
+            @(column.Limit is null ? column.Items.Count : $"{column.Items.Count}/{column.Limit}")
+        </span>
+    </ColumnHeader>
+    <ItemTemplate Context="card">
+        <TaskCardContent Card="card" Done="IsDone(card)" Today="Today" OnView="View" OnEdit="Edit" OnDelete="AskDelete" />
+    </ItemTemplate>
+    <Empty>@L["Drop cards here"]</Empty>
+</Kanban>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private DateOnly Today => Clock.Today;
+
+    private IReadOnlyList<TaskColumn> columns => TaskStore.Columns;
+
+    protected override void OnInitialized()
+    {
+        draft = new(L, Today);
+    }
+
+    // Adapt domain columns to the Kanban component only at the view boundary.
+    private IReadOnlyList<KanbanTypes.Column<TaskCard>> Board => columns.Select(c =>
+        new KanbanTypes.Column<TaskCard>(c.Id, L[Meta[c.Id].Title], c.Items) { Limit = c.Limit }).ToArray();
+
+    private void SetColumns(IReadOnlyList<KanbanTypes.Column<TaskCard>> next) =>
+        TaskStore.SetColumns(next.Select(c => new TaskColumn(c.Id, c.Items, c.Limit)).ToArray());
+
+    // Everyone on the board plus the core team, so an edited card always finds its assignee.
+    private IEnumerable<string> TeamOptions => TaskStore.TeamOptions;
+
+    private bool IsDone(TaskCard card) => TaskStore.IsDone(card);
+
+    private bool adding, saving;
+    private TaskDraft draft = default!;
+
+    private string? editingId;            // null while adding
+    private bool viewing, confirmingDelete;
+    private TaskCard? viewed, deleting;
+
+    private string ColumnOf(string id) => TaskStore.ColumnOf(id);
+
+    private void Add()
+    {
+        editingId = null;
+        draft = new(L, Today);
+        adding = true;
+    }
+
+    private void View(TaskCard card)
+    {
+        viewed = card;
+        viewing = true;
+    }
+
+    private void Edit(TaskCard card)
+    {
+        viewing = false;
+        editingId = card.Id;
+        draft = new(L, Today)
+        {
+            Title = card.Title, Column = ColumnOf(card.Id), Tag = card.Tag, Priority = card.Priority,
+            Assignee = card.Assignee, Due = card.Due,
+        };
+        adding = true;
+    }
+
+    private void AskDelete(TaskCard card)
+    {
+        viewing = false;
+        deleting = card;
+        confirmingDelete = true;
+    }
+
+    // ConfirmDialog shows its own spinner while this runs and closes when it finishes.
+    private async Task DeleteAsync()
+    {
+        if (deleting is null) return;
+        try { await TaskStore.DeleteAsync(deleting.Id); }
+        catch (Exception ex)
+        {
+            Toasts.Show(L["Could not delete task"], "danger", L["Please try again."], duration: 8000);
+            throw new InvalidOperationException(L["Could not delete task"], ex);
+        }
+        Toasts.Show(L["Deleted"], "success", deleting.Title);
+        deleting = null;
+    }
+
+    private async Task SaveTask()
+    {
+        if (saving) return;
+        saving = true;
+        try
+        {
+            var card = await TaskStore.SaveAsync(draft, editingId);
+            adding = false;
+            Toasts.Show(L[editingId is null ? "Task added" : "Task updated"], "success", card.Title);
+        }
+        catch (Exception) { Toasts.Show(L["Could not save task"], "danger", L["Please try again."], duration: 8000); }
+        finally { saving = false; }
+    }
+
+    private void Log(KanbanTypes.Change change)
+    {
+        var name = change.Type == "card"
+            ? columns.SelectMany(c => c.Items).FirstOrDefault(c => c.Id == change.Id)?.Title ?? change.Id
+            : L[Meta[change.Id].Title];
+        Toasts.Show(L["Board updated"], "success", $"{name} → {L[Meta[change.To].Title]}", duration: 3000);
+    }
+
+}

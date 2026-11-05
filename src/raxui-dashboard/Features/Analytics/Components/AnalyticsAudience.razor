@@ -1,0 +1,50 @@
+@inherits AnalyticsSectionBase
+
+<Card Class="dash-span-8">
+    <CardHeader>
+        <CardDescription>@L["New and returning visitors"]</CardDescription>
+        <CardTitle><span class="dash-headline"><bdi>@Percent(view.ReturningVisitors.Sum(), view.Visitors.Sum())</bdi> <small>@L["returning"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <Chart Type="bar" Stacked Label="@L["New and returning visitors"]" Labels="BucketLabels" Height="260"
+               Series="@([new ChartTypes.Series(L["New"], view.NewVisitors) { Color = "1" },
+                          new ChartTypes.Series(L["Returning"], view.ReturningVisitors) { Color = "2" }])" />
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-4">
+    <CardHeader>
+        <CardDescription>@L["Devices"]</CardDescription>
+        <CardTitle><span class="dash-headline">@L[view.Devices[0].Name] <small><bdi>@view.Devices[0].Share%</bdi></small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <SplitBar Parts="@view.Devices.Select(d => (L[d.Name], d.Share)).ToArray()" />
+        <div class="dash-counters">
+            @foreach (var d in view.Devices)
+            {
+                <div><span>@L[d.Name]</span><strong><bdi>@((view.Kpis[0].Value * d.Share / 100).ToString("N0", L.Culture))</bdi></strong></div>
+            }
+        </div>
+    </CardContent>
+</Card>
+
+<Card Class="dash-span-12">
+    <CardHeader>
+        <CardDescription>@L["Top countries"]</CardDescription>
+        <CardTitle><span class="dash-headline">@L[view.Countries[0].Name] <small><bdi>@Percent(view.Countries[0].Visitors, view.Kpis[0].Value)</bdi> @L["of visitors"]</small></span></CardTitle>
+    </CardHeader>
+    <CardContent>
+        <ul class="dash-funnel dash-columns">
+            @foreach (var c in view.Countries)
+            {
+                <li>
+                    <div class="dash-funnel-head">
+                        <span class="dash-country"><span class="dash-code">@c.Code</span> @L[c.Name]</span>
+                        <bdi class="dash-list-value">@c.Visitors.ToString("N0", L.Culture)</bdi>
+                    </div>
+                    <Progress Value="c.Visitors" Max="view.Countries[0].Visitors" Size="sm" AccessibleLabel="@($"{L[c.Name]}: {c.Visitors:N0}")" />
+                </li>
+            }
+        </ul>
+    </CardContent>
+</Card>

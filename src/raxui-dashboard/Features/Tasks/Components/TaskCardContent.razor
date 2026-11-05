@@ -1,0 +1,41 @@
+@using static raxui_dashboard.Features.Tasks.Components.TaskPresentation
+<div class="dash-task">
+    <div class="dash-task-head">
+        <span class="dash-task-title">@Card.Title</span>
+        <DropdownMenu TriggerVariant="ghost" TriggerClass="dash-task-menu" TriggerLabel="@($"{L["Task actions"]}: {Card.Title}")">
+            <Trigger><Lucide Path="@Lucide.Dots" /></Trigger>
+            <ChildContent>
+                <DropdownMenuItem OnSelect="() => OnView.InvokeAsync(Card)"><Lucide Path="@Lucide.Eye" /> @L["View"]</DropdownMenuItem>
+                <DropdownMenuItem OnSelect="() => OnEdit.InvokeAsync(Card)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem Class="text-danger" OnSelect="() => OnDelete.InvokeAsync(Card)"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</DropdownMenuItem>
+            </ChildContent>
+        </DropdownMenu>
+    </div>
+    <div class="dash-task-meta">
+        <Badge Size="sm" Color="@TagColor(Card.Tag)">@L[Card.Tag]</Badge>
+        <Badge Size="sm" Variant="outline" Color="@PriorityColor(Card.Priority)">@L[Card.Priority]</Badge>
+    </div>
+    <div class="dash-task-foot">
+        @if (Card.Due is { } due)
+        {
+            <span class="dash-task-due" data-overdue="@(due < Today && !Done ? "" : null)">
+                <Lucide Path="@Lucide.Calendar" /> @due.ToString("d MMM", L.Culture)
+            </span>
+        }
+        @if (Card.Comments > 0)
+        {
+            <span class="dash-task-due"><Lucide Path="@Lucide.Message" /> @Card.Comments</span>
+        }
+        <Avatar Size="xs" Name="@Card.Assignee" Class="dash-task-avatar" title="@Card.Assignee" />
+    </div>
+</div>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter, EditorRequired] public TaskCard Card { get; set; } = default!;
+    [Parameter] public bool Done { get; set; }
+    [Parameter] public DateOnly Today { get; set; }
+    [Parameter] public EventCallback<TaskCard> OnView { get; set; }
+    [Parameter] public EventCallback<TaskCard> OnEdit { get; set; }
+    [Parameter] public EventCallback<TaskCard> OnDelete { get; set; }
+}

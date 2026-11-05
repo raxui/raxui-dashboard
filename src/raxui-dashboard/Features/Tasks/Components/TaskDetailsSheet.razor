@@ -1,0 +1,59 @@
+@using static raxui_dashboard.Features.Tasks.Models.TaskOptions
+@using static raxui_dashboard.Features.Tasks.Components.TaskPresentation
+<Sheet Open="Open" OpenChanged="OpenChanged" Title="@L["Task details"]" CloseLabel="@L["Close"]" Class="dash-task-sheet">
+    <ChildContent>
+        @if (Value is not null)
+        {
+            <div class="dash-task-detail-heading">
+                <h3>@Value.Title</h3>
+                <div class="dash-task-detail-badges">
+                    <span class="dash-task-detail-state"><span class="dash-dot" data-column="@Column" aria-hidden="true"></span> @L[Meta[Column].Title]</span>
+                    <Badge Color="@TagColor(Value.Tag)">@L[Value.Tag]</Badge>
+                </div>
+            </div>
+            <div class="dash-task-detail-owner">
+                <Avatar Size="lg" Name="@Value.Assignee" />
+                <div>
+                    <span>@L["Assignee"]</span>
+                    <strong>@Value.Assignee</strong>
+                </div>
+            </div>
+            <div class="dash-task-detail-schedule" data-overdue="@(Value.Due is { } date && date < Today && Column != "done" ? "" : null)">
+                <div class="dash-task-detail-calendar"><Lucide Path="@Lucide.Calendar" /></div>
+                <dl>
+                    <dt>@L["Due date"]</dt>
+                    <dd>
+                        @if (Value.Due is { } due)
+                        {
+                            <time datetime="@due.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">@due.ToString("d MMMM yyyy", L.Culture)</time>
+                            @if (due < Today && Column != "done") { <Badge Size="sm" Color="danger">@L["Overdue"]</Badge> }
+                        }
+                        else { <span class="dash-muted">@L["No due date"]</span> }
+                    </dd>
+                </dl>
+            </div>
+            <section class="dash-task-detail-properties" aria-labelledby="task-properties-title">
+                <h3 id="task-properties-title">@L["Task properties"]</h3>
+                <dl>
+                    <div><dt>@L["Priority"]</dt><dd><Badge Variant="outline" Color="@PriorityColor(Value.Priority)">@L[Value.Priority]</Badge></dd></div>
+                    <div><dt>@L["Comments"]</dt><dd><Lucide Path="@Lucide.Message" /> @Value.Comments.ToString("N0", L.Culture)</dd></div>
+                    <div><dt>@L["Task ID"]</dt><dd class="dash-mono" dir="ltr">@Value.Id</dd></div>
+                </dl>
+            </section>
+        }
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" Class="text-danger" OnClick="() => OnDelete.InvokeAsync(Value!)"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</Button>
+        <Button OnClick="() => OnEdit.InvokeAsync(Value!)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</Button>
+    </Footer>
+</Sheet>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public TaskCard? Value { get; set; }
+    [Parameter] public string Column { get; set; } = "backlog";
+    [Parameter] public DateOnly Today { get; set; }
+    [Parameter] public EventCallback<TaskCard> OnEdit { get; set; }
+    [Parameter] public EventCallback<TaskCard> OnDelete { get; set; }
+}

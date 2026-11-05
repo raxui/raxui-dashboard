@@ -1,0 +1,144 @@
+@implements IAsyncDisposable
+@inject raxui_dashboard.Features.Analytics.Services.AnalyticsService Report
+@inject IJSRuntime JS
+@inject TimeProvider Time
+
+<PageTitle>@L["Analytics"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header dash-page-header-end">
+    <div>
+        <h1>@L["Hello, Noura"]</h1>
+        <p>@L["Traffic, engagement and conversion for the store in one view."]</p>
+    </div>
+    <div class="dash-filters">
+        <Select TValue="string" Value="@range" ValueChanged="SetRange" ValueExpression="() => range" Size="sm" aria-label="@L["Period"]" Class="dash-filter">
+            @foreach (var r in Report.Ranges) { <option value="@r">@L[RangeName(r)]</option> }
+        </Select>
+    </div>
+</header>
+
+<Tabs Items="TabItems" @bind-Value="tab" @bind-Value:after="() => revealTab = true" Label="@L["Analytics"]" Class="dash-tabs">
+    <Panel Context="value">
+        @if (view is null)
+        {
+            <section class="dash-grid" aria-busy="true">
+                <Skeleton Class="dash-span-12" Height="8rem" />
+                <Skeleton Class="dash-span-7" Height="20rem" />
+                <Skeleton Class="dash-span-5" Height="20rem" />
+            </section>
+        }
+        else
+        {
+            <section class="dash-grid">
+                @switch (value)
+                {
+                    case "overview":
+                        <AnalyticsOverview View="view" Active="active" Live="live" />
+                        break;
+
+                    case "audience":
+                        <AnalyticsAudience View="view" />
+                        break;
+
+                    case "acquisition":
+                        <AnalyticsAcquisition View="view" />
+                        break;
+
+                    case "engagement":
+                        <AnalyticsEngagement View="view" />
+                        break;
+
+                    default:
+                        <AnalyticsConversions View="view" />
+                        break;
+
+                }
+            </section>
+        }
+    </Panel>
+</Tabs>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+
+    private string range = "30d", tab = "overview";
+    private AnalyticsView? view;
+
+    // Realtime: a reading every 3 seconds, the last 20 kept for the sparkline.
+    private readonly List<double> live = [];
+    private int active;
+    private readonly CancellationTokenSource lifetime = new();
+
+    private Tabs.Item[] TabItems =>
+    [
+        new("overview", L["Overview"]), new("audience", L["Audience"]), new("acquisition", L["Acquisition"]),
+        new("engagement", L["Engagement"]), new("conversions", L["Conversions"]),
+    ];
+
+    protected override void OnInitialized()
+    {
+        var now = Time.GetUtcNow().UtcDateTime;
+        live.AddRange(Report.InitialReadings(now));
+        active = (int)live[^1];
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (revealTab) await RevealTab();
+        if (!firstRender) return;
+        await Load();
+        _ = Tick(lifetime.Token);
+    }
+
+    private async Task Tick(CancellationToken token)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(3), Time);
+        try
+        {
+            while (await timer.WaitForNextTickAsync(token))
+            {
+                active = Report.ActiveVisitors(Time.GetUtcNow().UtcDateTime);
+                live.Add(active);
+                if (live.Count > 20) live.RemoveAt(0);
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    private IJSObjectReference? ui;
+
+    private bool revealTab;
+
+    // After the new tab has rendered (aria-selected updated), scroll it into view in the narrow tab list.
+    private async Task RevealTab()
+    {
+        revealTab = false;
+        try
+        {
+            ui ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/ui.js");
+            await ui.InvokeVoidAsync("revealSelected", ".dash-tabs > .rax-tabs-list");
+        }
+        catch (JSDisconnectedException) { }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        lifetime.Cancel();
+        lifetime.Dispose();
+        if (ui is not null)
+        {
+            try { await ui.DisposeAsync(); } catch (JSDisconnectedException) { }
+        }
+    }
+
+    private async Task Load()
+    {
+        view = await Report.LoadAsync(range);
+        StateHasChanged();
+    }
+
+    private Task SetRange(string value) { range = value; return Load(); }
+
+    private static string RangeName(string r) => r switch { "7d" => "Last 7 days", "30d" => "Last 30 days", _ => "Last 90 days" };
+}

@@ -1,0 +1,14 @@
+**/bin
+**/obj
+.git
+.vs
+.idea
+.vscode
+**/*.user
+**/*.suo
+**/.env
+**/.env.*
+**/*.pfx
+**/*.pem
+tests
+artifacts

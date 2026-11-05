@@ -1,0 +1,33 @@
+@using static raxui_dashboard.Features.Calendar.Components.CalendarPresentation
+
+<Card Class="dash-span-12">
+    <CardHeader>
+        <CardTitle><h2>@L["Upcoming"]</h2></CardTitle>
+        <CardDescription>@L["The next events on the team calendar."]</CardDescription>
+    </CardHeader>
+    <CardContent>
+        <div class="dash-upcoming">
+            @foreach (var e in Events.Where(e => e.Date > Today).OrderBy(e => e.Date).ThenBy(e => e.Start).Take(6))
+            {
+                <button type="button" class="dash-upcoming-item" @onclick="() => OnSelect.InvokeAsync(e.Date)">
+                    <span class="dash-upcoming-date">
+                        <strong>@e.Date.Day</strong>
+                        <small>@e.Date.ToString("MMM", L.Culture)</small>
+                    </span>
+                    <span class="dash-brand">
+                        <strong>@L[e.Title]</strong>
+                        <small><span class="dash-dot" data-kind="@e.Kind"></span> @L[Title(e.Kind)] · @Time(e)</small>
+                    </span>
+                </button>
+            }
+        </div>
+    </CardContent>
+</Card>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public IReadOnlyList<CalendarEvent> Events { get; set; } = [];
+    [Parameter] public DateOnly Today { get; set; }
+    [Parameter] public EventCallback<DateOnly> OnSelect { get; set; }
+    private string Time(CalendarEvent e) => CalendarPresentation.Time(e, L);
+}

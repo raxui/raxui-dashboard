@@ -1,0 +1,27 @@
+@* One headline figure: label, value, change against the previous period and what it is compared with.
+   The trend badge carries an arrow and a sign, so good/bad is never colour alone. *@
+<div class="dash-kpi-stat">
+    <span class="dash-kpi-stat-label">@L[Kpi.Title]</span>
+    <span class="dash-kpi-stat-value"><bdi>@Format(Kpi.Value)</bdi></span>
+    <span class="dash-kpi-stat-foot">
+        <Badge Size="sm" Color="@(Kpi.Good ? "success" : "danger")">
+            <Lucide Path="@(Kpi.Change >= 0 ? Lucide.TrendUp : Lucide.TrendDown)" Class="dash-flip-rtl" />
+            <bdi>@(Kpi.Change >= 0 ? "+" : "")@Kpi.Change.ToString("0.0", L.Culture)%</bdi>
+        </Badge>
+        <span><bdi>@Format(Kpi.Previous)</bdi> @Comparison</span>
+    </span>
+</div>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter, EditorRequired] public StoreKpi Kpi { get; set; } = default!;
+    /// <summary>What the previous value is, e.g. "previous 30 days".</summary>
+    [Parameter] public string Comparison { get; set; } = "";
+
+    private string Format(double v) => Kpi.Format switch
+    {
+        "money" => L.Money((decimal)v),
+        "money2" => L.Money((decimal)v, 2),
+        "percent" => v.ToString("0.00", L.Culture) + "%",
+        _ => v.ToString("N0", L.Culture),
+    };
+}

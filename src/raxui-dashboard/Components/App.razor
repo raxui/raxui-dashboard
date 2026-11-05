@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" data-rax-appearance="glass" data-rax-accent="indigo">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+    <link id="bootstrap-css" rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]"
+          data-ltr="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" data-rtl="@Assets["lib/bootstrap/dist/css/bootstrap.rtl.min.css"]" />
+    <link rel="stylesheet" href="@Assets["css/raxui/raxui.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["raxui-dashboard.styles.css"]" />
+    <script src="@Assets["js/theme.js"]"></script>
+    <ImportMap />
+    <link rel="icon" type="image/svg+xml" href="@Assets["assets/raxui-logo.svg"]" />
+    <link rel="icon" type="image/png" href="@Assets["assets/raxui-logo.png"]" />
+    <link rel="apple-touch-icon" href="@Assets["assets/raxui-logo.png"]" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+
+</html>

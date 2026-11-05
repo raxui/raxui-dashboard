@@ -1,0 +1,38 @@
+<DataTable TItem="Order" Items="Orders" Columns="OrderColumns" GetRowId="o => o.Id" Label="@L["Recent orders"]"
+                           Labels="TableLabels" Selectable="false" InitialPageSize="6" PageSizeOptions="@([6, 12, 24])" Density="compact" />
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public IReadOnlyList<Order> Orders { get; set; } = [];
+
+    private static string StatusColor(string status) => status switch
+    {
+        "Paid" => "success", "Shipped" => "info", "Pending" => "warning", "Cancelled" => "danger", _ => "neutral",
+    };
+
+    private RenderFragment<Order> CustomerCell => o =>
+        @<span class="dash-customer">
+            <Avatar Size="sm" Name="@o.Customer" />
+            <span class="dash-brand"><strong>@o.Customer</strong><small>@o.Email</small></span>
+        </span>;
+    private RenderFragment<Order> StatusCell => o => @<Badge Color="@StatusColor(o.Status)" Dot>@L[o.Status]</Badge>;
+
+    private IReadOnlyList<DataTableTypes.Column<Order>> OrderColumns =>
+    [
+        new() { Id = "id", Title = L["Order"], Value = o => o.Id, Class = "dash-mono" },
+        new() { Id = "customer", Title = L["Customer"], Value = o => o.Customer + " " + o.Email, Cell = CustomerCell, Hideable = false },
+        new() { Id = "channel", Title = L["Channel"], Value = o => o.Channel, Format = v => L[(string)v!],
+                Options = StoreOptions.Channels.Select(c => new DataTableTypes.Option(c, L[c])).ToArray() },
+        new() { Id = "date", Title = L["Date"], Value = o => o.Date, Format = v => ((DateOnly)v!).ToString("d MMM", L.Culture), Searchable = false },
+        new() { Id = "status", Title = L["Status"], Value = o => o.Status, Cell = StatusCell,
+                Options = new[] { "Paid", "Shipped", "Pending", "Refunded", "Cancelled" }.Select(s => new DataTableTypes.Option(s, L[s])).ToArray() },
+        new() { Id = "amount", Title = L["Amount"], Value = o => o.Amount, Format = v => L.Money((decimal)v!, 2), Align = "end", Searchable = false },
+    ];
+
+    private DataTableTypes.Labels TableLabels => !L.Arabic ? new() { Search = "Search orders…" } : new()
+    {
+        Search = "ابحث في الطلبات…", View = "العرض", Columns = "الأعمدة", Compact = "مضغوط", Comfortable = "مريح",
+        Reset = "مسح الفلاتر", Empty = "لا توجد نتائج.", RowsPerPage = "صفوف الصفحة", Previous = "السابق", Next = "التالي",
+        Pagination = "الصفحات", MorePages = "صفحات أخرى", Results = n => $"{n} نتيجة", Selected = n => $"{n} محدد", Page = n => $"صفحة {n}",
+    };
+}

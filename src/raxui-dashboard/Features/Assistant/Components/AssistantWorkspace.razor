@@ -1,0 +1,55 @@
+@implements IDisposable
+@inject raxui_dashboard.Features.Assistant.Services.AssistantSession Session
+
+<PageTitle>@L["AI Assistant"] · RaxUI Admin</PageTitle>
+
+<header class="dash-page-header">
+    <div>
+        <h1>@L["AI Assistant"]</h1>
+        <p>@L["Ask about revenue, customers or tasks. Answers use the dashboard's own data."]</p>
+    </div>
+    <Badge Color="info" Variant="outline">@L["Demo model"]</Badge>
+</header>
+
+<Card Class="dash-chat">
+    @* column-reverse keeps the newest turn in view without script. *@
+    <div class="dash-chat-scroll">
+        <div class="@(turns.Count == 0 ? "dash-chat-empty" : null)">
+            @if (turns.Count == 0)
+            {
+                <span class="dash-logo dash-logo-lg"><Lucide Path="@Lucide.Sparkles" /></span>
+                <h2>@L["How can I help with your store today?"]</h2>
+                <AISuggestions Suggestions="Suggestions" OnSelect="Ask" Class="justify-content-center" />
+            }
+            else
+            {
+                <AIConversation>
+                    @foreach (var turn in turns)
+                    {
+                        <AIMessage @key="turn.Id" From="user">@turn.Prompt</AIMessage>
+                        <AIMessage @key="-turn.Id" From="assistant">
+                            <AssistantTurnContent Turn="turn" CanRegenerate="@(turn == turns[^1] && status == "ready")" OnRegenerate="() => Ask(turn.Prompt)" />
+                        </AIMessage>
+                    }
+                </AIConversation>
+            }
+        </div>
+    </div>
+    <div class="dash-chat-input">
+        <AIPromptInput Status="@status" OnSubmit="Ask" OnStop="Stop" Placeholder="@L["Ask about your store…"]"
+                       Label="@L["Message"]" SendLabel="@L["Send"]" StopLabel="@L["Stop"]" />
+    </div>
+</Card>
+
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    private IReadOnlyList<AssistantTurn> turns => Session.Turns;
+    private string status => Session.Status;
+    private string[] Suggestions =>
+        [L["How did revenue do this quarter?"], L["Who are my top customers?"], L["What is overdue on the task board?"]];
+    protected override void OnInitialized() => Session.Changed += Refresh;
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    private Task Ask(string prompt) => Session.SendAsync(prompt, L.Arabic);
+    private void Stop() => Session.Stop();
+    public void Dispose() { Session.Changed -= Refresh; Session.Dispose(); }
+}

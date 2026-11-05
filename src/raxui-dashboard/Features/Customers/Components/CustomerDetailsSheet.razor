@@ -1,0 +1,53 @@
+@using static raxui_dashboard.Features.Customers.Components.CustomerPresentation
+<Sheet Open="Open" OpenChanged="OpenChanged" Title="@L["Customer details"]" CloseLabel="@L["Close"]" Class="dash-customer-sheet">
+    <ChildContent>
+        @if (Value is not null)
+        {
+            <div class="dash-customer-identity">
+                <Avatar Size="lg" Name="@Value.Name" />
+                <div class="dash-customer-identity-text">
+                    <h3>@Value.Name</h3>
+                    <p dir="ltr">@Value.Email</p>
+                    <div class="dash-customer-badges">
+                        <Badge Color="@StatusColor(Value.Status)" Dot>@L[Value.Status]</Badge>
+                        <Badge Variant="outline" Color="@PlanColor(Value.Plan)">@L[Value.Plan]</Badge>
+                    </div>
+                </div>
+            </div>
+            <dl class="dash-customer-metrics">
+                <div class="dash-customer-spent">
+                    <dt>@L["Spent"]</dt>
+                    <dd dir="ltr">@L.Money(Value.Spent, 2)</dd>
+                </div>
+                <div>
+                    <dt>@L["Orders"]</dt>
+                    <dd>@Value.Orders.ToString("N0", L.Culture)</dd>
+                </div>
+                <div>
+                    <dt>@L["Avg. order value"]</dt>
+                    <dd dir="ltr">@L.Money(Value.Orders == 0 ? 0 : Value.Spent / Value.Orders, 2)</dd>
+                </div>
+            </dl>
+            <section class="dash-customer-account" aria-labelledby="customer-account-title">
+                <h3 id="customer-account-title">@L["Account details"]</h3>
+                <dl>
+                    <div><dt>@L["Country"]</dt><dd>@L[Value.Country]</dd></div>
+                    <div><dt>@L["Last order"]</dt><dd>@(Value.Orders == 0 ? L["No orders yet"] : Value.LastOrder.ToString("d MMMM yyyy", L.Culture))</dd></div>
+                    <div><dt>@L["Customer ID"]</dt><dd class="dash-mono" dir="ltr">@Value.Id</dd></div>
+                </dl>
+            </section>
+        }
+    </ChildContent>
+    <Footer>
+        <Button Variant="outline" Class="text-danger" OnClick="() => OnDelete.InvokeAsync(Value!)"><Lucide Path="@Lucide.Trash" /> @L["Delete"]</Button>
+        <Button OnClick="() => OnEdit.InvokeAsync(Value!)"><Lucide Path="@Lucide.Pencil" /> @L["Edit"]</Button>
+    </Footer>
+</Sheet>
+@code {
+    [CascadingParameter] public Ui L { get; set; } = new(false);
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public Customer? Value { get; set; }
+    [Parameter] public EventCallback<Customer> OnEdit { get; set; }
+    [Parameter] public EventCallback<Customer> OnDelete { get; set; }
+}
