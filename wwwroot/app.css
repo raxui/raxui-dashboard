@@ -486,7 +486,8 @@ html[lang=ar] body {
     min-width: 0;
 }
 
-.dash-task-menu {
+.dash-task-menu,
+.dash-row-menu {
     width: 1.75rem;
     height: 1.75rem;
     margin: -0.25rem;
@@ -497,15 +498,25 @@ html[lang=ar] body {
     color: var(--bs-secondary-color);
 }
 
-.dash-task-menu svg {
+.dash-task-menu svg,
+.dash-row-menu svg {
     stroke-width: 3;
 }
 
 .dash-task-menu svg,
+.dash-row-menu svg,
 .rax-dropdown-item svg,
 .rax-sheet-footer svg {
     width: 1rem;
     height: 1rem;
+}
+
+.dash-sheet-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .dash-details {
