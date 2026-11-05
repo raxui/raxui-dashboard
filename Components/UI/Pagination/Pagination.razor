@@ -1,0 +1,72 @@
+@* RaxUI Pagination. Source-owned: edit freely. Links work in static SSR; interactivity adds indicator motion. *@
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+<nav data-enhance-nav="false" @attributes="AdditionalAttributes" class="@($"rax-pagination {Class}")" aria-label="@Label" data-layout="@Layout" data-variant="@Variant" data-size="@Size" data-rax-appearance="@Appearance">
+    <ul @ref="_root" class="rax-pagination-content">
+        <li class="rax-pagination-indicator" aria-hidden="true" role="presentation"></li>
+        <li class="rax-pagination-item"><a class="@($"rax-pagination-link rax-pagination-step {(IconOnly?"rax-pagination-icon-only":"")}")" href="@(Current > 1 ? Href(Current - 1) : null)" @onclick="()=>Change(Current-1)" @onclick:preventDefault="PageChanged.HasDelegate" aria-disabled="@(Current <= 1 ? "true" : null)" data-step="previous" tabindex="@(Current<=1?-1:0)">@Arrow<span class="rax-pagination-step-label">@PreviousLabel</span></a></li>
+        @if(Layout=="compact"){<li class="rax-pagination-item"><span class="rax-pagination-status" aria-live="polite">@FormatPage(Current) / @FormatPage(PageCount)</span></li>}
+        else
+        {
+        @foreach (var item in Range())
+        {
+            <li @key="item" class="rax-pagination-item">
+                @if (item > 0) { <a class="rax-pagination-link" href="@Href(item)" @onclick="()=>Change(item)" @onclick:preventDefault="PageChanged.HasDelegate" aria-label="@GetPageLabel(item)" aria-current="@(item == Current ? "page" : null)">@FormatPage(item)</a> }
+                else { <span class="rax-pagination-ellipsis" aria-label="@MoreLabel">&hellip;</span> }
+            </li>
+        }
+        }
+        <li class="rax-pagination-item"><a class="@($"rax-pagination-link rax-pagination-step {(IconOnly?"rax-pagination-icon-only":"")}")" href="@(Current < PageCount ? Href(Current + 1) : null)" @onclick="()=>Change(Current+1)" @onclick:preventDefault="PageChanged.HasDelegate" aria-disabled="@(Current >= PageCount ? "true" : null)" data-step="next" tabindex="@(Current>=PageCount?-1:0)">@Arrow<span class="rax-pagination-step-label">@NextLabel</span></a></li>
+    </ul>
+</nav>
+@code {
+    [Parameter] public string Layout { get; set; }="pages";
+    [Parameter] public bool IconOnly { get; set; }
+    private RenderFragment Arrow=>@<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>;
+    [Parameter] public int Page { get; set; } = 1;
+    [Parameter] public EventCallback<int> PageChanged { get; set; }
+    private Task Change(int page) => PageChanged.InvokeAsync(Math.Clamp(page,1,Math.Max(1,PageCount)));
+    [Parameter] public int PageCount { get; set; } = 1;
+    [Parameter] public int Siblings { get; set; } = 1;
+    [Parameter] public int Boundaries { get; set; } = 1;
+    [Parameter] public Func<int, string>? GetHref { get; set; }
+    private string Href(int page) => GetHref?.Invoke(page) ?? Navigation.GetUriWithQueryParameter("page", page);
+    [Parameter] public Func<int, string> GetPageLabel { get; set; } = page => $"Page {page}";
+    [Parameter] public Func<int, string> FormatPage { get; set; } = page => page.ToString();
+    [Parameter] public string Label { get; set; } = "Pagination";
+    [Parameter] public string PreviousLabel { get; set; } = "Previous";
+    [Parameter] public string NextLabel { get; set; } = "Next";
+    [Parameter] public string MoreLabel { get; set; } = "More pages";
+    [Parameter] public string Variant { get; set; } = "glass";
+    [Parameter] public string Size { get; set; } = "default";
+    private int Current => Math.Clamp(Page, 1, Math.Max(1, PageCount));
+    private IEnumerable<int> Range()
+    {
+        var siblings = Math.Max(0, Siblings); var boundaries = Math.Max(1, Boundaries);
+        var slots = siblings * 2 + 3 + boundaries * 2;
+        if (PageCount <= slots) return Enumerable.Range(1, Math.Max(0, PageCount));
+        var start = Math.Max(Current - siblings, boundaries + 1);
+        var end = Math.Min(Current + siblings, PageCount - boundaries);
+        if (start <= boundaries + 2) return Enumerable.Range(1, slots - boundaries - 1).Append(-2).Concat(Enumerable.Range(PageCount - boundaries + 1, boundaries));
+        if (end >= PageCount - boundaries - 1) return Enumerable.Range(1, boundaries).Append(-1).Concat(Enumerable.Range(PageCount - (slots - boundaries - 2), slots - boundaries - 1));
+        return Enumerable.Range(1, boundaries).Append(-1).Concat(Enumerable.Range(start, end - start + 1)).Append(-2).Concat(Enumerable.Range(PageCount - boundaries + 1, boundaries));
+    }
+    [Parameter] public string? Appearance { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object>? AdditionalAttributes { get; set; }
+    private ElementReference _root;
+    private IJSObjectReference? _module;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        _module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./Components/UI/Pagination/Pagination.razor.js");
+        await _module.InvokeVoidAsync("init", _root);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null) return;
+        try { await _module.InvokeVoidAsync("dispose", _root); await _module.DisposeAsync(); }
+        catch (JSDisconnectedException) { }
+    }
+}

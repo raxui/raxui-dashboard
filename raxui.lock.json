@@ -647,13 +647,431 @@
           "installedHash": "663a639c39ff8447ad7c983774bf316b76518b3cefaf9663a30a400649d47e89"
         }
       ]
+    },
+    "pagination": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "d6bc6656c05791f2cf76a9aec678d648fc9ceeff44a921510c30e3a99ce78a20",
+      "files": [
+        {
+          "target": "Components/UI/Pagination/Pagination.razor",
+          "sourceHash": "1b3b1c61e63df0dfe458d90d504a4e97c4add8afb9e86048ea0e22e424f0bcdd",
+          "installedHash": "1b3b1c61e63df0dfe458d90d504a4e97c4add8afb9e86048ea0e22e424f0bcdd"
+        },
+        {
+          "target": "Components/UI/Pagination/Pagination.razor.js",
+          "sourceHash": "24e3d8f4c6b84d5e20e371bb05975081d855943f8db19e4a7972f65305fe746f",
+          "installedHash": "24e3d8f4c6b84d5e20e371bb05975081d855943f8db19e4a7972f65305fe746f"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/pagination.css",
+          "sourceHash": "b261936c905ec2124b371358ce94f7ed68414fe9ef2d25c1f9b9b4f60ce64040",
+          "installedHash": "b261936c905ec2124b371358ce94f7ed68414fe9ef2d25c1f9b9b4f60ce64040"
+        }
+      ]
+    },
+    "checkbox": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "78295ae8624bcaa573c740ebb928d88e181ef0a934f677a0ab0fd064f254643e",
+      "files": [
+        {
+          "target": "Components/UI/Checkbox/Checkbox.razor",
+          "sourceHash": "4d5eaa381e14e2111a2ca5f49159eefb22ee5ee785a3caf7dee14c808caa729c",
+          "installedHash": "4d5eaa381e14e2111a2ca5f49159eefb22ee5ee785a3caf7dee14c808caa729c"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/checkbox.css",
+          "sourceHash": "f2ded3d3314f5d1c7d69ba868320461b1012895053d9948943ea50bc2a4c0014",
+          "installedHash": "f2ded3d3314f5d1c7d69ba868320461b1012895053d9948943ea50bc2a4c0014"
+        }
+      ]
+    },
+    "select": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "2906ab31d0a00834184e2ad28d6801e66beb61a478219980914886546da8f9e6",
+      "files": [
+        {
+          "target": "Components/UI/Select/Select.razor",
+          "sourceHash": "fda83aa48d8857d6e61f24419bc9aa60e5bab6af2c1eb9f8fbaa06ec0c1761f2",
+          "installedHash": "fda83aa48d8857d6e61f24419bc9aa60e5bab6af2c1eb9f8fbaa06ec0c1761f2"
+        },
+        {
+          "target": "Components/UI/Select/Select.razor.js",
+          "sourceHash": "a47ddc9f0e92d079877a749d82ea15d4fd2151bcb3c696e5795057968b9ab805",
+          "installedHash": "a47ddc9f0e92d079877a749d82ea15d4fd2151bcb3c696e5795057968b9ab805"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/select.css",
+          "sourceHash": "49be66c1165bf2c583a391fc7e6c962695bdfe1d8c8373ff9d633d2a42874052",
+          "installedHash": "49be66c1165bf2c583a391fc7e6c962695bdfe1d8c8373ff9d633d2a42874052"
+        }
+      ]
+    },
+    "input": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "4261071ce688c7bd1d4fdcfdbc80300a09c73f2ad778debf91ba484be2bec07d",
+      "files": [
+        {
+          "target": "Components/UI/Input/Input.razor",
+          "sourceHash": "545d8075200f9954981fc5cf4b3bb3a4010fa0ea2e7238533c98d2bb7738e4ef",
+          "installedHash": "545d8075200f9954981fc5cf4b3bb3a4010fa0ea2e7238533c98d2bb7738e4ef"
+        },
+        {
+          "target": "Components/UI/Input/Input.razor.js",
+          "sourceHash": "fa775511377e0d90dca0bf92341dda2c426351dbdada4bcefad9dea6fc3d804b",
+          "installedHash": "fa775511377e0d90dca0bf92341dda2c426351dbdada4bcefad9dea6fc3d804b"
+        },
+        {
+          "target": "Components/UI/Input/NumberInput.razor",
+          "sourceHash": "a128863b8b2a38041a359077900e4543a4fb7fa9bbaf6f417540bc386e7e3a5b",
+          "installedHash": "a128863b8b2a38041a359077900e4543a4fb7fa9bbaf6f417540bc386e7e3a5b"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/input.css",
+          "sourceHash": "dbc90a35b9e3762ca1d07318edc2318807ae77922cc7589c7bbc4d2d03f81379",
+          "installedHash": "dbc90a35b9e3762ca1d07318edc2318807ae77922cc7589c7bbc4d2d03f81379"
+        }
+      ]
+    },
+    "data-table": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "3267caa0832ae46ddf3d81eff9fc723924ee7912614acc58de67e8749c3e5a97",
+      "files": [
+        {
+          "target": "Components/UI/DataTable/DataTable.razor",
+          "sourceHash": "2737cdfa0c238c0d27b868f2019e1223e500cfa56fa8df264a6c0534e13c0483",
+          "installedHash": "2737cdfa0c238c0d27b868f2019e1223e500cfa56fa8df264a6c0534e13c0483"
+        },
+        {
+          "target": "Components/UI/DataTable/DataTableContent.razor",
+          "sourceHash": "6e9f60d995cc385fff30dd8bafa9ed05f4501635a3f89483ca8785bfbed9e2e8",
+          "installedHash": "6e9f60d995cc385fff30dd8bafa9ed05f4501635a3f89483ca8785bfbed9e2e8"
+        },
+        {
+          "target": "Components/UI/DataTable/DataTablePager.razor",
+          "sourceHash": "0e9dc38cce597de20ef49583b296b69d5c6dce6bbcc17d02d4ce80e4f1d3058a",
+          "installedHash": "0e9dc38cce597de20ef49583b296b69d5c6dce6bbcc17d02d4ce80e4f1d3058a"
+        },
+        {
+          "target": "Components/UI/DataTable/DataTableState.razor",
+          "sourceHash": "b6bfecff8f0b3e82b71dbf0aa434e4267b23c0fbd87efc23b11ad9777771a204",
+          "installedHash": "b6bfecff8f0b3e82b71dbf0aa434e4267b23c0fbd87efc23b11ad9777771a204"
+        },
+        {
+          "target": "Components/UI/DataTable/DataTableToolbar.razor",
+          "sourceHash": "d69dc3ff43d65856083b4fd83711b2434f30d1f4fbe3c526961f0f6db45bb74b",
+          "installedHash": "d69dc3ff43d65856083b4fd83711b2434f30d1f4fbe3c526961f0f6db45bb74b"
+        },
+        {
+          "target": "Components/UI/DataTable/DataTableTypes.razor",
+          "sourceHash": "b892e1af27287592cd0d423774262698c649f2bfafb4f2e76d325af65325b176",
+          "installedHash": "b892e1af27287592cd0d423774262698c649f2bfafb4f2e76d325af65325b176"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/data-table.css",
+          "sourceHash": "4e7d338e99c908153aee326af0e4a1a9b855dbbcd990f3c643b17220c1d3b8ce",
+          "installedHash": "4e7d338e99c908153aee326af0e4a1a9b855dbbcd990f3c643b17220c1d3b8ce"
+        }
+      ]
+    },
+    "sortable": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "e2fffdd27b29085fe6074016737510ec2b7e47ba78a8b26063ed40b42f828d40",
+      "files": [
+        {
+          "target": "Components/UI/Sortable/Sortable.razor",
+          "sourceHash": "09fb3ad91ddb5e40b9527a86efd2e93ff45e8ecf3ea5490a4c0cb58f8f4298cc",
+          "installedHash": "09fb3ad91ddb5e40b9527a86efd2e93ff45e8ecf3ea5490a4c0cb58f8f4298cc"
+        },
+        {
+          "target": "Components/UI/Sortable/Sortable.razor.js",
+          "sourceHash": "90fd67ae45046815087d1739e510a1652c09733c1f7b45f13f40cae6c1394cc3",
+          "installedHash": "90fd67ae45046815087d1739e510a1652c09733c1f7b45f13f40cae6c1394cc3"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/sortable.css",
+          "sourceHash": "182eafc004bbb3620ce23aef253d9ecb82649346b30b2cdb4df0e36d2f7f2853",
+          "installedHash": "182eafc004bbb3620ce23aef253d9ecb82649346b30b2cdb4df0e36d2f7f2853"
+        }
+      ]
+    },
+    "kanban": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "1abba9b56d31b4a6669fdf3e9eaa4568b8c8a1ef12f4d72db3a59150170870fa",
+      "files": [
+        {
+          "target": "Components/UI/Kanban/Kanban.razor",
+          "sourceHash": "ae1522596c5d21e92e6ee418d7159d55f34322320630d6a1091eaaed6c5386b8",
+          "installedHash": "ae1522596c5d21e92e6ee418d7159d55f34322320630d6a1091eaaed6c5386b8"
+        },
+        {
+          "target": "Components/UI/Kanban/KanbanTypes.razor",
+          "sourceHash": "48fa0f7ab0f5cb13ee3a7627c95d0a9790ababe76453108c1878a07e3ff8d051",
+          "installedHash": "48fa0f7ab0f5cb13ee3a7627c95d0a9790ababe76453108c1878a07e3ff8d051"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/kanban.css",
+          "sourceHash": "cf9c0816e05fc369f40d7bd53fe87d980b104307a9a88055021d5dfc74438af9",
+          "installedHash": "cf9c0816e05fc369f40d7bd53fe87d980b104307a9a88055021d5dfc74438af9"
+        }
+      ]
+    },
+    "calendar": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "c560cbbb4b94972d00e344d75f94687a43e50fc08fcc390d87f11e85744c2955",
+      "files": [
+        {
+          "target": "Components/UI/Calendar/Calendar.razor",
+          "sourceHash": "cd54d5d465b9f9bbcfcdf996f7bf2c469588dbee529eb7c59603fa9677e84ca7",
+          "installedHash": "cd54d5d465b9f9bbcfcdf996f7bf2c469588dbee529eb7c59603fa9677e84ca7"
+        },
+        {
+          "target": "Components/UI/Calendar/CalendarState.razor",
+          "sourceHash": "f812bc2aacc768e39ca45a99cb4a2c79fc21e6f5103d6abb4b59e832ca7dbc01",
+          "installedHash": "f812bc2aacc768e39ca45a99cb4a2c79fc21e6f5103d6abb4b59e832ca7dbc01"
+        },
+        {
+          "target": "Components/UI/Calendar/Calendar.razor.js",
+          "sourceHash": "d1cd33e2975f3faab4df7551c9180499bcfa5923da249c6209da9087c3ef9b2f",
+          "installedHash": "d1cd33e2975f3faab4df7551c9180499bcfa5923da249c6209da9087c3ef9b2f"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/calendar.css",
+          "sourceHash": "15bdb27dc21bd61dc4bf1f4d3d5fd78e9c78371f834c3d5c3893613c68a811b3",
+          "installedHash": "15bdb27dc21bd61dc4bf1f4d3d5fd78e9c78371f834c3d5c3893613c68a811b3"
+        }
+      ]
+    },
+    "timeline": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "e766ba42827ade7273e2b3d3343510ea591f366dcdd4af5557c1eeb99f75241e",
+      "files": [
+        {
+          "target": "Components/UI/Timeline/Timeline.razor",
+          "sourceHash": "5bd9532b08d86779ec46249a5407da7c0d98014d25bc9cdf1380ad69ee9eadc6",
+          "installedHash": "5bd9532b08d86779ec46249a5407da7c0d98014d25bc9cdf1380ad69ee9eadc6"
+        },
+        {
+          "target": "Components/UI/Timeline/TimelineGroup.razor",
+          "sourceHash": "1140b247c75048369556832557a058480d67adcf644375bbc5a9a536fdbbe0d5",
+          "installedHash": "1140b247c75048369556832557a058480d67adcf644375bbc5a9a536fdbbe0d5"
+        },
+        {
+          "target": "Components/UI/Timeline/TimelineItem.razor",
+          "sourceHash": "4889930f230144832bab629d91fbf9e05b60fb0fdd604054fbd98ba275ccabc8",
+          "installedHash": "4889930f230144832bab629d91fbf9e05b60fb0fdd604054fbd98ba275ccabc8"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/timeline.css",
+          "sourceHash": "d9ef48284d1f3c9c7d3676d189b42269035d089f410857ccc51d6e115561f81f",
+          "installedHash": "d9ef48284d1f3c9c7d3676d189b42269035d089f410857ccc51d6e115561f81f"
+        }
+      ]
+    },
+    "ai": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "c6c8b0d13cf1b88358f6344c26c3916f4ca43948fe1fa803ef9fc8de04318554",
+      "files": [
+        {
+          "target": "Components/UI/AI/AIActions.razor",
+          "sourceHash": "4b87dfd27bd54af15681668500cca0a1b59fe8cf1d7e6dff97997911e3586646",
+          "installedHash": "4b87dfd27bd54af15681668500cca0a1b59fe8cf1d7e6dff97997911e3586646"
+        },
+        {
+          "target": "Components/UI/AI/AICodeBlock.razor",
+          "sourceHash": "79a7b7c2bbfd5773a999398884fbf0d6c3648b093cce512a709ba639dc37a3be",
+          "installedHash": "79a7b7c2bbfd5773a999398884fbf0d6c3648b093cce512a709ba639dc37a3be"
+        },
+        {
+          "target": "Components/UI/AI/AICodeBlock.razor.js",
+          "sourceHash": "365718ee2ea24c3c762a98a44b910bce02948ba8a94a7f43b443d41408f4b1db",
+          "installedHash": "365718ee2ea24c3c762a98a44b910bce02948ba8a94a7f43b443d41408f4b1db"
+        },
+        {
+          "target": "Components/UI/AI/AIConversation.razor",
+          "sourceHash": "b9dcba1aa926bc1890a6363a482a8b190d6384b57288ea9ae7a8be328866d318",
+          "installedHash": "b9dcba1aa926bc1890a6363a482a8b190d6384b57288ea9ae7a8be328866d318"
+        },
+        {
+          "target": "Components/UI/AI/AIIcon.razor",
+          "sourceHash": "773a2dff19f1b86e044e9992d023baeb7712d2aff9c00b1b326de41f0e7853d6",
+          "installedHash": "773a2dff19f1b86e044e9992d023baeb7712d2aff9c00b1b326de41f0e7853d6"
+        },
+        {
+          "target": "Components/UI/AI/AIMarkdown.razor",
+          "sourceHash": "738fc2e69ccd4139bc275e59635037ac3529218d31860e6ce6121faef5c15088",
+          "installedHash": "738fc2e69ccd4139bc275e59635037ac3529218d31860e6ce6121faef5c15088"
+        },
+        {
+          "target": "Components/UI/AI/AIMarkdownParser.cs",
+          "sourceHash": "f3c6f7579cdb4c6cca40fa723e06aba7343592c677b94b38f10029852ae64e16",
+          "installedHash": "f3c6f7579cdb4c6cca40fa723e06aba7343592c677b94b38f10029852ae64e16"
+        },
+        {
+          "target": "Components/UI/AI/AIMessage.razor",
+          "sourceHash": "428e84084961bf25d3883839194642a4aa10e73710cd6b30c588a8968e0f6d47",
+          "installedHash": "428e84084961bf25d3883839194642a4aa10e73710cd6b30c588a8968e0f6d47"
+        },
+        {
+          "target": "Components/UI/AI/AIPromptInput.razor",
+          "sourceHash": "0f25f5cac922ebbb4987a0c45426bcb187afd1f229c13913599d3a1add532b68",
+          "installedHash": "0f25f5cac922ebbb4987a0c45426bcb187afd1f229c13913599d3a1add532b68"
+        },
+        {
+          "target": "Components/UI/AI/AIPromptInput.razor.js",
+          "sourceHash": "6148128580fc1c4cffc1e0f3a5386143dc2c83d9e2c45795a0a6fef526446ca9",
+          "installedHash": "6148128580fc1c4cffc1e0f3a5386143dc2c83d9e2c45795a0a6fef526446ca9"
+        },
+        {
+          "target": "Components/UI/AI/AIReasoning.razor",
+          "sourceHash": "958a6ca200fbf61db168395ec137d43116e59b950b2e0c1727872d467091f7a0",
+          "installedHash": "958a6ca200fbf61db168395ec137d43116e59b950b2e0c1727872d467091f7a0"
+        },
+        {
+          "target": "Components/UI/AI/AIResponse.razor",
+          "sourceHash": "7d5b23ea86639c965774e2227115b9946972e3903ea7a8b222b665518cb9ce59",
+          "installedHash": "7d5b23ea86639c965774e2227115b9946972e3903ea7a8b222b665518cb9ce59"
+        },
+        {
+          "target": "Components/UI/AI/AIShimmer.razor",
+          "sourceHash": "546596ab40d4564d7b42924a769c757097ea3d5b16bf14182773bca4ebb1d83b",
+          "installedHash": "546596ab40d4564d7b42924a769c757097ea3d5b16bf14182773bca4ebb1d83b"
+        },
+        {
+          "target": "Components/UI/AI/AISources.razor",
+          "sourceHash": "64321f082ca2dae097d83d2444d9074fd089f3d33a0aed2476ad86fcd8f3990d",
+          "installedHash": "64321f082ca2dae097d83d2444d9074fd089f3d33a0aed2476ad86fcd8f3990d"
+        },
+        {
+          "target": "Components/UI/AI/AISuggestions.razor",
+          "sourceHash": "d33e276d29f4ac23ae5aefa514ee8c2d5885e55e4ff663fc0b77315b0ca36076",
+          "installedHash": "d33e276d29f4ac23ae5aefa514ee8c2d5885e55e4ff663fc0b77315b0ca36076"
+        },
+        {
+          "target": "Components/UI/AI/AIToolCall.razor",
+          "sourceHash": "dc907f30ed68f0fcf0021930e1c5832df02e114a0fbadfb697b60577d8b05fd9",
+          "installedHash": "dc907f30ed68f0fcf0021930e1c5832df02e114a0fbadfb697b60577d8b05fd9"
+        },
+        {
+          "target": "Components/UI/AI/AITypes.razor",
+          "sourceHash": "f8f214f90f7be494695891f8fa19d0875f342549f198e6a899ef45204f632530",
+          "installedHash": "f8f214f90f7be494695891f8fa19d0875f342549f198e6a899ef45204f632530"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/ai.css",
+          "sourceHash": "cf9e1c7dfdf24438674f70daf46d7cc1c4a245cc927d44c3d94a7aaf9214aafb",
+          "installedHash": "cf9e1c7dfdf24438674f70daf46d7cc1c4a245cc927d44c3d94a7aaf9214aafb"
+        }
+      ]
+    },
+    "form-section": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "f7ffa956e8b13ae9694fb0369e258f67c90595045d67f1c20c6da360b2ec5977",
+      "files": [
+        {
+          "target": "Components/UI/FormSection/FormRow.razor",
+          "sourceHash": "c433730a45b5f294478fe5556821216072213d045855f5e4b31fe322eda82a64",
+          "installedHash": "c433730a45b5f294478fe5556821216072213d045855f5e4b31fe322eda82a64"
+        },
+        {
+          "target": "Components/UI/FormSection/FormRowLink.razor",
+          "sourceHash": "0fbc81e0c981cfb09db525b0cb3c9cb161bf09a383e71350ece868e5824fc55e",
+          "installedHash": "0fbc81e0c981cfb09db525b0cb3c9cb161bf09a383e71350ece868e5824fc55e"
+        },
+        {
+          "target": "Components/UI/FormSection/FormSection.razor",
+          "sourceHash": "f282f5da3357a0a98c4780881c46af2905d11684e67182cfd696bb3373de522e",
+          "installedHash": "f282f5da3357a0a98c4780881c46af2905d11684e67182cfd696bb3373de522e"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/form-section.css",
+          "sourceHash": "0f522cb5d5186bbbfec1d143aebf34af018dd46620789cfe68217176ef3929ba",
+          "installedHash": "0f522cb5d5186bbbfec1d143aebf34af018dd46620789cfe68217176ef3929ba"
+        }
+      ]
+    },
+    "switch": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "c11ebca3bfa3896ed8a66b5b7a788f1f7258e99db37424032808bbab31f44b02",
+      "files": [
+        {
+          "target": "Components/UI/Switch/Switch.razor",
+          "sourceHash": "0742e106fee0be3341acf117581e13c42fc1df17eed46d87366b4838428802a1",
+          "installedHash": "0742e106fee0be3341acf117581e13c42fc1df17eed46d87366b4838428802a1"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/switch.css",
+          "sourceHash": "59b38550e1a42723f2a4dff343f2bb92aa69c55a38a6e72b60912e158bff69bf",
+          "installedHash": "59b38550e1a42723f2a4dff343f2bb92aa69c55a38a6e72b60912e158bff69bf"
+        }
+      ]
+    },
+    "textarea": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "ee4230c677d046c9eeab3a7369f61e6763f88784fa895fde3ee7f89d3a66c1a4",
+      "files": [
+        {
+          "target": "Components/UI/Textarea/Textarea.razor",
+          "sourceHash": "895f12289695b41a7ab00f8ee43364355da7438cbfe0cd3cf55631d77d76cf5d",
+          "installedHash": "895f12289695b41a7ab00f8ee43364355da7438cbfe0cd3cf55631d77d76cf5d"
+        },
+        {
+          "target": "Components/UI/Textarea/Textarea.razor.js",
+          "sourceHash": "45c44ff820ce1f59b011c3750cb547d25abe6ada72dc2b7ca2e451f454618883",
+          "installedHash": "45c44ff820ce1f59b011c3750cb547d25abe6ada72dc2b7ca2e451f454618883"
+        },
+        {
+          "target": "Components/UI/Textarea/TextareaInput.razor",
+          "sourceHash": "65df71db50f51bf66bf24fa3f41fe3598055841d78fefc8cf71c027fab61e649",
+          "installedHash": "65df71db50f51bf66bf24fa3f41fe3598055841d78fefc8cf71c027fab61e649"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/textarea.css",
+          "sourceHash": "34d9b34ee64d655ef6862c78035d2698fb061fcf4ce7cc0dee13d504243cf36b",
+          "installedHash": "34d9b34ee64d655ef6862c78035d2698fb061fcf4ce7cc0dee13d504243cf36b"
+        }
+      ]
+    },
+    "tabs": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "ffb1b3ea5fcfed1f0235fe746db8e899b294324260eac6a7a0ecd346779975bf",
+      "files": [
+        {
+          "target": "Components/UI/Tabs/Tabs.razor",
+          "sourceHash": "3b37ee5bfd46750f3c4ffc966238e6d59d940f2152dea4f5972971e4fea05a44",
+          "installedHash": "3b37ee5bfd46750f3c4ffc966238e6d59d940f2152dea4f5972971e4fea05a44"
+        },
+        {
+          "target": "Components/UI/Tabs/Tabs.razor.js",
+          "sourceHash": "cf30f381c313b516ef3e1a42f4858ef0f608f74eda04956a3aa316c4cfd71ecf",
+          "installedHash": "cf30f381c313b516ef3e1a42f4858ef0f608f74eda04956a3aa316c4cfd71ecf"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/tabs.css",
+          "sourceHash": "6cffe250ec184a81991d31edc754127053d7d28a1752eaecb5217ffe7c903de5",
+          "installedHash": "6cffe250ec184a81991d31edc754127053d7d28a1752eaecb5217ffe7c903de5"
+        }
+      ]
     }
   },
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
       "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "4d321ac67a090c372b3294cb6f3c514ba20b62b0a92bdf8483c59dafb321beab"
+      "installedHash": "0326c3738f474f26be772dbbd901669f97f8486899c63e17b2dd5474282f61c4"
     }
   }
 }

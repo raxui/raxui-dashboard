@@ -17,6 +17,20 @@
 @import url("components/popover.css");
 @import url("components/command.css");
 @import url("components/toggle.css");
+@import url("components/pagination.css");
+@import url("components/checkbox.css");
+@import url("components/select.css");
+@import url("components/input.css");
+@import url("components/data-table.css");
+@import url("components/sortable.css");
+@import url("components/kanban.css");
+@import url("components/calendar.css");
+@import url("components/timeline.css");
+@import url("components/ai.css");
+@import url("components/form-section.css");
+@import url("components/switch.css");
+@import url("components/textarea.css");
+@import url("components/tabs.css");
 /* raxui:imports:end */
 /* Generated from theme/scss by theme/build-css.mjs. Do not edit; change the SCSS and rebuild. */
 :root,
