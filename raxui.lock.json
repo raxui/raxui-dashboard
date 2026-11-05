@@ -1087,13 +1087,30 @@
           "installedHash": "7484506a19f0a53b47e18c91d8fda1e7035c1bbb97e2d5d85574ac0fb7e9e0b7"
         }
       ]
+    },
+    "spinner": {
+      "version": "0.1.0",
+      "registryVersion": "0.1.0-preview.3",
+      "manifestSha256": "995e2a5726d3e42fe095c4361fc19968359c341b25c7a2e9d809fac6fa61f97e",
+      "files": [
+        {
+          "target": "Components/UI/Spinner/Spinner.razor",
+          "sourceHash": "cdefdf32c84c99cc0b479f4b11fbce77cf79da618d3c8ee1d79ced46e7a866ff",
+          "installedHash": "cdefdf32c84c99cc0b479f4b11fbce77cf79da618d3c8ee1d79ced46e7a866ff"
+        },
+        {
+          "target": "wwwroot/css/raxui/components/spinner.css",
+          "sourceHash": "853525b6905bb9c6c76475f2202f2f9b4f6248df166f394aad257f025c387aac",
+          "installedHash": "853525b6905bb9c6c76475f2202f2f9b4f6248df166f394aad257f025c387aac"
+        }
+      ]
     }
   },
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
       "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "47e4d61c9fed4a918274f62388888c8d5906ac5c002118a527a34573ab34543a"
+      "installedHash": "ae9c30a87b195df107266ca928d6306b25063135b479d39ee946d7b9538d019a"
     }
   }
 }

@@ -2,6 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @implements IDisposable
 @inject NavigationManager Navigation
+@inject raxui_dashboard.Services.DashboardData Data
 
 <PageTitle>@L["Settings"] · RaxUI Admin</PageTitle>
 
@@ -40,7 +41,7 @@
                         </FormSection>
                         <div class="dash-form-actions">
                             <output class="dash-status" role="status">@saved</output>
-                            <Button Type="submit">@L["Save changes"]</Button>
+                            <SubmitButton Loading="saving" LoadingText="@L["Saving…"]">@L["Save changes"]</SubmitButton>
                         </div>
                     </EditForm>
                     break;
@@ -135,5 +136,18 @@
 
     private Task Set(MainLayout.ThemeState next) => Layout?.SetTheme(next) ?? Task.CompletedTask;
 
-    private void SaveProfile() => saved = L["Saved"] + " · " + DateTime.Now.ToString("HH:mm", L.Culture);
+    private bool saving;
+
+    private async Task SaveProfile()
+    {
+        if (saving) return;
+        saving = true;
+        saved = "";
+        try
+        {
+            await Data.SaveAsync();
+            saved = L["Saved"] + " · " + DateTime.Now.ToString("HH:mm", L.Culture);
+        }
+        finally { saving = false; }
+    }
 }

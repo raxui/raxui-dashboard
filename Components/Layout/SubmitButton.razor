@@ -1,0 +1,20 @@
+@* Form submit Button with a loading state: while Loading it is disabled (which also blocks Enter-key submits),
+   sets aria-busy and swaps its label for a spinner and LoadingText. Extra attributes (e.g. form="id") pass through. *@
+<Button Type="submit" Variant="@Variant" Disabled="Loading" Class="dash-submit" aria-busy="@(Loading ? "true" : null)" @attributes="AdditionalAttributes">
+    @if (Loading)
+    {
+        <Spinner Color="inherit" aria-hidden="true" />
+        <span>@LoadingText</span>
+    }
+    else
+    {
+        @ChildContent
+    }
+</Button>
+@code {
+    [Parameter] public bool Loading { get; set; }
+    [Parameter] public string LoadingText { get; set; } = "Saving…";
+    [Parameter] public string Variant { get; set; } = "default";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object>? AdditionalAttributes { get; set; }
+}

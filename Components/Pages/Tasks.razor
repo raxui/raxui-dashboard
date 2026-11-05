@@ -59,7 +59,7 @@
     </ChildContent>
     <Footer>
         <Button Variant="outline" OnClick="() => adding = false">@L["Cancel"]</Button>
-        <Button Type="submit" form="add-task">@L["Add task"]</Button>
+        <SubmitButton form="add-task" Loading="saving" LoadingText="@L["Adding…"]">@L["Add task"]</SubmitButton>
     </Footer>
 </Dialog>
 
@@ -130,7 +130,7 @@
     private static readonly string[] Team =
         ["Noura Al-Qahtani", "Layla Nasser", "Liam Carter", "Omar Haddad", "Sofia Martins", "Yusuf Rahman", "Emma Schmidt", "Daniel Kim"];
 
-    private bool adding;
+    private bool adding, saving;
     private TaskDraft draft = new(new(false));
 
     // Error texts come from the cascaded Ui so they follow the interface language.
@@ -156,12 +156,19 @@
         adding = true;
     }
 
-    private void SaveTask()
+    private async Task SaveTask()
     {
-        var card = new TaskCard($"t{next++}", draft.Title.Trim(), draft.Tag, draft.Priority, draft.Assignee, draft.Due, 0);
-        columns = columns.Select(c => c.Id == draft.Column ? c with { Items = [card, .. c.Items] } : c).ToArray();
-        adding = false;
-        log = $"{card.Title} → {L[Meta[draft.Column].Title]}";
+        if (saving) return;
+        saving = true;
+        try
+        {
+            await Data.SaveAsync();
+            var card = new TaskCard($"t{next++}", draft.Title.Trim(), draft.Tag, draft.Priority, draft.Assignee, draft.Due, 0);
+            columns = columns.Select(c => c.Id == draft.Column ? c with { Items = [card, .. c.Items] } : c).ToArray();
+            adding = false;
+            log = $"{card.Title} → {L[Meta[draft.Column].Title]}";
+        }
+        finally { saving = false; }
     }
 
     private void Log(KanbanTypes.Change change)

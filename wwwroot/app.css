@@ -670,6 +670,19 @@ html[lang=ar] body {
     padding: 0 1.5rem 1.5rem;
 }
 
+/* Submit buttons: keep the width steady while the label swaps to the spinner. */
+.dash-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 8.5rem;
+}
+
+.dash-submit[aria-busy=true] {
+    cursor: progress;
+}
+
 /* Dialog forms */
 
 .dash-dialog-form {

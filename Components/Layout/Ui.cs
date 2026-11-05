@@ -251,6 +251,8 @@ public sealed record Ui(bool Arabic)
         // Dialogs
         ["Close"] = "إغلاق",
         ["Cancel"] = "إلغاء",
+        ["Adding…"] = "جارٍ الإضافة…",
+        ["Saving…"] = "جارٍ الحفظ…",
         ["They will get an email invite to your store."] = "سيصله بريد دعوة إلى متجرك.",
         ["Start with a 14-day trial"] = "البدء بتجربة لمدة 14 يومًا",
         ["Enter the customer's name."] = "أدخل اسم العميل.",

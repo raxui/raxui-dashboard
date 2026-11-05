@@ -79,6 +79,9 @@ public sealed class DashboardData
     private static readonly string[] Plans = ["Free", "Pro", "Pro", "Business", "Enterprise"];
     private static readonly string[] Statuses = ["Active", "Active", "Active", "Trial", "Active", "Churned", "Active", "Paused"];
 
+    // shortcut: data is in memory; this delay stands in for a network save so forms can show their loading state. Replace with a real store.
+    public Task SaveAsync() => Task.Delay(900);
+
     public Task<IReadOnlyList<Customer>> GetCustomersAsync()
     {
         IReadOnlyList<Customer> customers = Names.Select((name, i) =>

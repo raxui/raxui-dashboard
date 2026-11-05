@@ -51,7 +51,7 @@
     </ChildContent>
     <Footer>
         <Button Variant="outline" OnClick="() => adding = false">@L["Cancel"]</Button>
-        <Button Type="submit" form="add-customer">@L["Add customer"]</Button>
+        <SubmitButton form="add-customer" Loading="saving" LoadingText="@L["Adding…"]">@L["Add customer"]</SubmitButton>
     </Footer>
 </Dialog>
 
@@ -94,7 +94,7 @@
     private string message = "";
 
     private static readonly string[] PlanNames = ["Free", "Pro", "Business", "Enterprise"];
-    private bool adding;
+    private bool adding, saving;
     private CustomerDraft draft = new(new(false));
     private int nextId = 2042;
 
@@ -121,13 +121,20 @@
         adding = true;
     }
 
-    private void SaveCustomer()
+    private async Task SaveCustomer()
     {
-        var customer = new Customer($"C-{nextId++}", draft.Name.Trim(), draft.Email.Trim(), draft.Country, draft.Plan,
-            draft.Trial ? "Trial" : "Active", 0, 0, new DateOnly(2026, 11, 5));
-        customers = [customer, .. customers];
-        adding = false;
-        message = L["Customer added"] + $": {customer.Name}";
+        if (saving) return;
+        saving = true;
+        try
+        {
+            await Data.SaveAsync();
+            var customer = new Customer($"C-{nextId++}", draft.Name.Trim(), draft.Email.Trim(), draft.Country, draft.Plan,
+                draft.Trial ? "Trial" : "Active", 0, 0, new DateOnly(2026, 11, 5));
+            customers = [customer, .. customers];
+            adding = false;
+            message = L["Customer added"] + $": {customer.Name}";
+        }
+        finally { saving = false; }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
