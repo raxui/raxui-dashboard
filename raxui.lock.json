@@ -105,7 +105,7 @@
     "sidebar": {
       "version": "0.1.0",
       "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "5a79a691a66132aa691523a7b15a02d57aab4d8ee7752444dc654bf50dee6b2c",
+      "manifestSha256": "36450968a23770b64adc463433283cc57cef403f9d7291b94ae4fafa41995e66",
       "files": [
         {
           "target": "Components/UI/Sidebar/Sidebar.razor",
@@ -234,8 +234,8 @@
         },
         {
           "target": "wwwroot/css/raxui/components/sidebar.css",
-          "sourceHash": "5c6f7be5b6d581c8fed08a74509f08ae6007980938b437dbeb0af8810e15a326",
-          "installedHash": "5c6f7be5b6d581c8fed08a74509f08ae6007980938b437dbeb0af8810e15a326"
+          "sourceHash": "057fbdaa8df9b78b408c2ce358034da7b574442e7389a283fffa2f16e565bf3e",
+          "installedHash": "057fbdaa8df9b78b408c2ce358034da7b574442e7389a283fffa2f16e565bf3e"
         }
       ]
     },
