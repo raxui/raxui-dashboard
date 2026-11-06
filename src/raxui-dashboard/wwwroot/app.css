@@ -1496,3 +1496,9 @@ dialog.rax-sheet-content.dash-task-sheet[data-side] {
     .dash-search span, .dash-search kbd, .dash-lang span { display: none; }
     .dash-search { width: 2.25rem; padding: 0; justify-content: center; }
 }
+
+/* Arabic letters join, so tracking pulls them apart. Same reset as RaxUI's theme (fix/arabic-letter-spacing);
+   shortcut: drop this once the installed raxui.css includes it. */
+:is(:lang(ar), :lang(fa), :lang(ur), :lang(ps), :lang(ckb)) {
+    letter-spacing: 0 !important;
+}
