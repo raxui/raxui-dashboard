@@ -104,25 +104,42 @@ export function onKeyDown(event, menu, hide = () => menu.hidePopover()) {
   next.focus()
 }
 
-// Prefer inline start, then flip alignment before shifting away from the trigger.
+// Shared viewport helpers, also used by Popover, ContextMenu and Menubar.
+// clientWidth/clientHeight exclude the scrollbars that innerWidth/innerHeight include.
+export function clampToViewport(x, y, width, height) {
+  const root = document.documentElement
+  return [
+    Math.max(MARGIN, Math.min(x, root.clientWidth - width - MARGIN)),
+    Math.max(MARGIN, Math.min(y, root.clientHeight - height - MARGIN)),
+  ]
+}
+
+// Prefer inline start, then flip to inline end before shifting away from the trigger.
+export function alignToTrigger(anchor, width, rtl) {
+  const viewportWidth = document.documentElement.clientWidth
+  const start = rtl ? anchor.right - width : anchor.left
+  const end = rtl ? anchor.left : anchor.right - width
+  const fits = (left) => left >= MARGIN && left + width <= viewportWidth - MARGIN
+  const aligned = fits(start) ? start : fits(end) ? end : start
+  return Math.max(MARGIN, Math.min(aligned, viewportWidth - width - MARGIN))
+}
+
+// The horizontal transform origin: the trigger edge the menu is aligned to.
+export function originX(left, width, anchor) {
+  return Math.abs(left - anchor.left) <= Math.abs(left + width - anchor.right) ? "left" : "right"
+}
+
 // Open above the trigger when there is no room below.
 function position(trigger, menu) {
   const anchor = trigger.getBoundingClientRect()
   // offset sizes ignore the opening animation's scale.
   const width = menu.offsetWidth
   const height = menu.offsetHeight
-  const rtl = getComputedStyle(trigger).direction === "rtl"
-  const viewportWidth = document.documentElement.clientWidth
-  const start = rtl ? anchor.right - width : anchor.left
-  const end = rtl ? anchor.left : anchor.right - width
-  const fits = (left) => left >= MARGIN && left + width <= viewportWidth - MARGIN
-  const aligned = fits(start) ? start : fits(end) ? end : start
-  const left = Math.max(MARGIN, Math.min(aligned, viewportWidth - width - MARGIN))
+  const left = alignToTrigger(anchor, width, getComputedStyle(trigger).direction === "rtl")
   const below = anchor.bottom + GAP
   const above = anchor.top - GAP - height
-  const top = below + height <= window.innerHeight - MARGIN || above < MARGIN ? below : above
+  const top = below + height <= document.documentElement.clientHeight - MARGIN || above < MARGIN ? below : above
   menu.style.left = `${left}px`
   menu.style.top = `${top}px`
-  const origin = Math.abs(left - anchor.left) <= Math.abs(left + width - anchor.right) ? "left" : "right"
-  menu.style.transformOrigin = `${top === below ? "top" : "bottom"} ${origin}`
+  menu.style.transformOrigin = `${top === below ? "top" : "bottom"} ${originX(left, width, anchor)}`
 }
