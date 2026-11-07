@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "registryVersion": "0.1.0-preview.3",
+  "registryVersion": "0.1.0-preview.4",
   "components": {
     "starter": {
       "version": "0.1.0",
@@ -21,7 +21,7 @@
     },
     "dialog": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "dd95370aca83d9bf5d739fb5dc1a15077a56549c195145b36aa95096ae427609",
       "files": [
         {
@@ -43,7 +43,7 @@
     },
     "sheet": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "91f6c54b89173bf6fd9d543f72469f7217bbadee3fbdd8c4a54e41569f7ab6b9",
       "files": [
         {
@@ -65,7 +65,7 @@
     },
     "skeleton": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "066af6218b165403be4278471f7a96cc4c990096a8b4d6675bef37c1363bb841",
       "files": [
         {
@@ -87,7 +87,7 @@
     },
     "button": {
       "version": "0.2.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "466dce32af349be8adda05e9728ee732ed9b762feeaab41389b2ccdaf046dc30",
       "files": [
         {
@@ -104,7 +104,7 @@
     },
     "sidebar": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "36450968a23770b64adc463433283cc57cef403f9d7291b94ae4fafa41995e66",
       "files": [
         {
@@ -241,7 +241,7 @@
     },
     "menu-toggle": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "eb33892cce71b461b2ac58eda057d22750d3c7c45615f56fe49b680fe09cc4b2",
       "files": [
         {
@@ -258,7 +258,7 @@
     },
     "navbar": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "b24143daaded8f4f5992bc1b88003068660b617a8e42052fa15298e45b7a2e93",
       "files": [
         {
@@ -315,7 +315,7 @@
     },
     "card": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "cad1402a4702d2ad6cc62d0aa3343da603f38aa9d7e30f3297294a714b602978",
       "files": [
         {
@@ -362,8 +362,8 @@
     },
     "chart": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "3dc84dcfb127018fce33178127ff4937ab871f8c706a5fb518bec0ae48c8a4c0",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "48fa5fa3c86da453dab133e2d68284d9f04f40f21b53886a05d834b163666b81",
       "files": [
         {
           "target": "Components/UI/Chart/Chart.razor",
@@ -387,14 +387,14 @@
         },
         {
           "target": "wwwroot/css/raxui/components/chart.css",
-          "sourceHash": "c433449dcbf495eaae36d9a6198d6b020a939f63aef5046d53103d6261e1d422",
-          "installedHash": "c433449dcbf495eaae36d9a6198d6b020a939f63aef5046d53103d6261e1d422"
+          "sourceHash": "3b3c8905d50fa53cd831d3f2d6aa9753f61d42cbda272f0f367bfd0713d846e6",
+          "installedHash": "3b3c8905d50fa53cd831d3f2d6aa9753f61d42cbda272f0f367bfd0713d846e6"
         }
       ]
     },
     "badge": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "6057c25da0232c346282797586e59cc9e760232615dc73dbe253de77a1aba2c9",
       "files": [
         {
@@ -416,7 +416,7 @@
     },
     "avatar": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "39c5c055a7138d4be637d1958df273af3e85ca3dfc9cbcdcebd5d1a3e85e5ea3",
       "files": [
         {
@@ -443,7 +443,7 @@
     },
     "table": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "24695f16b4fd8c6482500971bab4af761dc5fa946c40caed24492d5f095d303f",
       "files": [
         {
@@ -495,8 +495,8 @@
     },
     "dropdown-menu": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "66f59a77f0714e4455c23a1376135c2f8258ad2e76f048a29d51fca75bd7085f",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "bef9f2308e21c3458a35e4d4abfd091833eba982b3aa2a4c072efccf37a538f8",
       "files": [
         {
           "target": "Components/UI/DropdownMenu/DropdownMenu.razor",
@@ -520,8 +520,8 @@
         },
         {
           "target": "Components/UI/DropdownMenu/DropdownMenu.razor.js",
-          "sourceHash": "b792b17a064e187bfdbcc99a8deca270b182015fd4caa77e4aed5b2c5de74dd1",
-          "installedHash": "b792b17a064e187bfdbcc99a8deca270b182015fd4caa77e4aed5b2c5de74dd1"
+          "sourceHash": "cf93268c9fe17c688b2c5cffd8eb9d1878ec79f7235c7b75ed2968ede1bb1cbd",
+          "installedHash": "cf93268c9fe17c688b2c5cffd8eb9d1878ec79f7235c7b75ed2968ede1bb1cbd"
         },
         {
           "target": "wwwroot/css/raxui/components/dropdown-menu.css",
@@ -532,7 +532,7 @@
     },
     "field": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "96fe6035c4ff64ba6a4ae879ab7022c86d2374d3199aab3c07d6db2873e5ab16",
       "files": [
         {
@@ -574,8 +574,8 @@
     },
     "popover": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "ec67c8654943a13c9c7e9092804e7e6fa94489d6a35ea22ff255ce5b8255b821",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "12269a0af83e4f03d5781b4d1edb0d623e9992bd79b43aeca1ab02d103a6badb",
       "files": [
         {
           "target": "Components/UI/Popover/Popover.razor",
@@ -584,8 +584,8 @@
         },
         {
           "target": "Components/UI/Popover/Popover.razor.js",
-          "sourceHash": "c4c211327778acb09bd6b8c33d5fe0e366604de789cfa39b13febb6a748c31eb",
-          "installedHash": "c4c211327778acb09bd6b8c33d5fe0e366604de789cfa39b13febb6a748c31eb"
+          "sourceHash": "08f8678d29d11112a6d2a81e8d84edc14c63ea56105a1f7176cddfceb4bbe38b",
+          "installedHash": "08f8678d29d11112a6d2a81e8d84edc14c63ea56105a1f7176cddfceb4bbe38b"
         },
         {
           "target": "Components/UI/Popover/ChoiceSearch.razor",
@@ -601,7 +601,7 @@
     },
     "command": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "1c021e5f392247d9faf72f8aa2ec6adbe5889c5ea8ec1bf28e8db1b3c25f0987",
       "files": [
         {
@@ -623,7 +623,7 @@
     },
     "toggle": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "9feb6b873512f68227ea81639c8e8f4a5836125a2f7d29ee50650a05817fd56d",
       "files": [
         {
@@ -650,7 +650,7 @@
     },
     "pagination": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "d6bc6656c05791f2cf76a9aec678d648fc9ceeff44a921510c30e3a99ce78a20",
       "files": [
         {
@@ -672,7 +672,7 @@
     },
     "checkbox": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "78295ae8624bcaa573c740ebb928d88e181ef0a934f677a0ab0fd064f254643e",
       "files": [
         {
@@ -689,7 +689,7 @@
     },
     "select": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "2906ab31d0a00834184e2ad28d6801e66beb61a478219980914886546da8f9e6",
       "files": [
         {
@@ -711,7 +711,7 @@
     },
     "input": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "4261071ce688c7bd1d4fdcfdbc80300a09c73f2ad778debf91ba484be2bec07d",
       "files": [
         {
@@ -738,8 +738,8 @@
     },
     "data-table": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "3267caa0832ae46ddf3d81eff9fc723924ee7912614acc58de67e8749c3e5a97",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "91824f330a82ca2d335f70de650cbe7a5e550751094cf2780333d98d97145ef2",
       "files": [
         {
           "target": "Components/UI/DataTable/DataTable.razor",
@@ -753,8 +753,8 @@
         },
         {
           "target": "Components/UI/DataTable/DataTablePager.razor",
-          "sourceHash": "0e9dc38cce597de20ef49583b296b69d5c6dce6bbcc17d02d4ce80e4f1d3058a",
-          "installedHash": "0e9dc38cce597de20ef49583b296b69d5c6dce6bbcc17d02d4ce80e4f1d3058a"
+          "sourceHash": "05e850406266b555a56a762ec7f6455680713ef85ba258502508442184883242",
+          "installedHash": "05e850406266b555a56a762ec7f6455680713ef85ba258502508442184883242"
         },
         {
           "target": "Components/UI/DataTable/DataTableState.razor",
@@ -768,8 +768,8 @@
         },
         {
           "target": "Components/UI/DataTable/DataTableTypes.razor",
-          "sourceHash": "b892e1af27287592cd0d423774262698c649f2bfafb4f2e76d325af65325b176",
-          "installedHash": "b892e1af27287592cd0d423774262698c649f2bfafb4f2e76d325af65325b176"
+          "sourceHash": "32b4ea8705d3507098e573378973c151bab46172264317a63409a60ccf7cd030",
+          "installedHash": "32b4ea8705d3507098e573378973c151bab46172264317a63409a60ccf7cd030"
         },
         {
           "target": "wwwroot/css/raxui/components/data-table.css",
@@ -780,7 +780,7 @@
     },
     "sortable": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "e2fffdd27b29085fe6074016737510ec2b7e47ba78a8b26063ed40b42f828d40",
       "files": [
         {
@@ -802,7 +802,7 @@
     },
     "kanban": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "1abba9b56d31b4a6669fdf3e9eaa4568b8c8a1ef12f4d72db3a59150170870fa",
       "files": [
         {
@@ -824,7 +824,7 @@
     },
     "calendar": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "c560cbbb4b94972d00e344d75f94687a43e50fc08fcc390d87f11e85744c2955",
       "files": [
         {
@@ -851,7 +851,7 @@
     },
     "timeline": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "e766ba42827ade7273e2b3d3343510ea591f366dcdd4af5557c1eeb99f75241e",
       "files": [
         {
@@ -878,8 +878,8 @@
     },
     "ai": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "c6c8b0d13cf1b88358f6344c26c3916f4ca43948fe1fa803ef9fc8de04318554",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "0c840182ea3d1023b61725a25cf752f6f471580610bcd4da29ebef968b2b7fcb",
       "files": [
         {
           "target": "Components/UI/AI/AIActions.razor",
@@ -888,8 +888,8 @@
         },
         {
           "target": "Components/UI/AI/AICodeBlock.razor",
-          "sourceHash": "79a7b7c2bbfd5773a999398884fbf0d6c3648b093cce512a709ba639dc37a3be",
-          "installedHash": "79a7b7c2bbfd5773a999398884fbf0d6c3648b093cce512a709ba639dc37a3be"
+          "sourceHash": "4bb6060d6fabae342df528dd4d87269a811e505dd437d2747c1f24a6b9da34f9",
+          "installedHash": "4bb6060d6fabae342df528dd4d87269a811e505dd437d2747c1f24a6b9da34f9"
         },
         {
           "target": "Components/UI/AI/AICodeBlock.razor.js",
@@ -908,8 +908,8 @@
         },
         {
           "target": "Components/UI/AI/AIMarkdown.razor",
-          "sourceHash": "738fc2e69ccd4139bc275e59635037ac3529218d31860e6ce6121faef5c15088",
-          "installedHash": "738fc2e69ccd4139bc275e59635037ac3529218d31860e6ce6121faef5c15088"
+          "sourceHash": "9a19ba78831a8f6b6c516b189e8ab053aec2c6654965a51fb3351a875af992c7",
+          "installedHash": "9a19ba78831a8f6b6c516b189e8ab053aec2c6654965a51fb3351a875af992c7"
         },
         {
           "target": "Components/UI/AI/AIMarkdownParser.cs",
@@ -938,8 +938,8 @@
         },
         {
           "target": "Components/UI/AI/AIResponse.razor",
-          "sourceHash": "7d5b23ea86639c965774e2227115b9946972e3903ea7a8b222b665518cb9ce59",
-          "installedHash": "7d5b23ea86639c965774e2227115b9946972e3903ea7a8b222b665518cb9ce59"
+          "sourceHash": "0e97a2c95b4c8fd0250cac4e2bae3207836788ed15855f97edb7df6ea6dbfa22",
+          "installedHash": "0e97a2c95b4c8fd0250cac4e2bae3207836788ed15855f97edb7df6ea6dbfa22"
         },
         {
           "target": "Components/UI/AI/AIShimmer.razor",
@@ -968,14 +968,14 @@
         },
         {
           "target": "wwwroot/css/raxui/components/ai.css",
-          "sourceHash": "cf9e1c7dfdf24438674f70daf46d7cc1c4a245cc927d44c3d94a7aaf9214aafb",
-          "installedHash": "cf9e1c7dfdf24438674f70daf46d7cc1c4a245cc927d44c3d94a7aaf9214aafb"
+          "sourceHash": "36e49816ee3c4aa44dc0b359e0fe52efe0e389eb67a46ae89b3f9a00af10cd11",
+          "installedHash": "36e49816ee3c4aa44dc0b359e0fe52efe0e389eb67a46ae89b3f9a00af10cd11"
         }
       ]
     },
     "form-section": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "f7ffa956e8b13ae9694fb0369e258f67c90595045d67f1c20c6da360b2ec5977",
       "files": [
         {
@@ -1002,7 +1002,7 @@
     },
     "switch": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "c11ebca3bfa3896ed8a66b5b7a788f1f7258e99db37424032808bbab31f44b02",
       "files": [
         {
@@ -1019,7 +1019,7 @@
     },
     "textarea": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "ee4230c677d046c9eeab3a7369f61e6763f88784fa895fde3ee7f89d3a66c1a4",
       "files": [
         {
@@ -1046,8 +1046,8 @@
     },
     "tabs": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "ffb1b3ea5fcfed1f0235fe746db8e899b294324260eac6a7a0ecd346779975bf",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "3c1a093db8777986eeb9608db263c6fa735a0865534ad9ff1366816492b6042c",
       "files": [
         {
           "target": "Components/UI/Tabs/Tabs.razor",
@@ -1056,19 +1056,19 @@
         },
         {
           "target": "Components/UI/Tabs/Tabs.razor.js",
-          "sourceHash": "cf30f381c313b516ef3e1a42f4858ef0f608f74eda04956a3aa316c4cfd71ecf",
-          "installedHash": "cf30f381c313b516ef3e1a42f4858ef0f608f74eda04956a3aa316c4cfd71ecf"
+          "sourceHash": "436b562b1825cdd8843e7af3a2a9d31e137e9ff653cad98537f81919269864d3",
+          "installedHash": "436b562b1825cdd8843e7af3a2a9d31e137e9ff653cad98537f81919269864d3"
         },
         {
           "target": "wwwroot/css/raxui/components/tabs.css",
-          "sourceHash": "6cffe250ec184a81991d31edc754127053d7d28a1752eaecb5217ffe7c903de5",
-          "installedHash": "6cffe250ec184a81991d31edc754127053d7d28a1752eaecb5217ffe7c903de5"
+          "sourceHash": "1163fca79e73f3c37549cc7c73540b9fa27754c5b76746792ab978da1649f651",
+          "installedHash": "1163fca79e73f3c37549cc7c73540b9fa27754c5b76746792ab978da1649f651"
         }
       ]
     },
     "date-picker": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "159aaf9908aa06155491e8150895c8c7a7e81b83f52f18f74adb63217230fa2a",
       "files": [
         {
@@ -1090,7 +1090,7 @@
     },
     "spinner": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "995e2a5726d3e42fe095c4361fc19968359c341b25c7a2e9d809fac6fa61f97e",
       "files": [
         {
@@ -1107,7 +1107,7 @@
     },
     "confirm-dialog": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "29631f8ee1301719d4c0dd4d6f99e2bc18093604c8b0c974bc982823e260bf47",
       "files": [
         {
@@ -1129,7 +1129,7 @@
     },
     "progress": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "2b7ae6c73547b3172fa185c08795373b663ad3ce9688d3f6186a95258b0b1231",
       "files": [
         {
@@ -1146,13 +1146,13 @@
     },
     "rating": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "90b39961b72e2eec648522ffed8dfa5dff21cb0588b3153671e828c63eb965a7",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "b26a82198880c9b85b227b357a40cb5a3095e5ae6f6c32b1cebaec54e346d9c3",
       "files": [
         {
           "target": "Components/UI/Rating/Rating.razor",
-          "sourceHash": "d0f418b4b0634d5dce4a45f56da75c421b30870e8584413c772b96e84fafede8",
-          "installedHash": "d0f418b4b0634d5dce4a45f56da75c421b30870e8584413c772b96e84fafede8"
+          "sourceHash": "de35a81545c05a60dbe96838ca1921f2fc886edef5e8668d046508312ddf640b",
+          "installedHash": "de35a81545c05a60dbe96838ca1921f2fc886edef5e8668d046508312ddf640b"
         },
         {
           "target": "wwwroot/css/raxui/components/rating.css",
@@ -1163,8 +1163,8 @@
     },
     "tooltip": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
-      "manifestSha256": "fc6654f760101743c847de3db8f0cf934be9cf187f18d286746422780ca093b6",
+      "registryVersion": "0.1.0-preview.4",
+      "manifestSha256": "e62b8d801dbe596186af72c24cb8468c089f8e1445ef98d5ccb80c6373765716",
       "files": [
         {
           "target": "Components/UI/Tooltip/Tooltip.razor",
@@ -1173,8 +1173,8 @@
         },
         {
           "target": "Components/UI/Tooltip/Tooltip.razor.js",
-          "sourceHash": "dc4ad57349a0094eb738ae99df62f790aba5dec6bc8c6c8d68e1ff828043e547",
-          "installedHash": "dc4ad57349a0094eb738ae99df62f790aba5dec6bc8c6c8d68e1ff828043e547"
+          "sourceHash": "406ba9d8c2beeefd2296fbbaab1d3dbf5395f7cfe6cb6a3d899d56702a0af197",
+          "installedHash": "406ba9d8c2beeefd2296fbbaab1d3dbf5395f7cfe6cb6a3d899d56702a0af197"
         },
         {
           "target": "wwwroot/css/raxui/components/tooltip.css",
@@ -1185,7 +1185,7 @@
     },
     "toast": {
       "version": "0.1.0",
-      "registryVersion": "0.1.0-preview.3",
+      "registryVersion": "0.1.0-preview.4",
       "manifestSha256": "c2f0f4bfd56e6d56c52f61e3668ecb83fe3848d662a1b56731f474eec0469399",
       "files": [
         {
@@ -1209,8 +1209,8 @@
   "assets": {
     "wwwroot/css/raxui/raxui.css": {
       "target": "wwwroot/css/raxui/raxui.css",
-      "sourceHash": "2f612e0e1b2a25fcb5a9df789b104cc484c639e8fa8382294a24e3858867e90c",
-      "installedHash": "fb9a8cbb0d384d436ae09789b6c578477647de48118be792c70808811dda3cfb"
+      "sourceHash": "08467305041e29f616406cfa73111c6e84d217c4f9487de03f23fcea21883567",
+      "installedHash": "c61a73a508f8331d1f92ac61d246e81045169f07aaddd20c5c78f8fd4b7ee5a8"
     }
   }
 }
